@@ -186,6 +186,16 @@ Use this structure:
 8. Action Items Table
 9. Top 3 Priorities Today
 
+
+Required completeness rules:
+- You received {email_count} Gmail messages. The final briefing must account for all {email_count}.
+- Add a section called "Email Accounting" near the end.
+- In Email Accounting, show a table with category, count, summary, and recommendation.
+- Categories must include: Action Required, Security/Risk, Job Search, Interviews/Recruiters, Calendar/Events, Medical/Health, Financial/Billing, Professional Development, Personal, Promotional/Retail, Newsletters/Subscriptions, Trash Review, Delete/Ignore.
+- The category counts must add up to {email_count}.
+- If an email is not important, still count it and summarize it inside Promotional/Retail, Newsletters/Subscriptions, Trash Review, or Delete/Ignore.
+- Do not say there were no emails if {email_count} is greater than 0.
+
 Return only complete HTML that can be sent as an email body.
 """
 
