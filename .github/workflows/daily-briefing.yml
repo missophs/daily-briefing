@@ -1,76 +1,9 @@
-name: Daily Briefing
-
-on:
-  schedule:
-    # 11:00 UTC = 7:00 AM EDT (Mar–Nov).
-    # In winter (EST, Nov–Mar) this fires at 6:00 AM. Change to '0 12 * * *' for 7 AM EST.
-    - cron: '0 11 * * *'
-  workflow_dispatch:   # lets you click "Run workflow" from the Actions tab to test
-
-permissions:
-  contents: write      # required so the bot can push the updated BRIEFING.md
-
-jobs:
-  generate:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repo
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: pip
-
-      - name: Install dependencies
-        run: pip install -r scripts/requirements.txt
-
-      - name: Generate BRIEFING.md
-        env:
-          ANTHROPIC_API_KEY:    ${{ secrets.ANTHROPIC_API_KEY }}
-          GOOGLE_CLIENT_ID:     ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GMAIL_REFRESH_TOKEN:  ${{ secrets.GMAIL_REFRESH_TOKEN }}
-        run: python scripts/generate_briefing.py
-
-      - name: Commit and push updated briefing
-        id: commit
+      - name: Commit changes
         run: |
-          git config user.name  "briefing-bot"
-          git config user.email "actions@github.com"
-          git add BRIEFING.md README.md
-          if git diff --staged --quiet; then
-            echo "No changes — briefing unchanged."
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            git commit -m "Briefing: $(date +'%Y-%m-%d')"
-            git push origin HEAD
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Capture today's date for email subject
-        id: date
-        if: steps.commit.outputs.changed == 'true'
-        run: echo "today=$(date +'%A, %B %-d, %Y')" >> "$GITHUB_OUTPUT"
-
-      - name: Send email notification
-        if: steps.commit.outputs.changed == 'true'
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port:    465
-          secure:         true
-          username:       ${{ secrets.NOTIFICATION_GMAIL_ADDRESS }}
-          password:       ${{ secrets.NOTIFICATION_GMAIL_APP_PASSWORD }}
-          subject:        "Daily Briefing — ${{ steps.date.outputs.today }}"
-          to:             ${{ secrets.NOTIFICATION_EMAIL_TO }}
-          from:           "Daily Briefing <${{ secrets.NOTIFICATION_GMAIL_ADDRESS }}>"
-          content_type:   text/plain
-          body: |
-            Your daily briefing is ready.
-
-            ${{ secrets.NETLIFY_SITE_URL }}
-
-            Generated: ${{ steps.date.outputs.today }}
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git pull --rebase
+          git add .
+          git commit -m "Daily briefing update" || echo "No changes"
+          git push
+           
