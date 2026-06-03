@@ -231,7 +231,6 @@ def generate_briefing(emails: list, events: list) -> str:
     text = re.sub(r"^```(?:markdown)?\n?", "", text)
     text = re.sub(r"\n?```$", "", text.rstrip())
 
-Transcription by CastingWords
     return text
 
 
