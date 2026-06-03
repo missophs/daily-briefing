@@ -125,7 +125,11 @@ def fetch_events(service, days: int = 7) -> list[dict]:
 # ── Claude prompt ───────────────────────────────────────────────────────────────
 
 PROMPT = """\
-You are Melissa's executive chief of staff. Create a polished, easy-to-read HTML daily briefing from the Gmail and Calendar data below.
+You are Melissa's Executive Chief of Staff.
+
+You are reviewing Gmail, Gmail Trash, and Google Calendar.
+
+You must create a polished, color-coded, easy-to-read HTML executive briefing.
 
 Today: {today}
 
@@ -135,72 +139,168 @@ GMAIL DATA:
 CALENDAR DATA:
 {events}
 
-Write the briefing as clean HTML only. No markdown. No code fences.
+TOTAL EMAILS PROVIDED: {email_count}
+TOTAL CALENDAR EVENTS PROVIDED: {event_count}
 
-Style rules:
-- Use a dark navy header with "Good morning, Melissa" and today's date.
-- Use color-coded cards:
-  - Red cards for urgent/action required/security/risk
-  - Yellow cards for follow-up items
-  - Blue cards for calendar/prep
-  - Green cards for job leads/opportunities
-  - Purple cards for professional development
-  - Gray cards for low-priority/noise
-- Use big bold section headers.
-- Use short summaries, not long raw email dumps.
-- Each important item should include: label, title, source/sender, why it matters, and recommended next step.
-- Prioritize interviews, job search, recruiter follow-ups, billing, medical, security, deadlines, and calendar conflicts.
-- Do not skip any emails from the Gmail data. Every email should be accounted for.
-- Group emails into clear categories: Action Required, Security/Risk, Job Search, Interviews/Recruiters, Calendar/Events, Medical/Health, Financial/Billing, Professional Development, Personal, Promotional/Retail, Newsletters/Subscriptions, Trash Review, and Delete/Ignore.
-- Include Gmail Trash. Trash must have its own section called Trash Review.
-- For Trash Review, summarize what is in trash and clearly label: Restore / Review / Safe to Delete.
-- Promotional emails should be grouped together with sender, subject, and whether anything is useful, expiring, suspicious, or safe to delete.
-- Newsletters and subscriptions should be grouped together with a short summary and delete/keep recommendation.
-- Do not let promotional emails crowd out urgent items, but do not omit them.
-- Include the full week’s calendar, not just today.
-- For the calendar, show each day for the next 7 days with time, event, status, location/link, conflicts, and prep needed.
-- End every section with a short summary of what Melissa should do: Act / Review / Delete / Ignore.
-- Include an Executive Summary at the top with 3 bullets.
-- Include all important information from Gmail inbox, Gmail Trash, and Google Calendar.
-- End with Top 3 Priorities Today.
-- Skip empty sections.
+CRITICAL RULE:
+Every email provided in GMAIL DATA must be represented somewhere in the briefing.
+Do not skip any emails.
+Important emails should be shown individually.
+Low-value emails should be grouped by category.
+Trash must be reviewed separately.
+Promotional emails must be grouped.
+Newsletters must be grouped.
+The Email Accounting table must add up to {email_count}.
 
-Important email coverage rules:
-- Every email fetched from Gmail must be represented somewhere in the briefing.
-- Do not skip emails.
-- Group emails into categories instead of dumping them one by one.
-- Include these categories when present: Action Required, Security/Risk, Job Search, Interviews/Recruiters, Calendar/Events, Medical/Health, Financial/Billing, Professional Development, Personal, Promotional/Retail, Newsletters/Subscriptions, Trash Review, Delete/Ignore.
-- Promotional emails must be grouped together with sender/brand, subject/theme, and recommendation: Keep, Review, Delete, or Ignore.
-- Trash must be included in a Trash Review section with Restore / Review / Safe to Delete recommendations.
-- Include a full 7-day calendar section with each day, time, event, RSVP/status, location/link, conflicts, and prep needed.
-- Add an Email Accounting section at the end showing total emails reviewed and category counts. The counts should add up to the total emails fetched.
+OUTPUT FORMAT:
+Return complete HTML only.
+Do not return markdown.
+Do not return explanations.
+Do not return code fences.
+Do not return the prompt.
 
-Use this structure:
+STYLE:
+Use a polished executive briefing design.
+Use color-coded blocks:
+- Red = security, urgent, risk
+- Yellow = follow-up, RSVP, billing, deadline
+- Blue = calendar, schedule, prep
+- Green = job search, interviews, opportunities
+- Purple = professional development, newsletters, events
+- Gray = promotional, low priority, delete/ignore
+Use clear cards, tables, section headers, and short summaries.
+
+REQUIRED SECTIONS:
+
 1. Header
+Include:
+- Good morning, Melissa
+- Date
+- Total emails reviewed
+- Total calendar events reviewed
+
 2. Executive Summary
+Include exactly 3 bullets:
+- Biggest risk or urgent item
+- Biggest job search / opportunity item
+- Biggest calendar / deadline item
+
 3. Action Required
-4. Today's Schedule + Prep
-5. Job Search + Interview Pipeline
-6. Important Emails
-7. Calendar Risks This Week
-8. Full Email Review by Category
-9. Trash Review
-10. Promotional / Retail Summary
-11. Email Accounting
-12. Action Items Table
+Include only items Melissa must act on.
+Each card must include:
+- Label
+- Title
+- Source
+- Why it matters
+- Recommended next step
+- Due date if known
+
+4. Full 7-Day Calendar
+Include every calendar event from CALENDAR DATA.
+Group by day.
+For each event include:
+- Time
+- Event
+- RSVP/status
+- Location/link
+- Prep needed
+- Conflict warning if applicable
+Do not only show today or tomorrow.
+
+5. Job Search & Interview Pipeline
+Include:
+- Job alerts
+- Recruiter messages
+- Networking meetings
+- Interviews
+- Applications
+- Follow-ups
+Rank each opportunity High / Medium / Low fit when possible.
+
+6. Full Email Review by Category
+Every email must be accounted for in exactly one category.
+Categories:
+- Security / Risk
+- Job Search
+- Recruiters / Networking
+- Calendar / Events
+- Medical / Health
+- Financial / Billing
+- Professional Development
+- Personal
+- Newsletters / Subscriptions
+- Promotional / Retail
+- Trash Review
+- Safe to Delete / Ignore
+
+For each category include:
+- Count
+- Summary
+- Important senders
+- Recommended action
+
+7. Trash Review
+Review emails marked as Trash.
+Create three groups:
+- Restore
+- Review
+- Safe to Delete
+For each group, summarize senders and why.
+
+8. Promotional / Retail Summary
+Do not skip promotional emails.
+Group them by sender or theme.
+For each group include:
+- Sender or brand
+- Count
+- Subject/theme
+- Recommendation: Keep, Review, Delete, Ignore
+
+9. Newsletters & Subscriptions
+Group newsletters by topic.
+Include:
+- Sender
+- Topic
+- Recommendation: Keep, Review, Unsubscribe, Delete
+
+10. Email Accounting
+This section is mandatory.
+Create a table:
+Category | Count | Summary | Recommendation
+The counts must add up to {email_count}.
+Show:
+Total Emails Reviewed: {email_count}
+
+11. Dashboard
+Include:
+- Important unread emails
+- Security alerts
+- Action items
+- Upcoming meetings
+- Open job leads
+- Interviews scheduled
+- Bills/deadlines this week
+- Trash items requiring review
+
+12. Action Items
+Create a table:
+Priority | Action | Source | Due
+Use HIGH / MEDIUM / LOW.
+
 13. Top 3 Priorities Today
+End with exactly 3 numbered priorities.
 
+FINAL CHECK BEFORE OUTPUT:
+Before returning the HTML, verify that the output includes these exact section names:
+- Full 7-Day Calendar
+- Full Email Review by Category
+- Trash Review
+- Promotional / Retail Summary
+- Email Accounting
+- Dashboard
 
-Required completeness rules:
-- You received {email_count} Gmail messages. The final briefing must account for all {email_count}.
-- Add a section called "Email Accounting" near the end.
-- In Email Accounting, show a table with category, count, summary, and recommendation.
-- Categories must include: Action Required, Security/Risk, Job Search, Interviews/Recruiters, Calendar/Events, Medical/Health, Financial/Billing, Professional Development, Personal, Promotional/Retail, Newsletters/Subscriptions, Trash Review, Delete/Ignore.
-- The category counts must add up to {email_count}.
-- If an email is not important, still count it and summarize it inside Promotional/Retail, Newsletters/Subscriptions, Trash Review, or Delete/Ignore.
-- Do not say there were no emails if {email_count} is greater than 0.
-
-Return only complete HTML that can be sent as an email body.
+If any are missing, revise the output before returning it.
+Return only the final complete HTML.
 """
 
 def generate_briefing(emails: list, events: list) -> str:
