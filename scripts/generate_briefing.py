@@ -183,8 +183,12 @@ Use this structure:
 5. Job Search + Interview Pipeline
 6. Important Emails
 7. Calendar Risks This Week
-8. Action Items Table
-9. Top 3 Priorities Today
+8. Full Email Review by Category
+9. Trash Review
+10. Promotional / Retail Summary
+11. Email Accounting
+12. Action Items Table
+13. Top 3 Priorities Today
 
 
 Required completeness rules:
