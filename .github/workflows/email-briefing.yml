@@ -22,4 +22,4 @@ jobs:
           subject: Daily Briefing
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_USERNAME }}
-          body: file://README.md
+          body: file://BRIEFING.md
