@@ -331,44 +331,124 @@ def generate_briefing(emails: list, events: list) -> str:
     text = re.sub(r"^```(?:markdown)?\n?", "", text)
     text = re.sub(r"\n?```$", "", text.rstrip())
 
+    import html as _html
+    from collections import Counter
+
+    def _val(email, *keys):
+        for key in keys:
+            value = email.get(key)
+            if value:
+                return str(value)
+        return ""
+
+    def _labels(email):
+        labels = email.get("labels") or email.get("labelIds") or []
+        if isinstance(labels, list):
+            return " ".join(str(x) for x in labels)
+        return str(labels)
+
+    def _category(email):
+        blob = " ".join([
+            _val(email, "from", "sender"),
+            _val(email, "subject"),
+            _val(email, "snippet", "body"),
+            _labels(email),
+        ]).lower()
+
+        if "trash" in blob:
+            return "Trash Review"
+        if any(x in blob for x in ["password", "security", "locked", "pin", "phish", "scam", "casino", "account access"]):
+            return "Security / Risk"
+        if any(x in blob for x in ["linkedin", "job", "recruiter", "interview", "application", "people business partner", "chief people", "hr business"]):
+            return "Job Search / Recruiters"
+        if any(x in blob for x in ["doctor", "dr.", "medical", "appointment", "lens", "health", "skin"]):
+            return "Medical / Health"
+        if any(x in blob for x in ["bill", "payment", "invoice", "state farm", "netlify", "credits", "billing"]):
+            return "Financial / Billing"
+        if any(x in blob for x in ["webinar", "event", "training", "newsletter", "research", "hr.com", "substack"]):
+            return "Professional Development / Newsletters"
+        if any(x in blob for x in ["sale", "% off", "promo", "deal", "discount", "cart", "shop", "offer"]):
+            return "Promotional / Retail"
+        return "Other / Review"
+
+    rows = []
+    counts = Counter()
+
+    for i, email in enumerate(emails, start=1):
+        category = _category(email)
+        counts[category] += 1
+
+        sender = _html.escape(_val(email, "from", "sender") or "Unknown sender")
+        subject = _html.escape(_val(email, "subject") or "(No subject)")
+        date = _html.escape(_val(email, "date", "internalDate") or "")
+        labels = _html.escape(_labels(email))
+        snippet = _html.escape((_val(email, "snippet", "body") or "")[:180])
+
+        recommendation = "Review"
+        if category in ["Security / Risk"]:
+            recommendation = "Act / Delete if scam"
+        elif category in ["Promotional / Retail", "Other / Review"]:
+            recommendation = "Delete or ignore unless useful"
+        elif category == "Trash Review":
+            recommendation = "Review before permanent delete"
+        elif category == "Job Search / Recruiters":
+            recommendation = "Review for opportunity or follow-up"
+
+        rows.append(f"""
+<tr>
+  <td>{i}</td>
+  <td>{category}</td>
+  <td>{sender}</td>
+  <td>{subject}</td>
+  <td>{date}</td>
+  <td>{labels}</td>
+  <td>{snippet}</td>
+  <td>{recommendation}</td>
+</tr>""")
+
+    accounting_rows = "\n".join(
+        f"<tr><td>{_html.escape(cat)}</td><td>{count}</td></tr>"
+        for cat, count in sorted(counts.items())
+    )
+
+    email_rows = "\n".join(rows)
+
     forced_sections = f"""
 <hr>
 <h2>Trash Review</h2>
-<p><strong>Purpose:</strong> Review deleted emails for anything important before permanent deletion.</p>
-<table border="1" cellpadding="6" cellspacing="0">
-<tr><th>Group</th><th>What to Do</th></tr>
-<tr><td>Restore</td><td>Restore anything related to billing, job search, medical, legal, calendar, security, or interviews.</td></tr>
-<tr><td>Review</td><td>Review anything from GitHub, Netlify, LinkedIn, recruiters, healthcare providers, banks, insurance, or professional contacts.</td></tr>
-<tr><td>Safe to Delete</td><td>Delete obvious spam, scams, retail promos, expired sales, duplicate newsletters, and irrelevant ads.</td></tr>
-</table>
+<p><strong>Purpose:</strong> Review deleted emails for anything important before permanent deletion. Anything from job search, billing, medical, calendar, security, legal, GitHub, Netlify, LinkedIn, recruiters, or professional contacts should be reviewed before deleting.</p>
 
 <h2>Promotional / Retail Summary</h2>
-<p><strong>Purpose:</strong> Promotional emails should not crowd out important items, but they should be grouped so you know what to delete or review.</p>
-<table border="1" cellpadding="6" cellspacing="0">
-<tr><th>Type</th><th>Recommendation</th></tr>
-<tr><td>Retail / Sales</td><td>Delete unless there is a time-sensitive discount you actually plan to use.</td></tr>
-<tr><td>Travel / Food / Shopping</td><td>Usually safe to delete unless tied to an active booking or purchase.</td></tr>
-<tr><td>Suspicious Promotions</td><td>Mark as spam if the sender looks fake, unrelated, or impersonates a real brand.</td></tr>
-</table>
+<p><strong>Purpose:</strong> Promotional emails are included in the full email inventory below. Delete or ignore retail/promotional items unless there is a deal you actually plan to use or a sender looks suspicious.</p>
 
 <h2>Email Accounting</h2>
 <p><strong>Total Emails Reviewed:</strong> {len(emails)}</p>
 <table border="1" cellpadding="6" cellspacing="0">
-<tr><th>Category</th><th>Action</th></tr>
-<tr><td>Security / Risk</td><td>Act immediately.</td></tr>
-<tr><td>Job Search / Recruiters</td><td>Review and respond where relevant.</td></tr>
-<tr><td>Medical / Financial / Billing</td><td>Review for deadlines or payment/action needed.</td></tr>
-<tr><td>Professional Development / Newsletters</td><td>Skim, save, or delete.</td></tr>
-<tr><td>Promotional / Retail</td><td>Group and delete unless useful.</td></tr>
-<tr><td>Trash</td><td>Review before permanent deletion.</td></tr>
+<tr><th>Category</th><th>Count</th></tr>
+{accounting_rows}
+</table>
+
+<h2>Full Email Inventory</h2>
+<p><strong>Every fetched email is listed below.</strong> Use this section to see what to act on, review, delete, or ignore.</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr>
+  <th>#</th>
+  <th>Category</th>
+  <th>From</th>
+  <th>Subject</th>
+  <th>Date</th>
+  <th>Labels</th>
+  <th>Snippet</th>
+  <th>Recommendation</th>
+</tr>
+{email_rows}
 </table>
 """
 
-    if "Trash Review" not in text:
-        if "</body>" in text:
-            text = text.replace("</body>", forced_sections + "\n</body>")
-        else:
-            text += forced_sections
+    if "</body>" in text:
+        text = text.replace("</body>", forced_sections + "\n</body>")
+    else:
+        text += forced_sections
 
     return text
 
