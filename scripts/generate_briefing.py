@@ -125,64 +125,50 @@ def fetch_events(service, days: int = 7) -> list[dict]:
 # ── Claude prompt ───────────────────────────────────────────────────────────────
 
 PROMPT = """\
-You are Melissa's personal executive assistant. Generate her daily briefing.
+You are Melissa's executive chief of staff. Create a polished, easy-to-read HTML daily briefing from the Gmail and Calendar data below.
 
 Today: {today}
 
---- GMAIL ({email_count} messages, last 7 days) ---
+GMAIL DATA:
 {emails}
 
---- CALENDAR ({event_count} events, next 7 days) ---
+CALENDAR DATA:
 {events}
 
-Use the Gmail and Calendar data above to generate a real briefing. Do not repeat these instructions. Do not output this template. Fill each section with actual Gmail and Calendar data. If a section has no relevant items, skip it.
+Write the briefing as clean HTML only. No markdown. No code fences.
 
-# MELISSA'S WEEKLY BRIEFING
-**Generated:** {today}
+Style rules:
+- Use a dark navy header with "Good morning, Melissa" and today's date.
+- Use color-coded cards:
+  - Red cards for urgent/action required/security/risk
+  - Yellow cards for follow-up items
+  - Blue cards for calendar/prep
+  - Green cards for job leads/opportunities
+  - Purple cards for professional development
+  - Gray cards for low-priority/noise
+- Use big bold section headers.
+- Use short summaries, not long raw email dumps.
+- Each important item should include: label, title, source/sender, why it matters, and recommended next step.
+- Prioritize interviews, job search, recruiter follow-ups, billing, medical, security, deadlines, and calendar conflicts.
+- Do not list promotional emails unless suspicious or action-worthy.
+- Include an Executive Summary at the top with 3 bullets.
+- Include all important information from Gmail inbox, Gmail Trash, and Google Calendar.
+- End with Top 3 Priorities Today.
+- Skip empty sections.
 
----
+Use this structure:
+1. Header
+2. Executive Summary
+3. Action Required
+4. Today's Schedule + Prep
+5. Job Search + Interview Pipeline
+6. Important Emails
+7. Calendar Risks This Week
+8. Action Items Table
+9. Top 3 Priorities Today
 
-## 🔴 SECTION 1 — ACTION REQUIRED
-
-Surface only items needing action: security alerts, unread billing, time-sensitive \
-job search items (canceled interviews, stale applications), anything happening TODAY. \
-Use ### subheadings — SECURITY, BILLING, JOB SEARCH — FOLLOW UP, TODAY — HAPPENING NOW — \
-only for subheadings that have content.
-
----
-
-## 🟡 SECTION 2 — THIS WEEK'S CALENDAR
-
-One ### heading per day (e.g. ### WEDNESDAY, JUNE 4 — TODAY). \
-Table per day: | Time | Event | Status |
-Include Zoom links verbatim from event descriptions. \
-Status values: Confirmed / Declined / No RSVP / Accepted.
-
----
-
-## 🟢 SECTION 3 — EMAILS BY CATEGORY
-
-Tables with | Date | From | Subject | Status | columns. \
-Use only categories that have content:
-- ### MEDICAL / HEALTH
-- ### JOB SEARCH — ACTIVE LEADS  (batch-summarize job alert digests — e.g. "6 new LinkedIn alerts — CHRO, VP HR, Head of People roles")
-- ### PROFESSIONAL DEVELOPMENT
-- ### FINANCIAL / BILLING
-- ### NOISE / PROMOTIONAL (TRASH — nothing to action)  (bulleted list only, no table)
-
----
-
-## 🔵 SECTION 4 — ACTION ITEMS
-
-| Priority | Item | Source |
-Priorities: HIGH / MEDIUM / LOW only. HIGH items first. Be specific and actionable.
-
----
-
-*Briefing pulls live data from Gmail inbox and Trash (last 7 days) and \
-Google Calendar ({date_range}).*
+Return only complete HTML that can be sent as an email body.
 """
-
 
 def generate_briefing(emails: list, events: list) -> str:
     today      = datetime.date.today()
