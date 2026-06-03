@@ -165,6 +165,16 @@ Style rules:
 - End with Top 3 Priorities Today.
 - Skip empty sections.
 
+Important email coverage rules:
+- Every email fetched from Gmail must be represented somewhere in the briefing.
+- Do not skip emails.
+- Group emails into categories instead of dumping them one by one.
+- Include these categories when present: Action Required, Security/Risk, Job Search, Interviews/Recruiters, Calendar/Events, Medical/Health, Financial/Billing, Professional Development, Personal, Promotional/Retail, Newsletters/Subscriptions, Trash Review, Delete/Ignore.
+- Promotional emails must be grouped together with sender/brand, subject/theme, and recommendation: Keep, Review, Delete, or Ignore.
+- Trash must be included in a Trash Review section with Restore / Review / Safe to Delete recommendations.
+- Include a full 7-day calendar section with each day, time, event, RSVP/status, location/link, conflicts, and prep needed.
+- Add an Email Accounting section at the end showing total emails reviewed and category counts. The counts should add up to the total emails fetched.
+
 Use this structure:
 1. Header
 2. Executive Summary
@@ -188,7 +198,7 @@ def generate_briefing(emails: list, events: list) -> str:
     client  = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=4096,
+        max_tokens=8192,
         messages=[{
             "role": "user",
             "content": PROMPT.format(
