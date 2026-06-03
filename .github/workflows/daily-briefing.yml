@@ -1,4 +1,8 @@
+name: Daily Briefing
+
 on:
+  schedule:
+    - cron: '0 11 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -11,21 +15,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Prepare latest repo
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git pull --rebase
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
 
-      - name: Update briefing
-        run: |
-          echo "# Daily Briefing" > BRIEFING.md
-          echo "" >> BRIEFING.md
-          echo "Updated on $(date)" >> BRIEFING.md
-          cp BRIEFING.md README.md
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Generate real briefing
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+        run: python scripts/generate_briefing.py
 
       - name: Commit changes
         run: |
-          git add .
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add BRIEFING.md README.md
           git commit -m "Daily briefing update" || echo "No changes"
           git push
