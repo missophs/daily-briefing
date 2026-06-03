@@ -3,399 +3,353 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Briefing – Wednesday, June 3, 2026</title>
+<title>Melissa's Daily Briefing – Wednesday, June 3, 2026</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
-  .wrapper { max-width: 900px; margin: 0 auto; padding: 20px; }
+  .wrapper { max-width: 860px; margin: 0 auto; padding: 20px; }
 
   /* HEADER */
-  .header { background: linear-gradient(135deg, #0d1b4b 0%, #1a3a8f 100%); color: white; padding: 36px 32px; border-radius: 14px; margin-bottom: 24px; }
+  .header { background: linear-gradient(135deg, #0d1b4b 0%, #1a2f7a 100%); color: white; padding: 36px 32px; border-radius: 14px; margin-bottom: 24px; }
   .header h1 { font-size: 28px; font-weight: 700; letter-spacing: 0.5px; }
-  .header .date { font-size: 16px; opacity: 0.85; margin-top: 6px; }
-  .header .subtitle { font-size: 13px; opacity: 0.65; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+  .header .date { font-size: 16px; opacity: 0.8; margin-top: 6px; }
+  .header .subtitle { font-size: 13px; opacity: 0.6; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
 
-  /* SECTION TITLES */
+  /* SECTION HEADERS */
   .section { margin-bottom: 28px; }
-  .section-title { font-size: 19px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 16px; border-radius: 8px 8px 0 0; margin-bottom: 0; }
+  .section-title { font-size: 19px; font-weight: 700; color: #0d1b4b; border-left: 5px solid #1a2f7a; padding-left: 12px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
 
   /* CARDS */
   .card { border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; border-left: 5px solid; }
-  .card-red { background: #fff5f5; border-color: #e53e3e; }
-  .card-yellow { background: #fffbf0; border-color: #d69e2e; }
-  .card-blue { background: #f0f6ff; border-color: #3182ce; }
-  .card-green { background: #f0fff4; border-color: #38a169; }
+  .card-red    { background: #fff5f5; border-color: #e53e3e; }
+  .card-yellow { background: #fffdf0; border-color: #d69e2e; }
+  .card-blue   { background: #f0f6ff; border-color: #3182ce; }
+  .card-green  { background: #f0fff4; border-color: #38a169; }
   .card-purple { background: #faf5ff; border-color: #805ad5; }
-  .card-gray { background: #f7f7f7; border-color: #a0aec0; }
-  .card-orange { background: #fff8f0; border-color: #dd6b20; }
+  .card-gray   { background: #f7f7f7; border-color: #a0aec0; }
+  .card-orange { background: #fffaf0; border-color: #dd6b20; }
 
-  .card .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-  .label-red { color: #c53030; }
-  .label-yellow { color: #b7791f; }
-  .label-blue { color: #2b6cb0; }
-  .label-green { color: #276749; }
-  .label-purple { color: #553c9a; }
-  .label-gray { color: #718096; }
-  .label-orange { color: #c05621; }
+  .card .label { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 2px 8px; border-radius: 20px; margin-bottom: 6px; }
+  .label-red    { background: #fed7d7; color: #c53030; }
+  .label-yellow { background: #fefcbf; color: #975a16; }
+  .label-blue   { background: #bee3f8; color: #2b6cb0; }
+  .label-green  { background: #c6f6d5; color: #276749; }
+  .label-purple { background: #e9d8fd; color: #6b46c1; }
+  .label-gray   { background: #e2e8f0; color: #4a5568; }
+  .label-orange { background: #fbd38d; color: #7b341e; }
 
-  .card .title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .card .meta { font-size: 12px; color: #666; margin-bottom: 6px; }
-  .card .summary { font-size: 14px; color: #333; margin-bottom: 8px; }
-  .card .next-step { font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 5px; display: inline-block; }
-  .next-red { background: #fed7d7; color: #9b2c2c; }
-  .next-yellow { background: #fefcbf; color: #744210; }
-  .next-blue { background: #bee3f8; color: #1a365d; }
-  .next-green { background: #c6f6d5; color: #22543d; }
-  .next-purple { background: #e9d8fd; color: #322659; }
-  .next-gray { background: #e2e8f0; color: #2d3748; }
-  .next-orange { background: #feebc8; color: #7b341e; }
-
-  /* SECTION HEADER COLORS */
-  .sh-red { background: #e53e3e; color: white; }
-  .sh-yellow { background: #d69e2e; color: white; }
-  .sh-blue { background: #2b6cb0; color: white; }
-  .sh-green { background: #276749; color: white; }
-  .sh-purple { background: #553c9a; color: white; }
-  .sh-gray { background: #718096; color: white; }
-  .sh-orange { background: #dd6b20; color: white; }
-  .sh-navy { background: #1a3a8f; color: white; }
-  .sh-teal { background: #2c7a7b; color: white; }
+  .card .title { font-size: 15px; font-weight: 700; color: #1a202c; margin-bottom: 4px; }
+  .card .source { font-size: 12px; color: #718096; margin-bottom: 6px; }
+  .card .body { font-size: 14px; color: #2d3748; margin-bottom: 8px; }
+  .card .next-step { font-size: 13px; font-weight: 600; color: #2b6cb0; }
+  .card .next-step span { background: #ebf8ff; padding: 2px 8px; border-radius: 4px; }
 
   /* EXECUTIVE SUMMARY */
-  .exec-summary { background: white; border-radius: 10px; padding: 22px 26px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-  .exec-summary h2 { font-size: 18px; font-weight: 800; color: #1a3a8f; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.6px; }
-  .exec-bullet { display: flex; align-items: flex-start; margin-bottom: 10px; }
-  .exec-icon { font-size: 20px; margin-right: 12px; flex-shrink: 0; }
-  .exec-text { font-size: 14px; color: #2d3748; }
+  .exec-summary { background: linear-gradient(135deg, #1a2f7a, #2d4aad); color: white; border-radius: 12px; padding: 24px 28px; margin-bottom: 28px; }
+  .exec-summary h2 { font-size: 17px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+  .exec-summary ul { list-style: none; }
+  .exec-summary ul li { padding: 6px 0; padding-left: 24px; position: relative; font-size: 14px; }
+  .exec-summary ul li::before { content: "▶"; position: absolute; left: 0; opacity: 0.7; font-size: 10px; top: 9px; }
 
   /* CALENDAR TABLE */
-  .cal-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 12px; }
-  .cal-table th { background: #2b6cb0; color: white; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 700; }
-  .cal-table td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; font-size: 13px; vertical-align: top; }
-  .cal-table tr:last-child td { border-bottom: none; }
-  .cal-table tr:nth-child(even) td { background: #f7faff; }
+  .cal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .cal-table th { background: #0d1b4b; color: white; padding: 10px 12px; text-align: left; }
+  .cal-table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  .cal-table tr:nth-child(even) td { background: #f7fafc; }
+  .cal-table .day-header td { background: #ebf4ff; font-weight: 700; color: #1a2f7a; font-size: 13px; }
+  .status-accepted  { color: #276749; font-weight: 700; }
+  .status-declined  { color: #c53030; font-weight: 700; }
+  .status-pending   { color: #975a16; font-weight: 700; }
   .status-confirmed { color: #276749; font-weight: 700; }
-  .status-declined { color: #c53030; font-weight: 700; }
-  .status-pending { color: #b7791f; font-weight: 700; }
-  .status-allday { color: #553c9a; font-weight: 700; }
+  .conflict-badge   { background: #fed7d7; color: #c53030; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
 
-  /* ACTION TABLE */
-  .action-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 12px; }
-  .action-table th { background: #0d1b4b; color: white; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 700; }
-  .action-table td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; font-size: 13px; vertical-align: top; }
-  .action-table tr:last-child td { border-bottom: none; }
-  .action-table tr:nth-child(even) td { background: #f9f9ff; }
-  .priority-high { color: #c53030; font-weight: 700; }
-  .priority-med { color: #b7791f; font-weight: 700; }
-  .priority-low { color: #718096; font-weight: 700; }
+  /* EMAIL ACCOUNTING TABLE */
+  .acct-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .acct-table th { background: #0d1b4b; color: white; padding: 10px 12px; text-align: left; }
+  .acct-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  .acct-table tr:nth-child(even) td { background: #f7fafc; }
+  .acct-table .total-row td { font-weight: 700; background: #ebf4ff; }
+
+  /* ACTION ITEMS TABLE */
+  .action-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .action-table th { background: #1a2f7a; color: white; padding: 10px 12px; text-align: left; }
+  .action-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  .action-table tr:nth-child(even) td { background: #f7fafc; }
+  .pri-1 { color: #c53030; font-weight: 700; }
+  .pri-2 { color: #975a16; font-weight: 700; }
+  .pri-3 { color: #276749; font-weight: 700; }
 
   /* TOP 3 */
-  .top3 { background: linear-gradient(135deg, #0d1b4b, #2b6cb0); color: white; border-radius: 12px; padding: 26px 30px; margin-bottom: 24px; }
-  .top3 h2 { font-size: 20px; font-weight: 800; margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.8px; }
-  .top3-item { display: flex; align-items: flex-start; margin-bottom: 14px; }
-  .top3-num { background: rgba(255,255,255,0.2); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0; margin-right: 14px; }
-  .top3-text { font-size: 15px; line-height: 1.5; }
-  .top3-text strong { font-size: 16px; display: block; }
+  .top3 { background: linear-gradient(135deg, #0d1b4b, #1a2f7a); color: white; border-radius: 12px; padding: 24px 28px; margin-bottom: 28px; }
+  .top3 h2 { font-size: 17px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 1px; }
+  .top3-item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .top3-item:last-child { border-bottom: none; }
+  .top3-num { font-size: 28px; font-weight: 900; opacity: 0.3; line-height: 1; min-width: 36px; }
+  .top3-text h3 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .top3-text p { font-size: 13px; opacity: 0.8; }
 
-  /* EMAIL ACCOUNTING */
-  .accounting { background: white; border-radius: 10px; padding: 22px 26px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px; }
-  .accounting h2 { font-size: 16px; font-weight: 800; color: #1a3a8f; margin-bottom: 14px; text-transform: uppercase; }
-  .acct-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-  .acct-cell { background: #f0f4ff; border-radius: 7px; padding: 10px 14px; }
-  .acct-cell .cat { font-size: 12px; font-weight: 700; color: #2b6cb0; text-transform: uppercase; }
-  .acct-cell .count { font-size: 22px; font-weight: 800; color: #0d1b4b; }
+  /* PROMO GROUP */
+  .promo-group { background: #f7f7f7; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; }
+  .promo-group .brand { font-weight: 700; font-size: 14px; color: #2d3748; }
+  .promo-group .subject { font-size: 13px; color: #4a5568; }
+  .promo-group .rec { font-size: 12px; font-weight: 700; margin-top: 4px; }
+  .rec-delete  { color: #c53030; }
+  .rec-keep    { color: #276749; }
+  .rec-review  { color: #975a16; }
+  .rec-ignore  { color: #718096; }
 
-  /* DIVIDER */
-  .section-wrap { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 28px; }
+  .divider { border: none; border-top: 2px solid #e2e8f0; margin: 24px 0; }
+  .section-footer { font-size: 13px; font-weight: 600; color: #4a5568; background: #edf2f7; padding: 8px 14px; border-radius: 6px; margin-top: 10px; }
 
-  /* PROMO TABLE */
-  .promo-table { width: 100%; border-collapse: collapse; }
-  .promo-table th { background: #e2e8f0; color: #2d3748; padding: 8px 14px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; }
-  .promo-table td { padding: 9px 14px; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
-  .promo-table tr:last-child td { border-bottom: none; }
-  .rec-delete { color: #c53030; font-weight: 700; }
-  .rec-review { color: #b7791f; font-weight: 700; }
-  .rec-keep { color: #276749; font-weight: 700; }
-  .rec-ignore { color: #718096; font-weight: 700; }
+  .trash-badge { display: inline-block; background: #fed7d7; color: #c53030; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: 6px; text-transform: uppercase; }
+  .restore-badge { display: inline-block; background: #c6f6d5; color: #276749; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+  .safe-del-badge { display: inline-block; background: #fed7d7; color: #c53030; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+  .review-badge { display: inline-block; background: #fefcbf; color: #975a16; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
 
-  .section-end { font-size: 13px; font-style: italic; color: #666; padding: 10px 20px 14px; border-top: 1px solid #e2e8f0; margin-top: 6px; }
-
-  a { color: #2b6cb0; }
-  .conflict-badge { background: #fed7d7; color: #9b2c2c; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: 6px; }
-  .day-header { background: #eef2ff; font-weight: 800; color: #1a3a8f; }
+  a { color: #3182ce; }
+  @media (max-width: 600px) {
+    .wrapper { padding: 10px; }
+    .header { padding: 22px 16px; }
+    .header h1 { font-size: 22px; }
+    .cal-table, .acct-table, .action-table { font-size: 12px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrapper">
 
-  <!-- ============================== HEADER ============================== -->
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 1. HEADER -->
+  <!-- ═══════════════════════════════════════════ -->
   <div class="header">
-    <div class="subtitle">Executive Chief of Staff · Daily Briefing</div>
+    <div class="subtitle">Executive Chief of Staff Briefing</div>
     <h1>Good morning, Melissa ☀️</h1>
-    <div class="date">Wednesday, June 3, 2026</div>
+    <div class="date">Wednesday, June 3, 2026 &nbsp;·&nbsp; 50 emails reviewed &nbsp;·&nbsp; 10 calendar events this week</div>
   </div>
 
-  <!-- ============================== EXECUTIVE SUMMARY ============================== -->
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 2. EXECUTIVE SUMMARY -->
+  <!-- ═══════════════════════════════════════════ -->
   <div class="exec-summary">
     <h2>⚡ Executive Summary</h2>
-    <div class="exec-bullet">
-      <div class="exec-icon">🔴</div>
-      <div class="exec-text"><strong>Security Alert:</strong> Your LinkedIn password was reset today and a verification PIN (606210) was sent — confirm this was you. A separate phishing email is impersonating a cloud storage service claiming your account is locked; do not click it.</div>
-    </div>
-    <div class="exec-bullet">
-      <div class="exec-icon">📅</div>
-      <div class="exec-text"><strong>Tomorrow's Schedule (Thu, Jun 4):</strong> You have a Dr. Husk appointment at 10:30 AM (confirmed), and an HR Networking open office session at noon (no RSVP yet). You declined the Executive Roundtable at 9 AM — no action needed there.</div>
-    </div>
-    <div class="exec-bullet">
-      <div class="exec-icon">🟢</div>
-      <div class="exec-text"><strong>Job Search & Networking:</strong> A LinkedIn job alert flagged a Senior Director HRBP (AI-Native) role. You have a Zoom consult with Netta Jenkins (Jun 9) and a confirmed networking session (Jun 10). Ilya Volovnik from Vorex Intelligence Group sent a LinkedIn connection request — worth reviewing. PSC Spring Social is cancelled (Jun 4).</div>
-    </div>
+    <ul>
+      <li><strong>🔴 Security Alert:</strong> Your LinkedIn password was reset and a PIN was sent — verify this was you and check for unauthorized access immediately. Multiple phishing/scam emails also received today.</li>
+      <li><strong>📅 Tomorrow is busy:</strong> You have 3 calendar events on June 4th — including an Executive Roundtable you <em>declined</em>, a Dr. Husk appointment at 10:30 AM, and an HR Networking session at noon (RSVP still pending).</li>
+      <li><strong>💼 Job search active:</strong> A LinkedIn job alert landed for Senior Director, HR Business Partner (AI-Native). Networking call with Netta Jenkins confirmed for June 9th. PSC Spring Social is cancelled — check next event.</li>
+    </ul>
   </div>
 
-  <!-- ============================== ACTION REQUIRED ============================== -->
-  <div class="section-wrap">
-    <div class="section-title sh-red">🔴 Action Required</div>
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 3. ACTION REQUIRED -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">🔴 Action Required</div>
 
-    <div style="padding: 16px 20px;">
-
-      <div class="card card-red">
-        <div class="label label-red">🔐 Security — Urgent</div>
-        <div class="title">LinkedIn Password Reset + PIN Sent</div>
-        <div class="meta">From: LinkedIn Security &lt;security-noreply@linkedin.com&gt; · Today</div>
-        <div class="summary">Two back-to-back emails: (1) A PIN 606210 was sent to verify your identity, and (2) your LinkedIn password was successfully reset. If you did not initiate this, your account may be compromised.</div>
-        <span class="next-step next-red">→ Log into LinkedIn NOW. If you didn't reset it, change your password immediately and enable 2FA.</span>
-      </div>
-
-      <div class="card card-red">
-        <div class="label label-red">🚨 Phishing — Do Not Click</div>
-        <div class="title">"Your Cloud Account Has Been Locked" — Scam Email</div>
-        <div class="meta">From: "Payment_Declined" &lt;xbtcsupportmd@wcknlkzajfzzlhmducymgdwi.com&gt; · Today</div>
-        <div class="summary">Fraudulent email claiming your cloud subscription expired and photos/videos will be deleted. Fake sender domain, urgency tactics, fake account ID. Classic phishing. Do not click any links.</div>
-        <span class="next-step next-red">→ Mark as phishing/spam and delete immediately. Do not open any links.</span>
-      </div>
-
-      <div class="card card-yellow">
-        <div class="label label-yellow">📬 RSVP Needed — Tomorrow</div>
-        <div class="title">HR Networking &amp; Job Search: Open Office Hours</div>
-        <div class="meta">Calendar Event · Thu, Jun 4 · 12:00–1:00 PM · Zoom · Status: No Response</div>
-        <div class="summary">You haven't responded to this networking event yet. Large group session relevant to your active job search. Meeting note: AI notetaking tools should be turned off per organizer request.</div>
-        <span class="next-step next-yellow">→ Accept or decline before tomorrow morning. Join link: us06web.zoom.us</span>
-      </div>
-
-      <div class="card card-yellow">
-        <div class="label label-yellow">🤝 LinkedIn Connection — Review</div>
-        <div class="title">Ilya Volovnik (Founder &amp; CEO, Vorex Intelligence Group) Wants to Connect</div>
-        <div class="meta">From: LinkedIn Invitations · Today, 7:05 PM</div>
-        <div class="summary">Pending LinkedIn connection request from a founder/CEO. Could be a relevant professional contact given your HR/job search focus.</div>
-        <span class="next-step next-yellow">→ Review Ilya's profile on LinkedIn and accept or ignore.</span>
-      </div>
-
-      <div class="card card-yellow">
-        <div class="label label-yellow">🗓 PSC Event Cancellation</div>
-        <div class="title">People Strategy Collective Spring Social — CANCELLED</div>
-        <div class="meta">From: People Strategy Collective &lt;membership@mg.peoplestrategycollective.org&gt; · Today</div>
-        <div class="summary">Tomorrow's PSC Spring Social has been cancelled. Next PSC event is Tuesday, July (date TBD per email). Remove from your calendar if it was blocked.</div>
-        <span class="next-step next-yellow">→ Remove from schedule. Watch for next PSC event in July.</span>
-      </div>
-
-      <div class="card card-yellow">
-        <div class="label label-yellow">💬 Unread Slack Message</div>
-        <div class="title">1 Unread Message in #all-hr Slack Channel</div>
-        <div class="meta">From: HR via Slack &lt;notification@slack.com&gt; · Today (now in Trash)</div>
-        <div class="summary">Slack notification about an unread message in the #all-hr channel. Note: this email is currently in trash — may have been auto-archived, but the Slack message itself may still need attention.</div>
-        <span class="next-step next-yellow">→ Check Slack #all-hr channel for any pending messages.</span>
-      </div>
-
+    <div class="card card-red">
+      <div class="label label-red">🔐 Security — Urgent</div>
+      <div class="title">LinkedIn Password Reset + PIN Sent</div>
+      <div class="source">From: LinkedIn &lt;security-noreply@linkedin.com&gt; · Wed June 3, 9:16 PM &amp; 9:17 PM</div>
+      <div class="body">LinkedIn sent two security emails in quick succession: a verification PIN (606210) and a confirmation that your password was successfully reset. If you did not initiate this, your account may have been compromised. Even if you did reset it, confirm no unauthorized sessions exist.</div>
+      <div class="next-step">→ Next Step: <span>Log into LinkedIn NOW, check active sessions under Settings &gt; Security, and enable two-factor authentication if not already on.</span></div>
     </div>
-    <div class="section-end">📋 Summary: 2 urgent security items require immediate attention. 3 items need RSVP/response today.</div>
+
+    <div class="card card-red">
+      <div class="label label-red">⚠️ Phishing/Scam — Delete</div>
+      <div class="title">"Cloud Account Locked" Extortion Email</div>
+      <div class="source">From: 'Payment_Declined' &lt;xbtcsupportmd@wcknlkzajfzzlhmducymgdwi.com&gt; · Wed June 3</div>
+      <div class="body">Fake alert claiming your cloud subscription expired and photos/videos will be deleted. Suspicious sender domain, urgency tactics — classic phishing. Do NOT click any links.</div>
+      <div class="next-step">→ Next Step: <span>Mark as spam and delete. Do not engage.</span></div>
+    </div>
+
+    <div class="card card-red">
+      <div class="label label-red">⚠️ Scam — Delete</div>
+      <div class="title">Casino Yabby "NGR Bonus" Payment Scam</div>
+      <div class="source">From: 💲Casino_Yabby💲 &lt;tfvrniyohli@fknm.iwebcsruiikul.us&gt; · Wed June 3</div>
+      <div class="body">Fake payment of $13,963.99 claimed to be ready for confirmation. Spoofed sender, gibberish domain. This is a financial scam — do not confirm anything.</div>
+      <div class="next-step">→ Next Step: <span>Delete immediately. Report as phishing.</span></div>
+    </div>
+
+    <div class="card card-red">
+      <div class="label label-red">⚠️ Scam — Delete</div>
+      <div class="title">Casino "130 Free Spins" Spam</div>
+      <div class="source">From: 📣melissaw212 &lt;gudvuwhjjks@lmsw.wucbgfmxbenbv.us&gt; · Wed June 3</div>
+      <div class="body">Spoofed sender using your own email handle. "Limitless VIP" assignment. Fake gambling offer. Your email address is being used in spam loops — a sign of address exposure.</div>
+      <div class="next-step">→ Next Step: <span>Delete. Consider updating your Gmail spam filters and checking haveibeenpwned.com.</span></div>
+    </div>
+
+    <div class="card card-yellow">
+      <div class="label label-yellow">📅 RSVP Needed</div>
+      <div class="title">HR Networking &amp; Job Search — Open Office Hours (June 4, 12–1 PM)</div>
+      <div class="source">Calendar Event · Status: Needs Action</div>
+      <div class="body">You have not responded to this Zoom networking session scheduled for tomorrow at noon. With 170+ attendees invited, this is a large group session — valuable for job search networking.</div>
+      <div class="next-step">→ Next Step: <span>RSVP Accept or Decline on your calendar before tomorrow morning.</span></div>
+    </div>
+
+    <div class="card card-yellow">
+      <div class="label label-yellow">💬 Follow-Up Sent</div>
+      <div class="title">Contact Question / Jade — Appointment Moved to the 10th</div>
+      <div class="source">From: melissa &lt;melissaw212@gmail.com&gt; · Wed June 3, 1:59 PM (Sent)</div>
+      <div class="body">You replied to Jade confirming you moved your appointment to June 10th and will check in late Monday or Tuesday to see if something arrived.</div>
+      <div class="next-step">→ Next Step: <span>Add a reminder to follow up with Jade on Monday June 8 or Tuesday June 9.</span></div>
+    </div>
+
+    <div class="card card-yellow">
+      <div class="label label-yellow">💰 Billing Due Soon</div>
+      <div class="title">State Farm Bill Due — June 7</div>
+      <div class="source">Google Calendar · All-day event June 7</div>
+      <div class="body">State Farm bill payment reminder on your calendar for Saturday, June 7.</div>
+      <div class="next-step">→ Next Step: <span>Schedule or confirm payment before June 7.</span></div>
+    </div>
+
+    <div class="card card-yellow">
+      <div class="label label-yellow">🌐 Usage Alert</div>
+      <div class="title">Netlify — 75% of Credits Used on Morning Briefing Project</div>
+      <div class="source">From: Netlify &lt;team@netlify.com&gt; · Wed June 3, 9:28 PM (in Trash)</div>
+      <div class="body">Your Netlify team "morning briefing" has consumed 750 of 1,000 credits this billing cycle. At the current pace you may hit the limit before the cycle ends.</div>
+      <div class="next-step">→ Next Step: <span>Review Netlify usage dashboard. Consider upgrading or optimizing to avoid service interruption.</span></div>
+    </div>
+
+    <div class="section-footer">✅ Action: Address LinkedIn security first. Then RSVP tomorrow's networking session. Pay State Farm by June 7. Delete all scam emails.</div>
   </div>
 
-  <!-- ============================== TODAY'S SCHEDULE ============================== -->
-  <div class="section-wrap">
-    <div class="section-title sh-blue">📅 Full Week Calendar (Jun 3–10, 2026)</div>
-    <div style="padding: 16px 20px;">
+  <hr class="divider">
 
-    <table class="cal-table">
-      <thead>
-        <tr>
-          <th>Day / Time</th>
-          <th>Event</th>
-          <th>Status</th>
-          <th>Location / Link</th>
-          <th>Notes &amp; Prep</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- WED Jun 3 -->
-        <tr class="day-header"><td colspan="5">Wednesday, June 3 — TODAY</td></tr>
-        <tr><td>All Day</td><td>No calendar events scheduled</td><td class="status-confirmed">Clear</td><td>—</td><td>Focus on security items + email triage</td></tr>
-
-        <!-- THU Jun 4 -->
-        <tr class="day-header"><td colspan="5">Thursday, June 4</td></tr>
-        <tr>
-          <td>9:00 – 10:30 AM</td>
-          <td>Executive Roundtable (John Madigan)</td>
-          <td class="status-declined">Declined</td>
-          <td><a href="https://us02web.zoom.us/j/207786667">Zoom Link</a></td>
-          <td>You declined — no action needed. PW: 205454 if you change mind.</td>
-        </tr>
-        <tr>
-          <td>10:30 – 11:30 AM</td>
-          <td>Dr. Husk Appointment</td>
-          <td class="status-confirmed">Confirmed ✅</td>
-          <td>Location TBD</td>
-          <td>Medical appointment — confirm address/location. Allow travel time. No overlap with prior (declined) event.</td>
-        </tr>
-        <tr>
-          <td>12:00 – 1:00 PM</td>
-          <td>HR Networking &amp; Job Search: Open Office Hours</td>
-          <td class="status-pending">No Response ⚠️</td>
-          <td><a href="https://us06web.zoom.us/j/85945371140">Zoom Link</a></td>
-          <td><strong>RSVP needed.</strong> Large group (150+ attendees). No AI notetaking per organizer. Back-to-back with Dr. Husk — confirm you'll be done in time.</td>
-        </tr>
-
-        <!-- FRI Jun 5 -->
-        <tr class="day-header"><td colspan="5">Friday, June 5</td></tr>
-        <tr><td>All Day</td><td>No events scheduled</td><td>—</td><td>—</td><td>Open day</td></tr>
-
-        <!-- SAT Jun 6 -->
-        <tr class="day-header"><td colspan="5">Saturday, June 6</td></tr>
-        <tr>
-          <td>All Day</td>
-          <td>🎂 Jackie's Birthday</td>
-          <td class="status-allday">All-Day</td>
-          <td>—</td>
-          <td>Send birthday message / gift if planned. Event spans Jun 6–7.</td>
-        </tr>
-
-        <!-- SUN Jun 7 -->
-        <tr class="day-header"><td colspan="5">Sunday, June 7</td></tr>
-        <tr>
-          <td>All Day</td>
-          <td>🎂 Jackie's Birthday (cont.)</td>
-          <td class="status-allday">All-Day</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>All Day</td>
-          <td>💳 State Farm Bill Due</td>
-          <td class="status-allday">Reminder</td>
-          <td>—</td>
-          <td><strong>Pay or verify auto-pay is set up for State Farm.</strong></td>
-        </tr>
-
-        <!-- MON Jun 8 -->
-        <tr class="day-header"><td colspan="5">Monday, June 8</td></tr>
-        <tr>
-          <td>9:00 – 10:00 AM</td>
-          <td>👁 Eye Appointment</td>
-          <td class="status-confirmed">Confirmed ✅</td>
-          <td>Location TBD</td>
-          <td>Confirm address. Allow travel time. Check if you need to bring insurance card or prior prescription.</td>
-        </tr>
-
-        <!-- TUE Jun 9 -->
-        <tr class="day-header"><td colspan="5">Tuesday, June 9</td></tr>
-        <tr>
-          <td>12:00 – 12:15 PM</td>
-          <td>🤝 Melissa x Netta Jenkins (15-min Zoom Consult)</td>
-          <td class="status-confirmed">Accepted ✅</td>
-          <td><a href="https://us06web.zoom.us/j/5224221004">Zoom Link</a> · PW: 424726</td>
-          <td>Short 15-min consult. Prepare 1–2 key questions. Netta is at HIC Consult. Be on time — tight window.</td>
-        </tr>
-
-        <!-- WED Jun 10 -->
-        <tr class="day-header"><td colspan="5">Wednesday, June 10</td></tr>
-        <tr>
-          <td>12:00 – 1:30 PM</td>
-          <td>HR Networking &amp; Job Search Group — Zoom 2</td>
-          <td class="status-pending">No Response ⚠️</td>
-          <td><a href="https://us06web.zoom.us/j/81954171722">Zoom Link</a></td>
-          <td>RSVP needed. Large group. Review team guidelines beforehand (link in event description).</td>
-        </tr>
-        <tr>
-          <td>12:00 – 1:30 PM</td>
-          <td>Network (personal block)</td>
-          <td class="status-confirmed">Confirmed ✅</td>
-          <td>—</td>
-          <td>Overlaps with HR Networking Zoom above — same time window, likely intentional double-block.</td>
-        </tr>
-        <tr>
-          <td>1:00 – 2:00 PM</td>
-          <td>☕ Melissa x Meg Drinks</td>
-          <td class="status-pending">No Response ⚠️ <span class="conflict-badge">⚠ CONFLICT</span></td>
-          <td>TBC</td>
-          <td><strong>Time conflict</strong> — overlaps with HR Networking (noon–1:30 PM). Location TBC. RSVP to Meg (megpark@oakleafpartnership.com) and sort timing. Confirm venue.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="card card-red" style="margin-top:12px;">
-      <div class="label label-red">⚠️ Calendar Conflict Alert — June 10</div>
-      <div class="title">HR Networking (12–1:30 PM) conflicts with Melissa x Meg Drinks (1–2 PM)</div>
-      <div class="summary">The networking call runs until 1:30 PM; drinks with Meg start at 1:00 PM. You will need to either leave the Zoom early or push drinks to 2:00 PM. Location for drinks is also TBC.</div>
-      <span class="next-step next-red">→ Email Meg to adjust to 2:00 PM or confirm early departure from networking call.</span>
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 4. TODAY'S SCHEDULE + PREP -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">📅 Today's Schedule — Wednesday, June 3</div>
+    <div class="card card-gray">
+      <div class="label label-gray">No Events Today</div>
+      <div class="title">Wednesday June 3 — No calendar events scheduled</div>
+      <div class="body">Your calendar is clear today. Use this time to address security items, process email, and prep for tomorrow's busy schedule.</div>
     </div>
-
-    <div class="card card-yellow" style="margin-top:12px;">
-      <div class="label label-yellow">💳 Upcoming Bill Reminder — June 7</div>
-      <div class="title">State Farm Insurance Bill Due Sunday</div>
-      <div class="summary">State Farm bill is due Sunday, June 7. Confirm auto-pay is active or pay manually before the weekend.</div>
-      <span class="next-step next-yellow">→ Verify auto-pay or pay State Farm by Sunday, June 7.</span>
-    </div>
-
-    </div>
-    <div class="section-end">📋 Summary: Confirm Dr. Husk location (tomorrow). RSVP to two networking sessions. Resolve Jun 10 scheduling conflict with Meg. Pay State Farm by Sunday. Prepare for Netta Jenkins consult on Jun 9.</div>
+    <div class="section-footer">✅ Use today to: secure LinkedIn, RSVP for June 4 networking, prep for Dr. Husk appt tomorrow.</div>
   </div>
 
-  <!-- ============================== JOB SEARCH + PIPELINE ============================== -->
-  <div class="section-wrap">
-    <div class="section-title sh-green">💼 Job Search &amp; Professional Networking</div>
-    <div style="padding: 16px 20px;">
+  <hr class="divider">
 
-      <div class="card card-green">
-        <div class="label label-green">🎯 Job Alert — Strong Match</div>
-        <div class="title">Senior Director, HR Business Partner (AI-Native) at RemoteHunter</div>
-        <div class="meta">From: LinkedIn Job Alerts · Today, 9:05 PM</div>
-        <div class="summary">LinkedIn surfaced a Senior Director HRBP role with an AI-native focus — closely aligned with your background in HR leadership and current interest in AI-integrated roles. Remote position via RemoteHunter.</div>
-        <span class="next-step next-green">→ Open LinkedIn job alert and review/apply if it fits. Save the posting in case it closes.</span>
-      </div>
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 5. JOB SEARCH + INTERVIEW PIPELINE -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">💼 Job Search + Interview Pipeline</div>
 
-      <div class="card card-green">
-        <div class="label label-green">🤝 Networking Consult — Confirmed</div>
-        <div class="title">Melissa x Netta Jenkins (HIC Consult) — 15-Min Zoom</div>
-        <div class="meta">Calendar · Tuesday, June 9 · 12:00–12:15 PM · Zoom</div>
-        <div class="summary">Short consult already accepted. Netta Jenkins is at HIC Consult. Prep 1–2 specific questions about your job search, positioning, or HR market before the call.</div>
-        <span class="next-step next-green">→ Prepare agenda for Netta call by Monday, June 8.</span>
-      </div>
+    <div class="card card-green">
+      <div class="label label-green">🟢 Job Alert</div>
+      <div class="title">Senior Director, HR Business Partner (AI-Native) — RemoteHunter</div>
+      <div class="source">From: LinkedIn Job Alerts &lt;jobalerts-noreply@linkedin.com&gt; · Wed June 3, 9:05 PM</div>
+      <div class="body">LinkedIn flagged a role that matches your profile: Senior Director, HR Business Partner with an AI-Native focus at RemoteHunter. This aligns with your HR leadership background and the AI-forward market shift.</div>
+      <div class="next-step">→ Next Step: <span>Open LinkedIn and review the full posting. Apply if it fits your target criteria.</span></div>
+    </div>
 
-      <div class="card card-green">
-        <div class="label label-green">👥 Networking Group — RSVP Needed</div>
-        <div class="title">HR Networking Open Office Hours (Jun 4) &amp; Group Session (Jun 10)</div>
-        <div class="meta">Calendar Events · Both status: No Response</div>
-        <div class="summary">Two recurring HR job-search networking sessions this week. Both are unconfirmed. These are active job-search support groups with 150+ HR professionals. Valuable for leads and community.</div>
-        <span class="next-step next-green">→ RSVP Yes to both. Review team guidelines doc linked in Jun 10 invite.</span>
-      </div>
+    <div class="card card-green">
+      <div class="label label-green">📞 Confirmed Meeting</div>
+      <div class="title">Melissa x Netta Jenkins — 15-Min Consultation (June 9, 12:00–12:15 PM)</div>
+      <div class="source">Google Calendar · Zoom · Status: Accepted</div>
+      <div class="body">You have a confirmed 15-minute Zoom consultation with Netta Jenkins from HIC Consult. Short window — prepare your key questions and talking points in advance. Zoom password: 424726.</div>
+      <div class="next-step">→ Next Step: <span>Prep 2–3 focused questions for Netta. Have your resume/LinkedIn ready to reference.</span></div>
+    </div>
 
-      <div class="card card-green">
-        <div class="label label-green">🔗 LinkedIn Connection — Incoming</div>
-        <div class="title">Ilya Volovnik, Founder &amp; CEO · Vorex Intelligence Group</div>
-        <div class="meta">From: LinkedIn Invitations · Today, 7:05 PM</div>
-        <div class="summary">CEO-level connection request. Could be relevant for executive job search networking. Vorex Intelligence Group — review before accepting.</div>
-        <span class="next-step next-green">→ Research Vorex Intelligence Group on LinkedIn and decide whether to accept.</span>
-      </div>
+    <div class="card card-green">
+      <div class="label label-green">🌐 LinkedIn Invite</div>
+      <div class="title">Connection Request from Ilya Volovnik, Founder &amp; CEO — Vorex Intelligence Group</div>
+      <div class="source">From: LinkedIn &lt;invitations@linkedin.com&gt; · Wed June 3, 7:05 PM</div>
+      <div class="body">Ilya Volovnik, a Founder &amp; CEO, is waiting for your connection response. Could be a valuable contact given your job search — worth reviewing his profile before accepting.</div>
+      <div class="next-step">→ Next Step: <span>Review Ilya's LinkedIn profile. Accept if he's in your target industry.</span></div>
+    </div>
 
-      <div class="card card-yellow">
-        <div class="label label-yellow">📅 Virtual Tech Event — June 17</div>
-        <div class="title">Virtual Think IT Event — "Building High-Functioning Engineering Culture"</div>
-        <div class="meta">From: Quinn Tice, York Solutions · Today (read, not in inbox)</div>
-        <div class="summary">Reminder about a virtual event on Wednesday, June 17. HR-adjacent tech leadership topic. Relevance depends on your interest in tech-side org design. Currently not on your calendar.</div>
-        <span class="next-step next-yellow">→ Review and add to calendar if relevant. No RSVP deadline mentioned.</span>
-      </div>
+    <div class="card card-yellow">
+      <div class="label label-yellow">🤝 Networking Event</div>
+      <div class="title">HR Networking &amp; Job Search: Open Office Hours (June 4, 12–1 PM)</div>
+      <div class="source">Google Calendar · Zoom · Status: Needs Action</div>
+      <div class="body">Large group networking call tomorrow at noon with 170+ HR professionals. Open discussion format. Note: automated notetaking AI tools are not permitted. Good opportunity for job search connections.</div>
+      <div class="next-step">→ Next Step: <span>RSVP and prepare a brief personal introduction and 1–2 networking goals.</span></div>
+    </div>
 
-      <div class="card card-yellow">
-        <div class="label label-yellow">📅 Save the Date — EEO Training</div>
-        <div class="title">Workplace EEO Investigator Training MD-110 (Virtual) — Nov 3–6, 2026</div>
-        <div class="meta">From: Eventbrite / Amediate LLC · Today (in Trash)</div>
-        <div class="summary">Professional development training for EEO investigators, November 2026. Currently in trash —
+    <div class="card card-yellow">
+      <div class="label label-yellow">🤝 Networking Event</div>
+      <div class="title">HR Networking &amp; Job Search Group — Zoom 2 (June 10, 12–1:30 PM)</div>
+      <div class="source">Google Calendar · Zoom · Status: Needs Action</div>
+      <div class="body">A second HR networking group session next Wednesday from 12:00–1:30 PM. Same group, large attendee list. Conflicts with "Melissa x Meg Drinks" which starts at 1 PM — overlap risk if this runs long.</div>
+      <div class="next-step">→ Next Step: <span>RSVP and flag the 1 PM conflict with Meg drinks. Consider the overlap carefully.</span></div>
+    </div>
+
+    <div class="card card-yellow">
+      <div class="label label-yellow">🤝 Networking</div>
+      <div class="title">Melissa x Meg Drinks (June 10, 1–2 PM) — Location TBC</div>
+      <div class="source">Google Calendar · Status: Needs Action · Attendee: megpark@oakleafpartnership.com</div>
+      <div class="body">Informal drinks with Meg from Oakleaf Partnership. Location still TBC. Conflicts with HR Networking Zoom ending at 1:30 PM.</div>
+      <div class="next-step">→ Next Step: <span>Confirm location with Meg. Adjust timing to avoid conflict with the 12–1:30 networking call.</span></div>
+    </div>
+
+    <div class="card card-purple">
+      <div class="label label-purple">📣 PSC Event Cancelled</div>
+      <div class="title">People Strategy Collective — Spring Social Cancelled (Was Tomorrow, June 4)</div>
+      <div class="source">From: People Strategy Collective &lt;membership@mg.peoplestrategycollective.org&gt; · Wed June 3, 6:40 PM</div>
+      <div class="body">PSC's Spring Social scheduled for tomorrow is cancelled. Next event is Tuesday, July (date not specified in snippet). No action needed beyond noting this on your calendar.</div>
+      <div class="next-step">→ Next Step: <span>Note PSC July event when details arrive. No action needed today.</span></div>
+    </div>
+
+    <div class="card card-purple">
+      <div class="label label-purple">💡 Virtual Event Reminder</div>
+      <div class="title">Virtual Think IT Event — June 17 (York Solutions)</div>
+      <div class="source">From: Quinn Tice &lt;qtice@yorksolutions.net&gt; · Wed June 3, 6:05 PM</div>
+      <div class="body">Reminder about a virtual Think IT event on Wednesday, June 17 covering building a high-functioning engineering culture. Professional development angle — worth attending if it applies to your HR/leadership work.</div>
+      <div class="next-step">→ Next Step: <span>Review full details and add June 17 to your calendar if interested.</span></div>
+    </div>
+
+    <div class="section-footer">✅ Act: Apply to RemoteHunter role. RSVP June 4 networking. Prep for Netta Jenkins call June 9. Confirm Meg drinks timing.</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 6. IMPORTANT EMAILS -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">📬 Important Emails — Professional &amp; Personal</div>
+
+    <div class="card card-purple">
+      <div class="label label-purple">📚 Professional Development</div>
+      <div class="title">Transform: "Tech Fatigue is Real — How to Lead Organized, Effective Change"</div>
+      <div class="source">From: Transform &lt;community@transform.us&gt; · Wed June 3, 8:54 PM</div>
+      <div class="body">Article posted in the New York City Chapter of Transform about managing tech fatigue and leading change in organizations. Relevant to your HR leadership and change management background.</div>
+      <div class="next-step">→ Next Step: <span>Read when you have 10 minutes. Good content to reference in interviews.</span></div>
+    </div>
+
+    <div class="card card-purple">
+      <div class="label label-purple">📚 HR Research</div>
+      <div class="title">HR.com Research Survey — Total Rewards &amp; Compensation Strategy</div>
+      <div class="source">From: Research Institute at HR.com &lt;research@research.hr.com&gt; · Wed June 3, 8:23 PM</div>
+      <div class="body">Survey asking HR leaders if their compensation and total rewards strategy is strong enough to retain top talent. Quick survey — could position you as a thought leader in HR.com research findings.</div>
+      <div class="next-step">→ Next Step: <span>Review and complete the survey if it takes under 5 minutes. Good for professional visibility.</span></div>
+    </div>
+
+    <div class="card card-purple">
+      <div class="label label-purple">📚 HR Webcast</div>
+      <div class="title">HR.com — "The End of Bundled Maternity Care" Webcast, June 24, 2026</div>
+      <div class="source">From: Rhonda from HR.com &lt;info@events.hr.com&gt; · Wed June 3, 6:49 PM</div>
+      <div class="body">Free webcast on upcoming changes to maternity care billing and adapting benefits strategy for 2027. Relevant if you work in or are targeting Total Rewards / Benefits leadership roles.</div>
+      <div class="next-step">→ Next Step: <span>Register if benefits is in your portfolio. It's free and on June 24.</span></div>
+    </div>
+
+    <div class="card card-purple">
+      <div class="label label-purple">📚 Research Alert</div>
+      <div class="title">Mobius Engine Hub — "Resilience Tested: Navigating Job Market Decline"</div>
+      <div class="source">From: Ashwin &lt;ashwin@mobiusenginehub.com&gt; · Wed June 3, 6:42 PM</div>
+      <div class="body">New research publication on navigating competitive job market conditions and evolving job roles. Useful context for your own job search strategy and conversations with hiring managers.</div>
+      <div class="next-step">→ Next Step: <span>Skim the research. Incorporate insights into your job search narrative if relevant.</span></div>
+    </div>
+
+    <div class="card card-purple">
+      <div class="label label-purple">🗓️ EEO Training</div>
+      <div class="title">Eventbrite — Workplace EEO Investigator Training MD-110, Nov 3–6, 2026 (Virtual)</div>
+      <div class="source">From: Eventbrite &lt;noreply@reminder.eventbrite.com&gt; · Wed June 3, 8:36 PM (Trash)</div>
+      <div class="body">Amediate, LLC added a new virtual EEO Investigator Training (MD-110 format) for November 3–6. If you do EEO work or want to add a credential, this is worth bookmarking early — it was in your trash.</div>
+      <div class="next-step">→ Next Step: <span>Restore from trash and save the link. Registration for November may fill up.</span></div>
+    </div>
+
+    <div class="card card-blue">
+      <div class="label label-blue">🔧 Tool Tip</div>
+      <div class="title">
