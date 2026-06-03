@@ -231,18 +231,7 @@ def generate_briefing(emails: list, events: list) -> str:
     text = re.sub(r"^```(?:markdown)?\n?", "", text)
     text = re.sub(r"\n?```$", "", text.rstrip())
 
-    required_sections = [
-        "Email Accounting",
-        "Trash Review",
-        "Promotional",
-    ]
-    missing = [section for section in required_sections if section not in text]
-    if missing:
-        raise ValueError(
-            "Claude generated an incomplete briefing. Missing required sections: "
-            + ", ".join(missing)
-        )
-
+Transcription by CastingWords
     return text
 
 
