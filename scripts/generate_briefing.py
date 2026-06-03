@@ -135,7 +135,7 @@ Today: {today}
 --- CALENDAR ({event_count} events, next 7 days) ---
 {events}
 
-Output ONLY the Markdown document below. No explanation, no code fences.
+Use the Gmail and Calendar data above to generate a real briefing. Do not repeat these instructions. Do not output this template. Fill each section with actual Gmail and Calendar data. If a section has no relevant items, skip it.
 
 # MELISSA'S WEEKLY BRIEFING
 **Generated:** {today}
