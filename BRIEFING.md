@@ -3,358 +3,349 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Melissa's Executive Briefing — Wednesday, June 3, 2026</title>
+<title>Melissa's Executive Daily Briefing — June 3, 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #222; font-size: 14px; }
-  .page { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a2e; font-size: 14px; line-height: 1.5; }
+  .wrapper { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
 
-  /* Header */
-  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: #fff; border-radius: 16px; padding: 36px 40px; margin-bottom: 24px; }
-  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: 1px; }
-  .header .sub { font-size: 15px; color: #a8c8ff; margin-top: 6px; }
-  .header .meta { display: flex; gap: 32px; margin-top: 18px; flex-wrap: wrap; }
-  .header .meta-item { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 20px; text-align: center; }
-  .header .meta-item .num { font-size: 26px; font-weight: 700; color: #7dd3fc; }
-  .header .meta-item .label { font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px; }
+  /* HEADER */
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: #fff; border-radius: 16px; padding: 36px 40px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+  .header .subtitle { font-size: 14px; color: #a0b4cc; margin-top: 4px; }
+  .header-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+  .stat-box { background: rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 20px; text-align: center; min-width: 110px; }
+  .stat-box .num { font-size: 26px; font-weight: 700; color: #64dfdf; }
+  .stat-box .lbl { font-size: 11px; color: #a0b4cc; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 
-  /* Section titles */
+  /* SECTION */
   .section { margin-bottom: 28px; }
-  .section-title { font-size: 17px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 10px 18px; border-radius: 8px 8px 0 0; margin-bottom: 0; }
+  .section-title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 3px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 20px; }
 
-  /* Color themes */
-  .red    { background: #fee2e2; border-left: 5px solid #dc2626; }
-  .red .section-title    { background: #dc2626; color: #fff; }
-  .yellow { background: #fef9c3; border-left: 5px solid #ca8a04; }
-  .yellow .section-title { background: #ca8a04; color: #fff; }
-  .blue   { background: #dbeafe; border-left: 5px solid #2563eb; }
-  .blue .section-title   { background: #2563eb; color: #fff; }
-  .green  { background: #dcfce7; border-left: 5px solid #16a34a; }
-  .green .section-title  { background: #16a34a; color: #fff; }
-  .purple { background: #f3e8ff; border-left: 5px solid #7c3aed; }
-  .purple .section-title { background: #7c3aed; color: #fff; }
-  .gray   { background: #f1f5f9; border-left: 5px solid #94a3b8; }
-  .gray .section-title   { background: #64748b; color: #fff; }
-  .orange { background: #fff7ed; border-left: 5px solid #ea580c; }
-  .orange .section-title { background: #ea580c; color: #fff; }
+  /* CARDS */
+  .card { border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; border-left: 5px solid; position: relative; }
+  .card-red { background: #fff5f5; border-color: #e53e3e; }
+  .card-yellow { background: #fffff0; border-color: #d69e2e; }
+  .card-blue { background: #ebf8ff; border-color: #3182ce; }
+  .card-green { background: #f0fff4; border-color: #38a169; }
+  .card-purple { background: #faf5ff; border-color: #805ad5; }
+  .card-gray { background: #f7fafc; border-color: #a0aec0; }
+  .card-orange { background: #fffaf0; border-color: #dd6b20; }
 
-  .section-body { padding: 16px 20px; border-radius: 0 0 8px 8px; }
-  .section-wrapper { border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+  .card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .label-red { color: #e53e3e; }
+  .label-yellow { color: #d69e2e; }
+  .label-blue { color: #3182ce; }
+  .label-green { color: #38a169; }
+  .label-purple { color: #805ad5; }
+  .label-gray { color: #718096; }
+  .label-orange { color: #dd6b20; }
 
-  /* Cards */
-  .card { background: #fff; border-radius: 10px; padding: 14px 18px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-  .card-label { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 2px 8px; border-radius: 20px; margin-bottom: 6px; }
-  .label-red    { background: #fca5a5; color: #7f1d1d; }
-  .label-yellow { background: #fde68a; color: #78350f; }
-  .label-blue   { background: #93c5fd; color: #1e3a5f; }
-  .label-green  { background: #86efac; color: #14532d; }
-  .label-purple { background: #c4b5fd; color: #3b0764; }
-  .label-gray   { background: #cbd5e1; color: #334155; }
-  .label-orange { background: #fdba74; color: #7c2d12; }
+  .card-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .card-meta { font-size: 12px; color: #718096; margin-bottom: 6px; }
+  .card-body { font-size: 13px; margin-bottom: 8px; }
+  .card-action { background: rgba(0,0,0,0.04); border-radius: 6px; padding: 8px 12px; font-size: 12px; font-weight: 600; }
+  .card-action span { color: #2d3748; }
+  .card-due { font-size: 11px; font-weight: 700; color: #e53e3e; float: right; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 6px; padding: 2px 8px; margin-top: -2px; }
 
-  .card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-  .card .meta-row { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #555; margin: 6px 0; }
-  .card .meta-row span strong { color: #222; }
-  .card p { font-size: 13px; color: #444; margin: 4px 0; }
-  .card .action { background: #f0fdf4; border-left: 3px solid #16a34a; padding: 6px 10px; border-radius: 4px; font-size: 12px; margin-top: 8px; color: #166534; }
-  .card .warning { background: #fff7ed; border-left: 3px solid #ea580c; padding: 6px 10px; border-radius: 4px; font-size: 12px; margin-top: 6px; color: #9a3412; }
+  /* EXEC SUMMARY */
+  .exec-bullets { list-style: none; padding: 0; }
+  .exec-bullets li { padding: 12px 16px; border-radius: 10px; margin-bottom: 10px; font-size: 14px; display: flex; align-items: flex-start; gap: 12px; }
+  .exec-bullets li .bullet-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .exec-bullets li.risk { background: #fff5f5; border-left: 4px solid #e53e3e; }
+  .exec-bullets li.opp { background: #f0fff4; border-left: 4px solid #38a169; }
+  .exec-bullets li.cal { background: #ebf8ff; border-left: 4px solid #3182ce; }
 
-  /* Executive Summary bullets */
-  .exec-bullet { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e5e7eb; }
-  .exec-bullet:last-child { border-bottom: none; }
-  .exec-icon { font-size: 22px; min-width: 32px; }
-  .exec-text strong { display: block; font-size: 13px; font-weight: 700; }
-  .exec-text span { font-size: 12px; color: #555; }
+  /* CALENDAR TABLE */
+  .cal-day { margin-bottom: 18px; }
+  .cal-day-header { background: #1a1a2e; color: #fff; border-radius: 8px 8px 0 0; padding: 8px 16px; font-size: 13px; font-weight: 700; letter-spacing: 0.3px; }
+  .cal-day-header.today { background: #0f3460; }
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table th { background: #edf2f7; padding: 8px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #4a5568; text-align: left; }
+  .cal-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #e2e8f0; vertical-align: top; background: #fff; }
+  .cal-table tr:last-child td { border-bottom: none; }
+  .rsvp-yes { color: #38a169; font-weight: 700; }
+  .rsvp-no { color: #e53e3e; font-weight: 700; }
+  .rsvp-pending { color: #d69e2e; font-weight: 700; }
+  .rsvp-accept { color: #3182ce; font-weight: 700; }
+  .conflict-badge { background: #fed7d7; color: #e53e3e; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 2px 6px; margin-left: 6px; }
+  .allday-badge { background: #bee3f8; color: #2b6cb0; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 2px 6px; }
 
-  /* Tables */
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
-  th { background: #1e293b; color: #fff; padding: 9px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; }
-  td { padding: 8px 12px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
-  tr:nth-child(even) td { background: #f8fafc; }
-  tr:hover td { background: #f1f5f9; }
+  /* TABLES */
+  table.data-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  table.data-table th { background: #2d3748; color: #fff; padding: 10px 14px; font-size: 12px; text-align: left; text-transform: uppercase; letter-spacing: 0.5px; }
+  table.data-table td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  table.data-table tr:last-child td { border-bottom: none; }
+  table.data-table tr:nth-child(even) td { background: #f7fafc; }
+  .badge { display: inline-block; border-radius: 5px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+  .badge-red { background: #fed7d7; color: #c53030; }
+  .badge-green { background: #c6f6d5; color: #276749; }
+  .badge-yellow { background: #fefcbf; color: #744210; }
+  .badge-blue { background: #bee3f8; color: #2c5282; }
+  .badge-gray { background: #e2e8f0; color: #4a5568; }
+  .badge-purple { background: #e9d8fd; color: #553c9a; }
+  .badge-orange { background: #feebc8; color: #7b341e; }
+  .high { color: #e53e3e; font-weight: 700; }
+  .medium { color: #d69e2e; font-weight: 700; }
+  .low { color: #718096; font-weight: 600; }
 
-  /* Priority badges */
-  .pri-high   { background: #fca5a5; color: #7f1d1d; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-  .pri-med    { background: #fde68a; color: #78350f; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-  .pri-low    { background: #bbf7d0; color: #14532d; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  /* CATEGORY ROWS */
+  .cat-block { background: #fff; border-radius: 10px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .cat-header { padding: 10px 18px; font-size: 13px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+  .cat-header .count-badge { background: rgba(0,0,0,0.15); color: #fff; border-radius: 12px; padding: 2px 10px; font-size: 12px; font-weight: 700; }
+  .cat-body { padding: 12px 18px; font-size: 13px; }
+  .cat-body ul { padding-left: 18px; }
+  .cat-body ul li { margin-bottom: 4px; }
+  .cat-hdr-red { background: #e53e3e; color: #fff; }
+  .cat-hdr-green { background: #38a169; color: #fff; }
+  .cat-hdr-blue { background: #3182ce; color: #fff; }
+  .cat-hdr-purple { background: #805ad5; color: #fff; }
+  .cat-hdr-yellow { background: #d69e2e; color: #fff; }
+  .cat-hdr-gray { background: #718096; color: #fff; }
+  .cat-hdr-teal { background: #319795; color: #fff; }
+  .cat-hdr-orange { background: #dd6b20; color: #fff; }
+  .cat-hdr-pink { background: #d53f8c; color: #fff; }
 
-  /* Status badges */
-  .status-confirmed  { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .status-declined   { background: #fee2e2; color: #7f1d1d; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .status-pending    { background: #fef9c3; color: #854d0e; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .status-accepted   { background: #dbeafe; color: #1e3a5f; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-
-  /* Fit badges */
-  .fit-high { background: #4ade80; color: #14532d; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-  .fit-med  { background: #93c5fd; color: #1e3a5f; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-  .fit-low  { background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-
-  /* Dashboard grid */
-  .dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
-  .dash-tile { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); text-align: center; }
+  /* DASHBOARD */
+  .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .dash-tile { border-radius: 12px; padding: 18px 20px; text-align: center; }
   .dash-tile .dt-num { font-size: 32px; font-weight: 800; }
-  .dash-tile .dt-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-top: 4px; }
-  .dash-tile.dt-red    .dt-num { color: #dc2626; }
-  .dash-tile.dt-yellow .dt-num { color: #ca8a04; }
-  .dash-tile.dt-blue   .dt-num { color: #2563eb; }
-  .dash-tile.dt-green  .dt-num { color: #16a34a; }
-  .dash-tile.dt-purple .dt-num { color: #7c3aed; }
-  .dash-tile.dt-gray   .dt-num { color: #64748b; }
+  .dash-tile .dt-lbl { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; font-weight: 600; }
+  .dt-red { background: #fff5f5; color: #e53e3e; }
+  .dt-green { background: #f0fff4; color: #276749; }
+  .dt-blue { background: #ebf8ff; color: #2c5282; }
+  .dt-yellow { background: #fffff0; color: #744210; }
+  .dt-purple { background: #faf5ff; color: #553c9a; }
+  .dt-gray { background: #f7fafc; color: #4a5568; }
 
-  /* Trash groups */
-  .trash-group { background: #fff; border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
-  .trash-group h4 { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
-  .trash-restore  h4 { color: #16a34a; }
-  .trash-review   h4 { color: #ca8a04; }
-  .trash-delete   h4 { color: #94a3b8; }
+  /* TRASH */
+  .trash-group { margin-bottom: 14px; }
+  .trash-group-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; padding: 6px 12px; border-radius: 6px; }
+  .tg-restore { background: #c6f6d5; color: #276749; }
+  .tg-review { background: #fefcbf; color: #744210; }
+  .tg-delete { background: #fed7d7; color: #c53030; }
+  .trash-list { background: #fff; border-radius: 8px; padding: 10px 16px; }
+  .trash-list li { font-size: 12px; padding: 4px 0; border-bottom: 1px solid #f0f0f0; }
+  .trash-list li:last-child { border-bottom: none; }
 
-  /* Top 3 */
-  .top3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
-  .top3-item { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-  .top3-item .num { font-size: 40px; font-weight: 900; color: #e2e8f0; line-height: 1; }
-  .top3-item h3 { font-size: 15px; font-weight: 700; margin: 6px 0 4px; }
-  .top3-item p { font-size: 12px; color: #64748b; }
+  /* TOP 3 */
+  .top3 { display: flex; gap: 14px; flex-wrap: wrap; }
+  .top3-item { flex: 1; min-width: 260px; border-radius: 12px; padding: 20px; border: none; }
+  .top3-item .num { font-size: 40px; font-weight: 900; opacity: 0.2; line-height: 1; }
+  .top3-item .t3-title { font-size: 16px; font-weight: 700; margin: -6px 0 8px; }
+  .top3-item .t3-body { font-size: 13px; }
+  .t3-1 { background: linear-gradient(135deg, #e53e3e, #c53030); color: #fff; }
+  .t3-2 { background: linear-gradient(135deg, #38a169, #276749); color: #fff; }
+  .t3-3 { background: linear-gradient(135deg, #3182ce, #2c5282); color: #fff; }
 
-  /* Day block */
-  .day-block { background: #fff; border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-  .day-title { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #1e293b; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
-  .event-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px dashed #e5e7eb; }
-  .event-row:last-child { border-bottom: none; }
-  .event-time { font-weight: 700; font-size: 12px; color: #2563eb; min-width: 90px; }
-  .event-details { flex: 1; }
-  .event-details strong { font-size: 13px; }
-  .event-details .ev-meta { font-size: 11px; color: #64748b; margin-top: 2px; }
+  /* PROMO TABLE */
+  .promo-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .promo-table th { background: #4a5568; color: #fff; padding: 9px 14px; font-size: 12px; text-align: left; text-transform: uppercase; }
+  .promo-table td { padding: 9px 14px; font-size: 13px; border-bottom: 1px solid #e2e8f0; }
+  .promo-table tr:last-child td { border-bottom: none; }
 
-  /* Promo table */
-  .promo-item { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed #e5e7eb; font-size: 13px; }
-  .promo-item:last-child { border-bottom: none; }
-  .promo-brand { font-weight: 700; min-width: 130px; }
-  .promo-subject { color: #555; flex: 1; }
-  .rec-delete  { background: #fee2e2; color: #7f1d1d; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .rec-review  { background: #fef9c3; color: #854d0e; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .rec-keep    { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .rec-ignore  { background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .rec-unsub   { background: #f3e8ff; color: #5b21b6; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  /* NEWSLETTER TABLE */
+  .nl-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .nl-table th { background: #805ad5; color: #fff; padding: 9px 14px; font-size: 12px; text-align: left; text-transform: uppercase; }
+  .nl-table td { padding: 9px 14px; font-size: 13px; border-bottom: 1px solid #e2e8f0; }
+  .nl-table tr:last-child td { border-bottom: none; }
 
-  a { color: #2563eb; text-decoration: none; }
+  /* ACCOUNTING */
+  .acct-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .acct-table th { background: #1a1a2e; color: #fff; padding: 10px 14px; font-size: 12px; text-align: left; text-transform: uppercase; }
+  .acct-table td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid #e2e8f0; }
+  .acct-table tr:last-child td { border-bottom: 3px solid #1a1a2e; font-weight: 700; }
+  .acct-table tr:nth-child(even) td { background: #f7fafc; }
+  .total-row td { background: #1a1a2e !important; color: #fff; font-size: 14px; }
+
+  .divider { height: 1px; background: #e2e8f0; margin: 8px 0; }
+  .note { font-size: 11px; color: #718096; font-style: italic; margin-top: 6px; }
+  a { color: #3182ce; text-decoration: none; }
   a:hover { text-decoration: underline; }
-  .small { font-size: 11px; color: #64748b; }
-  ul { padding-left: 18px; }
-  ul li { margin-bottom: 4px; font-size: 13px; }
-  .conflict-warn { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 4px 10px; font-size: 11px; color: #92400e; margin-top: 4px; display: inline-block; }
-  hr { border: none; border-top: 1px solid #e2e8f0; margin: 14px 0; }
-  .footer { text-align: center; color: #94a3b8; font-size: 11px; padding: 20px 0; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width: 680px) { .two-col { grid-template-columns: 1fr; } .header { flex-direction: column; } .top3 { flex-direction: column; } }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="wrapper">
 
-<!-- ═══════════════════════════════════════════════ HEADER ═══ -->
+<!-- ═══════════════════════════════════════════════ HEADER ═══════ -->
 <div class="header">
-  <h1>☀️ Good Morning, Melissa</h1>
-  <div class="sub">Wednesday, June 3, 2026 &nbsp;·&nbsp; Executive Chief of Staff Briefing</div>
-  <div class="meta">
-    <div class="meta-item"><div class="num">50</div><div class="label">Emails Reviewed</div></div>
-    <div class="meta-item"><div class="num">10</div><div class="label">Calendar Events</div></div>
-    <div class="meta-item"><div class="num">3</div><div class="label">🔴 Security Alerts</div></div>
-    <div class="meta-item"><div class="num">5</div><div class="label">🟡 Action Required</div></div>
-    <div class="meta-item"><div class="num">4</div><div class="label">🟢 Job Leads</div></div>
-    <div class="meta-item"><div class="num">6</div><div class="label">📅 Upcoming Events</div></div>
+  <div>
+    <div class="header h1" style="font-size:28px;font-weight:700;">☀️ Good Morning, Melissa</div>
+    <div class="subtitle">Wednesday, June 3, 2026 &nbsp;·&nbsp; Executive Chief of Staff Briefing</div>
+    <div class="subtitle" style="margin-top:6px; color:#64dfdf; font-weight:600;">Prepared fresh — everything you need, nothing you don't.</div>
+  </div>
+  <div class="header-stats">
+    <div class="stat-box"><div class="num">50</div><div class="lbl">Emails Reviewed</div></div>
+    <div class="stat-box"><div class="num">10</div><div class="lbl">Calendar Events</div></div>
+    <div class="stat-box"><div class="num">3</div><div class="lbl">Security Alerts</div></div>
+    <div class="stat-box"><div class="num">5</div><div class="lbl">Action Items</div></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════ EXECUTIVE SUMMARY ════ -->
-<div class="section-wrapper red">
-  <div class="section-title">⚡ Executive Summary</div>
-  <div class="section-body">
-    <div class="exec-bullet">
-      <div class="exec-icon">🔴</div>
-      <div class="exec-text">
-        <strong>Security Risk — LinkedIn Password Reset + Suspicious Scam Emails</strong>
-        <span>Your LinkedIn password was reset today (confirmed via security email). Separately, three highly suspicious scam/phishing emails remain outside Trash — including a fake "cloud account locked" threat, a casino money scam, and a fake gambling promo targeting your email address directly. Immediate review and deletion required.</span>
-      </div>
-    </div>
-    <div class="exec-bullet">
-      <div class="exec-icon">🟢</div>
-      <div class="exec-text">
-        <strong>Job Search — LinkedIn Alert for Senior Director HRBP + Networking Session Tomorrow</strong>
-        <span>A high-fit "Senior Director, HR Business Partner (AI-Native)" role at RemoteHunter was flagged in LinkedIn Job Alerts. You also have an HR Networking & Job Search Open Office Hours session tomorrow (Thu Jun 4, 12–1 PM) that requires an RSVP. A 15-min consultation with Netta Jenkins (HIC Consult) is confirmed for June 9.</span>
-      </div>
-    </div>
-    <div class="exec-bullet">
-      <div class="exec-icon">🔵</div>
-      <div class="exec-text">
-        <strong>Calendar — Busy Day Tomorrow (Thu Jun 4) + Scheduling Conflict on Jun 10</strong>
-        <span>Tomorrow you have three back-to-back events: Executive Roundtable (declined, 9–10:30 AM), Dr. Husk appointment (confirmed, 10:30–11:30 AM), and HR Networking Open Office Hours (RSVP pending, 12–1 PM). On June 10, you have a potential conflict: HR Networking Group and "Melissa x Meg drinks" overlap between 12–1 PM.</span>
-      </div>
-    </div>
-  </div>
+<!-- ═══════════════════════════════════════════════ EXECUTIVE SUMMARY ═══════ -->
+<div class="section">
+  <div class="section-title"><span class="icon">📋</span> Executive Summary</div>
+  <ul class="exec-bullets">
+    <li class="risk">
+      <span class="bullet-icon">🔴</span>
+      <div><strong>BIGGEST RISK:</strong> Multiple high-confidence phishing/scam emails detected in your mailbox — including a fake "Cloud Account Locked" threat, casino fraud emails, and a suspicious Costco-impersonation email. Your LinkedIn password was also reset today (confirmed via LinkedIn's official email). Verify no unauthorized access occurred and delete all fraudulent emails immediately.</div>
+    </li>
+    <li class="opp">
+      <span class="bullet-icon">🟢</span>
+      <div><strong>BIGGEST OPPORTUNITY:</strong> Kentik responded to your Sr. People Business Partner application (rejection, in Trash — review for follow-up or reapply). New job alert: <strong>Senior Director, HR Business Partner (AI-Native)</strong> at RemoteHunter via LinkedIn — high-fit role aligned to your profile. You also have a confirmed 15-min consultation with <strong>Netta Jenkins</strong> on June 9 — strong networking opportunity.</div>
+    </li>
+    <li class="cal">
+      <span class="bullet-icon">🔵</span>
+      <div><strong>BIGGEST CALENDAR ITEM:</strong> Tomorrow, June 4, is a packed day — <strong>Executive Roundtable</strong> (9–10:30 AM, Zoom — you declined; confirm if that's intentional), <strong>Dr. Husk</strong> appointment (10:30–11:30 AM), and <strong>HR Networking Open Office Hours</strong> (12–1 PM, RSVP still pending). <strong>State Farm bill</strong> is due June 7 — action needed.</div>
+    </li>
+  </ul>
 </div>
 
-<!-- ══════════════════════════════════ ACTION REQUIRED ══════ -->
-<div class="section-wrapper yellow">
-  <div class="section-title">🚨 Action Required</div>
-  <div class="section-body">
+<!-- ═══════════════════════════════════════════════ ACTION REQUIRED ═══════ -->
+<div class="section">
+  <div class="section-title"><span class="icon">⚡</span> Action Required</div>
 
-    <div class="card">
-      <span class="card-label label-red">🔴 URGENT — SECURITY</span>
-      <h3>LinkedIn Password Was Reset — Verify It Was You</h3>
-      <div class="meta-row"><span><strong>Source:</strong> LinkedIn &lt;security-noreply@linkedin.com&gt;</span><span><strong>Date:</strong> Wed, Jun 3, 2026 at 9:17 PM UTC</span></div>
-      <p>LinkedIn confirmed your password was successfully reset today. A PIN (606210) was also sent minutes before the reset. If you did not initiate this, your account may be compromised.</p>
-      <div class="action">✅ Next Step: Log into LinkedIn immediately. Confirm the reset was yours. If not, enable 2FA and contact LinkedIn support. Review connected apps.</div>
-      <div class="warning">⚠️ Due: Immediately — Today</div>
-    </div>
-
-    <div class="card">
-      <span class="card-label label-red">🔴 URGENT — SCAM / PHISHING</span>
-      <h3>3 Suspicious Scam Emails Still in Inbox (Not Trash)</h3>
-      <div class="meta-row"><span><strong>Sources:</strong> Casino Yabby, "Limitless VIP" gambling spam, "Payment Declined" cloud lock threat</span></div>
-      <p><strong>1.</strong> "Casino Yabby" — fake $13,963.99 payment confirmation targeting melissaw212 (not in trash). <br><strong>2.</strong> "130 Free Spins" gambling spam — targeting your Gmail directly (not in trash).<br><strong>3.</strong> "Payment Declined / Cloud Account Locked" — threatening to delete photos/videos unless you act — classic phishing (not in trash).</p>
-      <div class="action">✅ Next Step: Delete all three immediately. Mark as spam. Do not click any links. Consider reporting to Gmail as phishing.</div>
-      <div class="warning">⚠️ Due: Today — Do not interact with these emails</div>
-    </div>
-
-    <div class="card">
-      <span class="card-label label-yellow">🟡 RSVP NEEDED</span>
-      <h3>HR Networking & Job Search: Open Office Hours — Tomorrow</h3>
-      <div class="meta-row"><span><strong>Source:</strong> Google Calendar</span><span><strong>Date:</strong> Thu, Jun 4, 12:00–1:00 PM ET</span></div>
-      <p>Status is "needsAction" — you have not yet RSVP'd. This is a large networking group (150+ HR professionals). Zoom link available.</p>
-      <div class="action">✅ Next Step: RSVP Accept or Decline on Google Calendar before tomorrow morning. Note: organizer requests no AI notetaking tools.</div>
-      <div class="warning">⚠️ Due: Tonight / tomorrow morning</div>
-    </div>
-
-    <div class="card">
-      <span class="card-label label-yellow">🟡 BILLING / DEADLINE</span>
-      <h3>Netlify Credits at 75% — Morning Briefing Project</h3>
-      <div class="meta-row"><span><strong>Source:</strong> Netlify &lt;team@netlify.com&gt;</span><span><strong>Date:</strong> Wed, Jun 3, 9:28 PM UTC</span></div>
-      <p>Your Netlify "morning briefing" team has consumed 750 of 1,000 credits this billing cycle. If the daily briefing automation continues running, you will hit the limit soon. Note: GitHub workflow failures were also logged today (2 failed runs).</p>
-      <div class="action">✅ Next Step: Log into Netlify dashboard. Review billing cycle reset date. Consider upgrading plan or optimizing briefing workflow to reduce credit consumption. Also investigate the 2 GitHub Actions failures.</div>
-      <div class="warning">⚠️ Due: This week</div>
-    </div>
-
-    <div class="card">
-      <span class="card-label label-yellow">🟡 BILLING REMINDER</span>
-      <h3>State Farm Bill Due — June 7</h3>
-      <div class="meta-row"><span><strong>Source:</strong> Google Calendar</span><span><strong>Date:</strong> Sun, Jun 7, 2026 (All Day)</span></div>
-      <p>Calendar reminder for State Farm insurance bill payment. No additional context provided.</p>
-      <div class="action">✅ Next Step: Schedule payment before June 7 to avoid late fees.</div>
-      <div class="warning">⚠️ Due: Sunday, June 7</div>
-    </div>
-
-    <div class="card">
-      <span class="card-label label-blue">🔵 RSVP / CONFIRM</span>
-      <h3>Melissa x Meg Drinks — June 10 (Needs Action)</h3>
-      <div class="meta-row"><span><strong>Source:</strong> Google Calendar</span><span><strong>Attendee:</strong> megpark@oakleafpartnership.com</span><span><strong>Date:</strong> Wed, Jun 10, 1:00–2:00 PM</span></div>
-      <p>Status is "needsAction." Location is listed as "TBC." Potential overlap with HR Networking Group (12–1:30 PM) on the same day.</p>
-      <div class="action">✅ Next Step: Confirm location with Meg. Note the 30-min overlap with HR Networking Group (12–1:30 PM). Decide which to prioritize or if networking ends on time.</div>
-      <div class="warning">⚠️ Scheduling conflict possible on June 10</div>
-    </div>
-
+  <div class="card card-red">
+    <div class="card-due">TODAY</div>
+    <div class="card-label label-red">🔴 SECURITY — URGENT</div>
+    <div class="card-title">Phishing / Scam Emails in Your Mailbox</div>
+    <div class="card-meta">Sources: Casino_Yabby, 🔥 Mystery Deal, Payment_Declined (fake cloud lock), Costco "Wanted," Free Spins spam</div>
+    <div class="card-body">Several emails with spoofed sender addresses are sitting outside Trash (not auto-filtered). The fake "Cloud Account Locked" email is particularly dangerous — it impersonates a subscription service and demands immediate action. The casino bonus emails and free-spins email are likely credential-harvesting attempts. The "Costco Early Access" email from a Gmail address is suspicious.</div>
+    <div class="card-action"><span>➡ Next Step: Delete all five immediately. Mark as spam/phishing. Do NOT click any links. Check that your email account settings haven't been altered.</span></div>
   </div>
+
+  <div class="card card-red">
+    <div class="card-due">TODAY — VERIFY</div>
+    <div class="card-label label-red">🔴 SECURITY — ACCOUNT ACCESS</div>
+    <div class="card-title">LinkedIn Password Reset Confirmed Today</div>
+    <div class="card-meta">From: LinkedIn &lt;security-noreply@linkedin.com&gt; | Time: 9:17 PM UTC | In Trash</div>
+    <div class="card-body">LinkedIn sent a PIN (606210) and a subsequent "password successfully reset" confirmation. If you did not initiate this, your account may have been compromised. Even if you did initiate it, verify that Marina Burdiyan's connection acceptance (also today) was expected.</div>
+    <div class="card-action"><span>➡ Next Step: Log into LinkedIn, verify your account activity, confirm no unauthorized connections or messages were sent. Enable two-factor authentication if not already active.</span></div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-due">DUE: JUN 7</div>
+    <div class="card-label label-yellow">🟡 BILLING — DEADLINE</div>
+    <div class="card-title">State Farm Bill Due June 7</div>
+    <div class="card-meta">Source: Google Calendar | All-Day Reminder</div>
+    <div class="card-body">State Farm bill reminder is calendared for June 7. No email confirmation visible in inbox — confirm payment has been scheduled or arrange payment before the weekend.</div>
+    <div class="card-action"><span>➡ Next Step: Log into State Farm portal or set up auto-pay. Confirm amount and due date. Mark calendar as complete once paid.</span></div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-due">ACTION NEEDED</div>
+    <div class="card-label label-yellow">🟡 RSVP PENDING</div>
+    <div class="card-title">HR Networking & Job Search: Open Office Hours — RSVP Needed</div>
+    <div class="card-meta">Source: Google Calendar | Thu Jun 4, 12:00–1:00 PM | Zoom</div>
+    <div class="card-body">Status is "needsAction" — you have not responded. This is a strong networking opportunity given your active job search. 190+ attendees expected.</div>
+    <div class="card-action"><span>➡ Next Step: Accept or decline before tomorrow morning. Zoom link: <a href="https://us06web.zoom.us/j/85945371140" target="_blank">Join Zoom</a></span></div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-due">ACTION NEEDED</div>
+    <div class="card-label label-yellow">🟡 RSVP PENDING</div>
+    <div class="card-title">HR Networking & Job Search Group — RSVP Needed (Jun 10)</div>
+    <div class="card-meta">Source: Google Calendar | Tue Jun 10, 12:00–1:30 PM | Zoom</div>
+    <div class="card-body">Second recurring HR networking session — status "needsAction." Note: this overlaps with "Melissa x Meg drinks" (1:00–2:00 PM) and a personal "Network" block on the same day at the same time. Review for conflict.</div>
+    <div class="card-action"><span>➡ Next Step: Accept or decline. Check overlap with Meg drinks at 1 PM. Zoom: <a href="https://us06web.zoom.us/j/81954171722" target="_blank">Join Zoom</a></span></div>
+  </div>
+
+  <div class="card card-orange">
+    <div class="card-due">ACTION NEEDED</div>
+    <div class="card-label label-orange">🟠 RSVP PENDING</div>
+    <div class="card-title">Executive Roundtable — You Declined. Intentional?</div>
+    <div class="card-meta">Source: Google Calendar | Thu Jun 4, 9:00–10:30 AM | Zoom (hosted by John Madigan)</div>
+    <div class="card-body">You have declined this meeting. Given the professional nature of an "Executive Roundtable," verify this was intentional and not an accidental decline. Confirm with John Madigan if needed.</div>
+    <div class="card-action"><span>➡ Next Step: Confirm your decline is intentional. If not, re-accept via calendar. Zoom: <a href="https://us02web.zoom.us/j/207786667" target="_blank">Join Zoom</a></span></div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-due">RSVP PENDING</div>
+    <div class="card-label label-yellow">🟡 RSVP NEEDED</div>
+    <div class="card-title">Melissa x Meg Drinks (Jun 10)</div>
+    <div class="card-meta">Source: Google Calendar | Tue Jun 10, 1:00–2:00 PM | Location: TBC | Attendee: megpark@oakleafpartnership.com</div>
+    <div class="card-body">Status is "needsAction" — you haven't responded. Likely a professional networking/social meeting with Meg from Oakleaf Partnership. Location TBC — coordinate with Meg.</div>
+    <div class="card-action"><span>➡ Next Step: Accept the calendar invite and confirm location with Meg. Note partial overlap with HR Networking group (12–1:30 PM).</span></div>
+  </div>
+
+  <div class="card card-orange">
+    <div class="card-due">ACTION: REVIEW</div>
+    <div class="card-label label-orange">🟠 NETLIFY — INFRASTRUCTURE</div>
+    <div class="card-title">Netlify: 75% of Credits Used on "Morning Briefing" Project</div>
+    <div class="card-meta">From: Netlify &lt;team@netlify.com&gt; | In Trash</div>
+    <div class="card-body">Your Netlify team "morning briefing" has consumed 75% of its 1,000-credit allowance this billing cycle. GitHub Actions for the daily briefing also failed twice today (commits 7812f1d and b04c8a4). Your briefing automation appears to have issues.</div>
+    <div class="card-action"><span>➡ Next Step: Log into Netlify dashboard. Review credit usage. Fix GitHub Actions workflow failures to prevent billing overrun or service interruption.</span></div>
+  </div>
+
 </div>
 
-<!-- ════════════════════════════════ FULL 7-DAY CALENDAR ════ -->
-<div class="section-wrapper blue">
-  <div class="section-title">📅 Full 7-Day Calendar (Jun 3 – Jun 10, 2026)</div>
-  <div class="section-body">
+<!-- ═══════════════════════════════════════════════ FULL 7-DAY CALENDAR ═══════ -->
+<div class="section">
+  <div class="section-title"><span class="icon">📅</span> Full 7-Day Calendar</div>
+  <p class="note" style="margin-bottom:12px;">Showing all 10 events from June 3–10, 2026. Today: Wednesday, June 3.</p>
 
-    <div class="day-block">
-      <div class="day-title">Wednesday, June 3, 2026 — TODAY</div>
-      <div class="event-row">
-        <div class="event-time">All Day</div>
-        <div class="event-details">
-          <strong>No scheduled events today</strong>
-          <div class="ev-meta">Use today to review security alerts, action items, and prepare for tomorrow's busy schedule.</div>
-        </div>
-      </div>
-    </div>
+  <!-- Wed Jun 3 -->
+  <div class="cal-day">
+    <div class="cal-day-header today">📍 Wednesday, June 3, 2026 — TODAY</div>
+    <table class="cal-table">
+      <tr><th>Time</th><th>Event</th><th>Status</th><th>Location</th><th>Notes / Prep</th></tr>
+      <tr><td colspan="5" style="color:#718096; font-style:italic; background:#f7fafc; text-align:center; padding:12px;">No calendar events scheduled for today.</td></tr>
+    </table>
+  </div>
 
-    <div class="day-block">
-      <div class="day-title">Thursday, June 4, 2026 — TOMORROW</div>
-      <div class="event-row">
-        <div class="event-time">9:00–10:30 AM</div>
-        <div class="event-details">
-          <strong>Executive Roundtable</strong>
-          <div class="ev-meta">
-            <span class="status-declined">DECLINED</span> &nbsp;
-            Hosted by: John Madigan &nbsp;|&nbsp;
-            <a href="https://us02web.zoom.us/j/207786667?pwd=Y3NXSHNVN1ozZjlQOVVFTUkwbHRKZz09" target="_blank">Zoom Link</a> &nbsp;|&nbsp; Meeting ID: 207 786 667 &nbsp;|&nbsp; PW: 205454
-          </div>
-          <div class="ev-meta">⚠️ You declined this event. No prep needed unless you wish to reconsider.</div>
-        </div>
-      </div>
-      <div class="event-row">
-        <div class="event-time">10:30–11:30 AM</div>
-        <div class="event-details">
-          <strong>Dr. Husk (Medical Appointment)</strong>
-          <div class="ev-meta"><span class="status-confirmed">CONFIRMED</span> &nbsp; No location listed — confirm address/telehealth link in advance.</div>
-          <div class="ev-meta">📋 Prep: Confirm appointment location or call-in details. Prepare any questions or medical records needed.</div>
-        </div>
-      </div>
-      <div class="event-row">
-        <div class="event-time">12:00–1:00 PM</div>
-        <div class="event-details">
-          <strong>HR Networking & Job Search: Open Office Hours – Zoom 2</strong>
-          <div class="ev-meta"><span class="status-pending">RSVP NEEDED</span> &nbsp; 150+ attendees &nbsp;|&nbsp; <a href="https://us06web.zoom.us/j/85945371140?pwd=cmD1eXbMqRxNobikQODOI9IpHlVXbX.1" target="_blank">Zoom Link</a></div>
-          <div class="ev-meta">📋 Prep: RSVP today. No AI notetaking tools per organizer request. Prepare elevator pitch for networking.</div>
-          <div class="warning">⚠️ RSVP required — status is "needsAction"</div>
-        </div>
-      </div>
-    </div>
+  <!-- Thu Jun 4 -->
+  <div class="cal-day">
+    <div class="cal-day-header">📅 Thursday, June 4, 2026</div>
+    <table class="cal-table">
+      <tr><th>Time</th><th>Event</th><th>Status</th><th>Location</th><th>Notes / Prep</th></tr>
+      <tr>
+        <td style="white-space:nowrap;"><strong>9:00 – 10:30 AM</strong></td>
+        <td><strong>Executive Roundtable</strong><br><span style="font-size:11px;color:#718096;">Hosted by John Madigan</span></td>
+        <td><span class="rsvp-no">DECLINED</span></td>
+        <td><a href="https://us02web.zoom.us/j/207786667?pwd=Y3NXSHNVN1ozZjlQOVVFTUkwbHRKZz09" target="_blank">Zoom Link</a><br><span style="font-size:11px;">ID: 207 786 667 | PW: 205454</span></td>
+        <td>⚠️ You declined — verify this was intentional. Strong professional opportunity. Reach out to John Madigan if you wish to attend.</td>
+      </tr>
+      <tr>
+        <td style="white-space:nowrap;"><strong>10:30 – 11:30 AM</strong></td>
+        <td><strong>Dr. Husk</strong></td>
+        <td><span class="rsvp-yes">CONFIRMED</span></td>
+        <td>—</td>
+        <td>Medical/personal appointment. No location provided — confirm address. Back-to-back with Executive Roundtable.</td>
+      </tr>
+      <tr>
+        <td style="white-space:nowrap;"><strong>12:00 – 1:00 PM</strong></td>
+        <td><strong>HR Networking & Job Search: Open Office Hours</strong><br
+<hr>
+<h2>Trash Review</h2>
+<p><strong>Purpose:</strong> Review deleted emails for anything important before permanent deletion.</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Group</th><th>What to Do</th></tr>
+<tr><td>Restore</td><td>Restore anything related to billing, job search, medical, legal, calendar, security, or interviews.</td></tr>
+<tr><td>Review</td><td>Review anything from GitHub, Netlify, LinkedIn, recruiters, healthcare providers, banks, insurance, or professional contacts.</td></tr>
+<tr><td>Safe to Delete</td><td>Delete obvious spam, scams, retail promos, expired sales, duplicate newsletters, and irrelevant ads.</td></tr>
+</table>
 
-    <div class="day-block">
-      <div class="day-title">Friday, June 5, 2026</div>
-      <div class="event-row">
-        <div class="event-time">All Day</div>
-        <div class="event-details">
-          <strong>No scheduled events</strong>
-          <div class="ev-meta">Open day. Good time for job applications, follow-ups, and LinkedIn activity.</div>
-        </div>
-      </div>
-    </div>
+<h2>Promotional / Retail Summary</h2>
+<p><strong>Purpose:</strong> Promotional emails should not crowd out important items, but they should be grouped so you know what to delete or review.</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Type</th><th>Recommendation</th></tr>
+<tr><td>Retail / Sales</td><td>Delete unless there is a time-sensitive discount you actually plan to use.</td></tr>
+<tr><td>Travel / Food / Shopping</td><td>Usually safe to delete unless tied to an active booking or purchase.</td></tr>
+<tr><td>Suspicious Promotions</td><td>Mark as spam if the sender looks fake, unrelated, or impersonates a real brand.</td></tr>
+</table>
 
-    <div class="day-block">
-      <div class="day-title">Saturday, June 6, 2026</div>
-      <div class="event-row">
-        <div class="event-time">All Day</div>
-        <div class="event-details">
-          <strong>🎂 Jackie's Birthday</strong>
-          <div class="ev-meta"><span class="status-confirmed">CONFIRMED</span> &nbsp; All-day event (June 6–7)</div>
-          <div class="ev-meta">🎁 Prep: Send birthday message or gift if applicable. Check if any plans were made.</div>
-        </div>
-      </div>
-    </div>
+<h2>Email Accounting</h2>
+<p><strong>Total Emails Reviewed:</strong> 50</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Category</th><th>Action</th></tr>
+<tr><td>Security / Risk</td><td>Act immediately.</td></tr>
+<tr><td>Job Search / Recruiters</td><td>Review and respond where relevant.</td></tr>
+<tr><td>Medical / Financial / Billing</td><td>Review for deadlines or payment/action needed.</td></tr>
+<tr><td>Professional Development / Newsletters</td><td>Skim, save, or delete.</td></tr>
+<tr><td>Promotional / Retail</td><td>Group and delete unless useful.</td></tr>
+<tr><td>Trash</td><td>Review before permanent deletion.</td></tr>
+</table>
 
-    <div class="day-block">
-      <div class="day-title">Sunday, June 7, 2026</div>
-      <div class="event-row">
-        <div class="event-time">All Day</div>
-        <div class="event-details">
-          <strong>🎂 Jackie's Birthday (continues)</strong>
-          <div class="ev-meta"><span class="status-confirmed">CONFIRMED</span></div>
-        </div>
-      </div>
-      <div class="event-row">
-        <div class="event-time">All Day</div>
-        <div class="event-details">
-          <strong>💰 State Farm Bill Due</strong>
-          <div class="ev-meta"><span class="status-confirmed">REMINDER</span> &nbsp; Pay before end of day to avoid late fees.</div>
-          <div class="warning">⚠️ Bill due — action required before this date</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="day-block">
-      <div class="day-title">Monday, June 8, 2026</div>
-      <div class="event-row">
-        <div class="event-time">9:00–10:00 AM</div>
-        <div class="event-details">
-          <strong>👁️ Eye Appointment</strong>
-          <div class="ev-meta"><span class="status-confirmed">CONFIRMED</span> &nbsp; No location listed.</div>
-          <div class="ev-meta">📋 Prep: Confirm location/address. Bring insurance card. Allow travel time. Note: you may need someone to drive if eyes are dilated.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="day-block">
-      <div class="day-title">Tuesday, June 9, 2026</div>
