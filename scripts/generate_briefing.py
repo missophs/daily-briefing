@@ -331,6 +331,45 @@ def generate_briefing(emails: list, events: list) -> str:
     text = re.sub(r"^```(?:markdown)?\n?", "", text)
     text = re.sub(r"\n?```$", "", text.rstrip())
 
+    forced_sections = f"""
+<hr>
+<h2>Trash Review</h2>
+<p><strong>Purpose:</strong> Review deleted emails for anything important before permanent deletion.</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Group</th><th>What to Do</th></tr>
+<tr><td>Restore</td><td>Restore anything related to billing, job search, medical, legal, calendar, security, or interviews.</td></tr>
+<tr><td>Review</td><td>Review anything from GitHub, Netlify, LinkedIn, recruiters, healthcare providers, banks, insurance, or professional contacts.</td></tr>
+<tr><td>Safe to Delete</td><td>Delete obvious spam, scams, retail promos, expired sales, duplicate newsletters, and irrelevant ads.</td></tr>
+</table>
+
+<h2>Promotional / Retail Summary</h2>
+<p><strong>Purpose:</strong> Promotional emails should not crowd out important items, but they should be grouped so you know what to delete or review.</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Type</th><th>Recommendation</th></tr>
+<tr><td>Retail / Sales</td><td>Delete unless there is a time-sensitive discount you actually plan to use.</td></tr>
+<tr><td>Travel / Food / Shopping</td><td>Usually safe to delete unless tied to an active booking or purchase.</td></tr>
+<tr><td>Suspicious Promotions</td><td>Mark as spam if the sender looks fake, unrelated, or impersonates a real brand.</td></tr>
+</table>
+
+<h2>Email Accounting</h2>
+<p><strong>Total Emails Reviewed:</strong> {len(emails)}</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Category</th><th>Action</th></tr>
+<tr><td>Security / Risk</td><td>Act immediately.</td></tr>
+<tr><td>Job Search / Recruiters</td><td>Review and respond where relevant.</td></tr>
+<tr><td>Medical / Financial / Billing</td><td>Review for deadlines or payment/action needed.</td></tr>
+<tr><td>Professional Development / Newsletters</td><td>Skim, save, or delete.</td></tr>
+<tr><td>Promotional / Retail</td><td>Group and delete unless useful.</td></tr>
+<tr><td>Trash</td><td>Review before permanent deletion.</td></tr>
+</table>
+"""
+
+    if "Trash Review" not in text:
+        if "</body>" in text:
+            text = text.replace("</body>", forced_sections + "\n</body>")
+        else:
+            text += forced_sections
+
     return text
 
 
