@@ -150,7 +150,16 @@ Style rules:
 - Use short summaries, not long raw email dumps.
 - Each important item should include: label, title, source/sender, why it matters, and recommended next step.
 - Prioritize interviews, job search, recruiter follow-ups, billing, medical, security, deadlines, and calendar conflicts.
-- Do not list promotional emails unless suspicious or action-worthy.
+- Do not skip any emails from the Gmail data. Every email should be accounted for.
+- Group emails into clear categories: Action Required, Security/Risk, Job Search, Interviews/Recruiters, Calendar/Events, Medical/Health, Financial/Billing, Professional Development, Personal, Promotional/Retail, Newsletters/Subscriptions, Trash Review, and Delete/Ignore.
+- Include Gmail Trash. Trash must have its own section called Trash Review.
+- For Trash Review, summarize what is in trash and clearly label: Restore / Review / Safe to Delete.
+- Promotional emails should be grouped together with sender, subject, and whether anything is useful, expiring, suspicious, or safe to delete.
+- Newsletters and subscriptions should be grouped together with a short summary and delete/keep recommendation.
+- Do not let promotional emails crowd out urgent items, but do not omit them.
+- Include the full week’s calendar, not just today.
+- For the calendar, show each day for the next 7 days with time, event, status, location/link, conflicts, and prep needed.
+- End every section with a short summary of what Melissa should do: Act / Review / Delete / Ignore.
 - Include an Executive Summary at the top with 3 bullets.
 - Include all important information from Gmail inbox, Gmail Trash, and Google Calendar.
 - End with Top 3 Priorities Today.
