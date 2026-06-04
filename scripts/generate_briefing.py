@@ -371,21 +371,21 @@ def generate_briefing(emails: list, events: list) -> str:
             return "Promotional / Retail"
         return "Other / Review"
 
-    rows = []
+    groups = {}
     counts = Counter()
 
     for i, email in enumerate(emails, start=1):
         category = _category(email)
         counts[category] += 1
+        groups.setdefault(category, [])
 
         sender = _html.escape(_val(email, "from", "sender") or "Unknown sender")
         subject = _html.escape(_val(email, "subject") or "(No subject)")
         date = _html.escape(_val(email, "date", "internalDate") or "")
-        labels = _html.escape(_labels(email))
-        snippet = _html.escape((_val(email, "snippet", "body") or "")[:180])
+        snippet = _html.escape((_val(email, "snippet", "body") or "")[:160])
 
         recommendation = "Review"
-        if category in ["Security / Risk"]:
+        if category == "Security / Risk":
             recommendation = "Act / Delete if scam"
         elif category in ["Promotional / Retail", "Other / Review"]:
             recommendation = "Delete or ignore unless useful"
@@ -394,24 +394,42 @@ def generate_briefing(emails: list, events: list) -> str:
         elif category == "Job Search / Recruiters":
             recommendation = "Review for opportunity or follow-up"
 
-        rows.append(f"""
-<tr>
-  <td>{i}</td>
-  <td>{category}</td>
-  <td>{sender}</td>
-  <td>{subject}</td>
-  <td>{date}</td>
-  <td>{labels}</td>
-  <td>{snippet}</td>
-  <td>{recommendation}</td>
-</tr>""")
+        groups[category].append(f"""
+<div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
+  <div style="font-size:12px; color:#718096; font-weight:700;">#{i} · {date}</div>
+  <div style="font-size:14px; font-weight:700; color:#1a202c;">{subject}</div>
+  <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> {sender}</div>
+  <div style="font-size:12px; color:#4a5568; margin-top:4px;">{snippet}</div>
+  <div style="font-size:12px; font-weight:700; color:#2b6cb0; margin-top:6px;">Recommendation: {recommendation}</div>
+</div>""")
 
     accounting_rows = "\n".join(
         f"<tr><td>{_html.escape(cat)}</td><td>{count}</td></tr>"
         for cat, count in sorted(counts.items())
     )
 
-    email_rows = "\n".join(rows)
+    color_map = {
+        "Security / Risk": "#fff5f5",
+        "Job Search / Recruiters": "#f0fff4",
+        "Financial / Billing": "#fffbf0",
+        "Medical / Health": "#ebf8ff",
+        "Professional Development / Newsletters": "#faf5ff",
+        "Promotional / Retail": "#f7fafc",
+        "Trash Review": "#fff5f5",
+        "Other / Review": "#f7fafc",
+    }
+
+    email_sections = []
+    for category in sorted(groups.keys()):
+        bg = color_map.get(category, "#f7fafc")
+        items = "\n".join(groups[category])
+        email_sections.append(f"""
+<div style="background:{bg}; border:1px solid #e2e8f0; border-radius:12px; padding:14px 16px; margin:16px 0;">
+  <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">{_html.escape(category)} ({len(groups[category])})</h3>
+  {items}
+</div>""")
+
+    email_rows = "\n".join(email_sections)
 
     forced_sections = f"""
 <hr>
