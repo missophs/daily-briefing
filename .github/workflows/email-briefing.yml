@@ -22,5 +22,4 @@ jobs:
           subject: Daily Briefing
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_USERNAME }}
-          content_type: text/html
           html_body: file://BRIEFING.md
