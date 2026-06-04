@@ -12,14 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Capture date for subject
+        id: date
+        run: echo "today=$(date +'%Y-%m-%d %H:%M UTC')" >> "$GITHUB_OUTPUT"
+
       - name: Send briefing email
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v4
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
           server_port: ${{ secrets.SMTP_PORT }}
+          secure: true
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: Daily Briefing
+          subject: "Melissa Daily Briefing - ${{ steps.date.outputs.today }}"
           to: ${{ secrets.MAIL_TO }}
-          from: ${{ secrets.MAIL_USERNAME }}
+          from: "Melissa Daily Briefing <${{ secrets.MAIL_USERNAME }}>"
           html_body: file://BRIEFING.md
