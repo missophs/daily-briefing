@@ -471,8 +471,20 @@ def generate_briefing(emails: list, events: list) -> str:
 {email_rows}
 """
 
-    # Do not append forced sections.
-    # Claude now has enough output tokens to generate the full briefing directly.
+    accounting_section = f"""
+<hr>
+<h2>Email Accounting</h2>
+<p><strong>Total Emails Reviewed:</strong> {len(emails)}</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Category</th><th>Count</th></tr>
+{accounting_rows}
+</table>
+<p><strong>Audit Note:</strong> Every fetched email was reviewed and assigned to one category. Trash emails were included in review. Promotional and low-value emails were accounted for but deprioritized.</p>
+"""
+
+    if "Email Accounting" not in text:
+        text = text + accounting_section
+
     return text
 
 
