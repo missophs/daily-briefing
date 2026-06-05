@@ -451,10 +451,9 @@ def generate_briefing(emails: list, events: list) -> str:
 {email_rows}
 """
 
-    if "</body>" in text:
-        text = text.replace("</body>", forced_sections + "\n</body>")
-    else:
-        text += forced_sections
+    # Append forced sections at the end instead of inserting before </body>.
+    # This avoids breaking Claude-generated tables if Claude closes </body> in the wrong place.
+    text = text + forced_sections
 
     return text
 
