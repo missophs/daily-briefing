@@ -293,13 +293,33 @@ End with exactly 3 numbered priorities.
 FINAL CHECK BEFORE OUTPUT:
 Before returning the HTML, verify that the output includes these exact section names:
 - Full 7-Day Calendar
+- Job Search & Interview Pipeline
 - Full Email Review by Category
 - Trash Review
 - Promotional / Retail Summary
 - Email Accounting
 - Dashboard
 
-If any are missing, revise the output before returning it.
+MANDATORY END SECTIONS:
+You must include Trash Review, Promotional / Retail Summary, and Email Accounting near the end of the briefing.
+Do not skip these sections.
+If space is limited, summarize them briefly, but still include the section headings and counts.
+
+Email Accounting must include:
+- Total Emails Reviewed
+- Category counts
+- Trash count
+- Promotional / Retail count
+- Safe to Delete / Ignore count
+- A short note confirming that every fetched email was reviewed or categorized
+
+Trash Review must include:
+- Restore Immediately
+- Review Before Deleting
+- Safe To Delete
+Include sender, subject, and reason when available.
+
+If any required section is missing, revise the output before returning it.
 Return only the final complete HTML.
 """
 
