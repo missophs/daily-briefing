@@ -447,20 +447,8 @@ def generate_briefing(emails: list, events: list) -> str:
 </table>
 
 <h2>Full Email Inventory</h2>
-<p><strong>Every fetched email is listed below.</strong> Use this section to see what to act on, review, delete, or ignore.</p>
-<table border="1" cellpadding="6" cellspacing="0">
-<tr>
-  <th>#</th>
-  <th>Category</th>
-  <th>From</th>
-  <th>Subject</th>
-  <th>Date</th>
-  <th>Labels</th>
-  <th>Snippet</th>
-  <th>Recommendation</th>
-</tr>
+<p><strong>Every fetched email is grouped below by category.</strong> Use this section to see what to act on, review, delete, or ignore.</p>
 {email_rows}
-</table>
 """
 
     if "</body>" in text:
