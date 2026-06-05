@@ -3,307 +3,268 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Executive Briefing – Melissa | Friday, June 5, 2026</title>
+<title>Melissa's Executive Briefing — Friday, June 5, 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #222; font-size: 14px; }
-  .wrapper { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  .page-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
 
   /* HEADER */
-  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: #fff; border-radius: 14px; padding: 36px 40px 28px; margin-bottom: 24px; }
-  .header h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.5px; }
-  .header .sub { font-size: 1rem; color: #a8c0e8; margin-top: 6px; }
-  .header .meta-row { display: flex; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
-  .header .meta-box { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 20px; text-align: center; }
-  .header .meta-box .val { font-size: 1.6rem; font-weight: 700; color: #f0c040; }
-  .header .meta-box .lbl { font-size: 0.75rem; color: #aac4e8; text-transform: uppercase; letter-spacing: 1px; }
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: #fff; border-radius: 14px; padding: 32px 36px; margin-bottom: 24px; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: 0.5px; }
+  .header .sub { font-size: 15px; color: #a0b4d0; margin-top: 6px; }
+  .header .meta-row { display: flex; gap: 32px; margin-top: 18px; flex-wrap: wrap; }
+  .header .meta-box { background: rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 20px; text-align: center; }
+  .header .meta-box .num { font-size: 26px; font-weight: 700; color: #7dd3fc; }
+  .header .meta-box .lbl { font-size: 11px; color: #a0b4d0; text-transform: uppercase; letter-spacing: 1px; }
 
   /* SECTION */
-  .section { background: #fff; border-radius: 12px; padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
-  .section-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; display: flex; align-items: center; gap: 8px; }
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 17px; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
 
   /* COLOR BANDS */
-  .band-red { border-left: 5px solid #dc2626; }
-  .band-yellow { border-left: 5px solid #d97706; }
-  .band-blue { border-left: 5px solid #2563eb; }
-  .band-green { border-left: 5px solid #16a34a; }
-  .band-purple { border-left: 5px solid #7c3aed; }
-  .band-gray { border-left: 5px solid #9ca3af; }
+  .band-red { border-left: 5px solid #ef4444; background: #fff5f5; }
+  .band-yellow { border-left: 5px solid #f59e0b; background: #fffbeb; }
+  .band-blue { border-left: 5px solid #3b82f6; background: #eff6ff; }
+  .band-green { border-left: 5px solid #22c55e; background: #f0fdf4; }
+  .band-purple { border-left: 5px solid #8b5cf6; background: #faf5ff; }
+  .band-gray { border-left: 5px solid #94a3b8; background: #f8fafc; }
 
-  /* PILLS */
-  .pill { display: inline-block; border-radius: 20px; padding: 2px 10px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-  .pill-red { background: #fee2e2; color: #b91c1c; }
-  .pill-yellow { background: #fef3c7; color: #92400e; }
-  .pill-blue { background: #dbeafe; color: #1d4ed8; }
-  .pill-green { background: #dcfce7; color: #166534; }
-  .pill-purple { background: #ede9fe; color: #5b21b6; }
-  .pill-gray { background: #f3f4f6; color: #6b7280; }
-  .pill-orange { background: #ffedd5; color: #c2410c; }
+  /* CARDS */
+  .card { border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .card .card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
+  .card .card-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .card .card-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .card .chip { font-size: 11px; padding: 2px 10px; border-radius: 20px; font-weight: 600; }
+  .chip-red { background: #fee2e2; color: #b91c1c; }
+  .chip-yellow { background: #fef3c7; color: #92400e; }
+  .chip-blue { background: #dbeafe; color: #1e40af; }
+  .chip-green { background: #dcfce7; color: #15803d; }
+  .chip-purple { background: #ede9fe; color: #6d28d9; }
+  .chip-gray { background: #e2e8f0; color: #475569; }
 
   /* EXEC SUMMARY */
-  .exec-bullet { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
-  .exec-bullet:last-child { border-bottom: none; }
-  .exec-icon { font-size: 1.4rem; min-width: 32px; }
-  .exec-text strong { display: block; font-size: 0.95rem; }
-  .exec-text span { color: #555; font-size: 0.87rem; }
+  .exec-summary { background: #1e293b; color: #f1f5f9; border-radius: 12px; padding: 22px 28px; margin-bottom: 24px; }
+  .exec-summary h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 14px; }
+  .exec-summary .bullet { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .exec-summary .bullet-icon { font-size: 18px; min-width: 26px; }
+  .exec-summary .bullet-text { font-size: 14px; line-height: 1.5; }
+  .exec-summary .bullet-text strong { color: #7dd3fc; }
 
-  /* ACTION CARDS */
-  .action-card { border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; border: 1px solid #e5e7eb; }
-  .action-card .card-header { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
-  .action-card .card-title { font-weight: 700; font-size: 0.98rem; }
-  .action-card .card-source { color: #6b7280; font-size: 0.82rem; }
-  .action-card .card-why { font-size: 0.87rem; color: #374151; margin-bottom: 6px; }
-  .action-card .card-next { font-size: 0.87rem; background: #f9fafb; border-radius: 6px; padding: 6px 10px; }
-  .action-card .card-due { font-size: 0.8rem; color: #b91c1c; font-weight: 700; margin-top: 6px; }
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #1e293b; color: #e2e8f0; padding: 9px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; }
+  td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  .table-wrap { border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.08); margin-bottom: 16px; }
 
   /* CALENDAR */
   .cal-day { margin-bottom: 18px; }
-  .cal-day-header { font-weight: 700; font-size: 1rem; color: #1d4ed8; background: #eff6ff; border-radius: 6px; padding: 6px 12px; margin-bottom: 8px; }
-  .cal-event { display: grid; grid-template-columns: 110px 1fr; gap: 8px; padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; border: 1px solid #e5e7eb; }
-  .cal-time { font-weight: 700; font-size: 0.85rem; color: #1d4ed8; }
-  .cal-details .ev-title { font-weight: 700; font-size: 0.92rem; }
-  .cal-details .ev-meta { font-size: 0.8rem; color: #6b7280; margin-top: 2px; }
-  .cal-details .ev-prep { font-size: 0.8rem; color: #374151; margin-top: 4px; background: #f9fafb; padding: 4px 8px; border-radius: 4px; }
-  .ev-conflict { font-size: 0.78rem; font-weight: 700; color: #dc2626; margin-top: 4px; }
+  .cal-day-header { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #475569; background: #e2e8f0; border-radius: 6px; padding: 6px 14px; margin-bottom: 8px; }
+  .cal-event { background: #fff; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); display: flex; gap: 14px; align-items: flex-start; }
+  .cal-time { font-size: 12px; font-weight: 700; color: #3b82f6; min-width: 90px; padding-top: 2px; }
+  .cal-details { flex: 1; }
+  .cal-event-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .cal-meta { font-size: 12px; color: #64748b; margin-top: 3px; }
+  .cal-conflict { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 6px; padding: 4px 10px; font-size: 11px; color: #dc2626; margin-top: 6px; font-weight: 600; }
+  .cal-prep { background: #eff6ff; border-radius: 6px; padding: 4px 10px; font-size: 11px; color: #1e40af; margin-top: 4px; }
 
-  /* JOB PIPELINE */
-  .job-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-  .job-table th { background: #f3f4f6; text-align: left; padding: 8px 10px; font-weight: 700; border-bottom: 2px solid #e5e7eb; }
-  .job-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
-  .job-table tr:last-child td { border-bottom: none; }
-  .fit-high { color: #16a34a; font-weight: 700; }
-  .fit-med { color: #d97706; font-weight: 700; }
-  .fit-low { color: #9ca3af; font-weight: 700; }
-
-  /* EMAIL CATEGORIES */
-  .email-category { border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; border: 1px solid #e5e7eb; }
-  .email-category .cat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .email-category .cat-title { font-weight: 700; font-size: 0.95rem; }
-  .email-category .cat-count { font-size: 0.78rem; color: #6b7280; }
-  .email-category .cat-body { font-size: 0.85rem; color: #374151; }
-  .email-category .cat-senders { font-size: 0.82rem; color: #555; margin: 4px 0; }
-  .email-category .cat-action { font-size: 0.82rem; font-weight: 700; margin-top: 6px; padding: 4px 10px; border-radius: 4px; display: inline-block; }
-
-  /* ACCOUNTING TABLE */
-  .acct-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-  .acct-table th { background: #1a1a2e; color: #fff; padding: 9px 12px; text-align: left; }
-  .acct-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; }
-  .acct-table tr:nth-child(even) td { background: #f9fafb; }
-  .acct-table .total-row td { font-weight: 700; background: #fef3c7; border-top: 2px solid #d97706; }
+  /* STATUS CHIPS */
+  .status-accepted { background: #dcfce7; color: #15803d; }
+  .status-confirmed { background: #dbeafe; color: #1e40af; }
+  .status-declined { background: #fee2e2; color: #b91c1c; }
+  .status-pending { background: #fef3c7; color: #92400e; }
 
   /* DASHBOARD */
-  .dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
-  .dash-card { border-radius: 10px; padding: 16px; border: 1px solid #e5e7eb; }
-  .dash-card .dash-icon { font-size: 1.5rem; }
-  .dash-card .dash-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: #6b7280; margin-top: 4px; }
-  .dash-card .dash-val { font-size: 1.3rem; font-weight: 700; margin-top: 2px; }
-  .dash-card .dash-detail { font-size: 0.78rem; color: #6b7280; margin-top: 4px; }
+  .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .dash-box { background: #fff; border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+  .dash-box .dash-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px; font-weight: 700; }
+  .dash-box .dash-num { font-size: 32px; font-weight: 800; }
+  .dash-box .dash-list { font-size: 12px; color: #374151; margin-top: 6px; line-height: 1.7; }
+  .dash-red .dash-num { color: #ef4444; }
+  .dash-yellow .dash-num { color: #f59e0b; }
+  .dash-blue .dash-num { color: #3b82f6; }
+  .dash-green .dash-num { color: #22c55e; }
+  .dash-purple .dash-num { color: #8b5cf6; }
+  .dash-gray .dash-num { color: #94a3b8; }
 
   /* PRIORITY TABLE */
-  .priority-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-  .priority-table th { background: #f3f4f6; text-align: left; padding: 8px 10px; font-weight: 700; border-bottom: 2px solid #e5e7eb; }
-  .priority-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
-  .priority-table tr:last-child td { border-bottom: none; }
+  .pri-high { color: #b91c1c; font-weight: 700; }
+  .pri-med { color: #92400e; font-weight: 700; }
+  .pri-low { color: #15803d; font-weight: 700; }
 
   /* TOP 3 */
-  .top3 { counter-reset: top3; }
-  .top3-item { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid #f3f4f6; }
-  .top3-item:last-child { border-bottom: none; }
-  .top3-num { min-width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1a1a2e, #0f3460); color: #f0c040; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; flex-shrink: 0; }
-  .top3-text strong { display: block; font-size: 0.97rem; }
-  .top3-text span { color: #555; font-size: 0.86rem; }
+  .top3 { display: flex; flex-direction: column; gap: 12px; }
+  .top3-item { background: #fff; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.08); display: flex; gap: 16px; align-items: flex-start; }
+  .top3-num { font-size: 32px; font-weight: 900; color: #3b82f6; min-width: 44px; line-height: 1; }
+  .top3-content .top3-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .top3-content .top3-desc { font-size: 13px; color: #64748b; }
+
+  /* CATEGORIES */
+  .cat-block { background: #fff; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .cat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .cat-name { font-weight: 700; font-size: 14px; }
+  .cat-count { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 20px; }
+  .cat-detail { font-size: 12px; color: #475569; line-height: 1.6; }
+  .cat-action { font-size: 12px; font-weight: 600; margin-top: 6px; }
 
   /* TRASH */
-  .trash-group { background: #fafafa; border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; border: 1px solid #e5e7eb; }
-  .trash-group-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; }
-  .trash-item { font-size: 0.83rem; padding: 3px 0; border-bottom: 1px dotted #e5e7eb; }
-  .trash-item:last-child { border-bottom: none; }
+  .trash-group { margin-bottom: 16px; }
+  .trash-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 6px 14px; border-radius: 6px; margin-bottom: 8px; }
+  .trash-restore { background: #dcfce7; color: #15803d; }
+  .trash-review { background: #fef3c7; color: #92400e; }
+  .trash-delete { background: #fee2e2; color: #b91c1c; }
 
-  /* NEWSLETTER */
-  .nl-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-  .nl-table th { background: #ede9fe; color: #5b21b6; padding: 8px 10px; text-align: left; font-weight: 700; }
-  .nl-table td { padding: 8px 10px; border-bottom: 1px solid #f3f4f6; }
-  .nl-table tr:last-child td { border-bottom: none; }
-
-  /* PROMO TABLE */
-  .promo-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-  .promo-table th { background: #f3f4f6; padding: 8px 10px; text-align: left; font-weight: 700; border-bottom: 2px solid #e5e7eb; }
-  .promo-table td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0; }
-  .promo-table tr:last-child td { border-bottom: none; }
-
-  a { color: #2563eb; }
-  .flag { display: inline-block; margin-left: 6px; }
-  @media(max-width:600px) { .cal-event { grid-template-columns: 1fr; } .dash-grid { grid-template-columns: 1fr 1fr; } }
+  /* MISC */
+  .note { font-size: 12px; color: #64748b; font-style: italic; margin-top: 6px; }
+  .fit-high { color: #15803d; font-weight: 700; }
+  .fit-med { color: #1e40af; font-weight: 600; }
+  .fit-low { color: #64748b; }
+  a { color: #3b82f6; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .total-row td { font-weight: 700; background: #1e293b !important; color: #f1f5f9 !important; }
+  @media (max-width: 600px) { .header .meta-row { gap: 12px; } .cal-event { flex-direction: column; } }
 </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="page-wrap">
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 1. HEADER                                                  -->
-<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════ HEADER ═══════════════════════════════════════════ -->
 <div class="header">
-  <div class="sub">📋 Executive Briefing — Prepared by Your Chief of Staff</div>
-  <h1>Good Morning, Melissa! ☀️</h1>
-  <div class="sub">Friday, June 5, 2026 &nbsp;|&nbsp; Have a great Friday!</div>
+  <div style="font-size:12px;color:#7dd3fc;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Executive Briefing · Prepared by Your Chief of Staff</div>
+  <h1>👋 Good Morning, Melissa!</h1>
+  <div class="sub">Friday, June 5, 2026 &nbsp;|&nbsp; Your day at a glance</div>
   <div class="meta-row">
-    <div class="meta-box"><div class="val">50</div><div class="lbl">Emails Reviewed</div></div>
-    <div class="meta-box"><div class="val">9</div><div class="lbl">Calendar Events</div></div>
-    <div class="meta-box"><div class="val">🔴 3</div><div class="lbl">Urgent Items</div></div>
-    <div class="meta-box"><div class="val">🟡 5</div><div class="lbl">Action Required</div></div>
-    <div class="meta-box"><div class="val">🟢 2</div><div class="lbl">Job Leads</div></div>
+    <div class="meta-box"><div class="num">50</div><div class="lbl">Emails Reviewed</div></div>
+    <div class="meta-box"><div class="num">9</div><div class="lbl">Calendar Events</div></div>
+    <div class="meta-box"><div class="num">🔴 3</div><div class="lbl">Urgent Items</div></div>
+    <div class="meta-box"><div class="num">⚡ 8</div><div class="lbl">Action Required</div></div>
+    <div class="meta-box"><div class="num">💼 2</div><div class="lbl">Job Alerts</div></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 2. EXECUTIVE SUMMARY                                       -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div class="section band-red">
-  <div class="section-title">🗂️ Executive Summary</div>
-
-  <div class="exec-bullet">
-    <div class="exec-icon">🔴</div>
-    <div class="exec-text">
-      <strong>URGENT — Anthropic API Disabled + 5 Failed Payments ($21.78 each)</strong>
-      <span>Your Claude API access has been <strong>turned off</strong> due to insufficient credits. Separately, Anthropic attempted to charge your credit card multiple times ($21.78 and $16.40) and failed repeatedly today. You also connected a bank account via Link, and one receipt was issued. This payment crisis needs immediate resolution — your briefing system and Claude access depend on it.</span>
-    </div>
+<!-- ═══════════════════════════════════════════ EXECUTIVE SUMMARY ═══════════════════════════════════════════ -->
+<div class="exec-summary">
+  <h2>⚡ Executive Summary</h2>
+  <div class="bullet">
+    <div class="bullet-icon">🔴</div>
+    <div class="bullet-text"><strong>Biggest Risk:</strong> Your Anthropic/Claude API account is in critical payment failure — 5+ failed charges totaling ~$21.78–$16.40, your Claude API access is already <strong>turned off</strong>, and a receipt was issued suggesting a payment did process. Immediate billing resolution required or your AI tools remain offline.</div>
   </div>
-
-  <div class="exec-bullet">
-    <div class="exec-icon">🟢</div>
-    <div class="exec-text">
-      <strong>OPPORTUNITY — Two Senior HR Job Alerts + Consultation with Netta Jenkins</strong>
-      <span>LinkedIn flagged a VP HR (Private Equity) role at Hoxton Circle paying up to $240K/year and a Head/Director of HR at Flatpay up to $200K/year. You also have a 15-minute consultation with Netta Jenkins (HIC Consult) on June 9 via Zoom — a potential career accelerator to prepare for.</span>
-    </div>
+  <div class="bullet">
+    <div class="bullet-icon">💼</div>
+    <div class="bullet-text"><strong>Biggest Opportunity:</strong> Two strong LinkedIn job alerts today — <strong>VP of HR (Private Equity) at Hoxton Circle ($220K–$240K)</strong> and <strong>Head/Director of HR at Flatpay ($180K–$200K)</strong>. Plus a confirmed 15-min consultation with <strong>Netta Jenkins (HIC Consult)</strong> on Tue Jun 9 — great pipeline momentum.</div>
   </div>
-
-  <div class="exec-bullet">
-    <div class="exec-icon">🟡</div>
-    <div class="exec-text">
-      <strong>DEADLINES — CHRO Office Subscription Expires Tomorrow + Jackie's Birthday Tomorrow + Eye Appt June 8</strong>
-      <span>Your paid subscription to The CHRO Office expires tomorrow (June 6). Jackie's birthday is also June 6 — act today. Eye appointment is June 8 at 9 AM. State Farm bill is due June 7. Busy week ahead; see calendar for full picture.</span>
-    </div>
+  <div class="bullet">
+    <div class="bullet-icon">📅</div>
+    <div class="bullet-text"><strong>Biggest Calendar Item:</strong> <strong>Jackie's birthday is tomorrow (June 6)</strong> — no gift/plan noted. Also, your <strong>CHRO Office Substack paid subscription expires tomorrow (June 6)</strong> — decide today whether to renew. Eye appointment Monday June 8 and drinks with Meg on June 10 need location confirmation.</div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 3. ACTION REQUIRED                                         -->
-<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════ ACTION REQUIRED ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section-title">⚡ Action Required</div>
 
-  <!-- CRITICAL: Anthropic API Off -->
-  <div class="action-card band-red" style="background:#fff5f5;">
-    <div class="card-header">
-      <span class="pill pill-red">🔴 CRITICAL</span>
-      <span class="card-title">Claude API Access Is Disabled — Restore Immediately</span>
+  <div class="card band-red">
+    <div class="card-label" style="color:#b91c1c;">🔴 Critical — Resolve Today</div>
+    <div class="card-title">Claude API Access is Turned Off — Payment Failure</div>
+    <div class="card-detail" style="font-size:13px;margin-top:4px;">Anthropic sent <strong>multiple failed payment notices</strong> for $21.78 and $16.40, and your Claude API is now <em>disabled</em>. A receipt (#2510-6474-3048) was also issued today suggesting a payment did go through — there is a conflict between receipts and failures. Your bank account was connected via Link (Plaid) around 3:04 PM — this may be a resolution in progress, but needs verification.</div>
+    <div class="card-row">
+      <span class="chip chip-red">API Offline</span>
+      <span class="chip chip-red">Multiple Failed Charges</span>
+      <span class="chip chip-yellow">Bank Connected via Link</span>
+      <span class="chip chip-blue">Receipt Issued Today</span>
     </div>
-    <div class="card-source">From: Anthropic &lt;no-reply-tg3@mail.anthropic.com&gt;</div>
-    <div class="card-why">⚠️ Your Claude API has been turned off because "Melissa's Individual Org" is out of usage credits. This directly breaks your daily briefing automation and any AI-powered workflows. Multiple payment failures ($21.78 attempted 5+ times, $16.40 once) indicate a credit card issue. You have connected a bank account via Stripe Link — confirm that payment method is now active.</div>
-    <div class="card-next">➡️ <strong>Go to console.anthropic.com → Billing → Add credits or verify bank account via Link is active. Confirm receipt #2510-6474-3048 is successful.</strong></div>
-    <div class="card-due">⏰ DUE: TODAY — API is currently OFF</div>
+    <div style="font-size:13px;margin-top:10px;"><strong>Source:</strong> Anthropic, PBC (failed-payments@mail.anthropic.com &amp; invoice+statements@mail.anthropic.com)</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Why It Matters:</strong> Your daily briefing workflow and AI tools are offline. Your GitHub Actions run also failed today — likely related.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Next Step:</strong> Log into <a href="https://console.anthropic.com">console.anthropic.com</a>, verify billing status, confirm whether the bank connection via Link resolved the issue, and check that the API is re-enabled. Archive duplicate failure emails.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Due:</strong> Today, ASAP</div>
   </div>
 
-  <!-- CHRO Office Subscription -->
-  <div class="action-card band-yellow" style="background:#fffbeb;">
-    <div class="card-header">
-      <span class="pill pill-yellow">🟡 DEADLINE</span>
-      <span class="card-title">The CHRO Office Paid Subscription Expires TOMORROW</span>
-    </div>
-    <div class="card-source">From: The CHRO Office &lt;thehroffice@substack.com&gt;</div>
-    <div class="card-why">Your paid Substack subscription to The CHRO Office expires Saturday, June 6. This is a professional development resource relevant to your HR career. Missing the renewal means losing access to premium content.</div>
-    <div class="card-next">➡️ Decide: Renew or let it lapse. If valuable, renew today via Substack settings.</div>
-    <div class="card-due">⏰ DUE: Tomorrow, June 6</div>
+  <div class="card band-red">
+    <div class="card-label" style="color:#b91c1c;">🔴 Urgent — Tech</div>
+    <div class="card-title">GitHub Actions Daily Briefing Workflow — All Jobs Failed</div>
+    <div class="card-detail" style="font-size:13px;margin-top:4px;">Three failure notifications from GitHub (missophs/daily-briefing) for commit 41906d6 — the "Daily Briefing - webhooks" workflow failed on all jobs. Likely connected to API key/credits being disabled.</div>
+    <div class="card-row"><span class="chip chip-red">Workflow Down</span><span class="chip chip-yellow">3 Failure Notices</span></div>
+    <div style="font-size:13px;margin-top:10px;"><strong>Source:</strong> notifications@github.com</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Next Step:</strong> Once Anthropic billing is resolved, re-run the workflow and confirm the automation is restored. Check webhook secrets/API keys in repo settings.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Due:</strong> Today</div>
   </div>
 
-  <!-- Jackie's Birthday -->
-  <div class="action-card band-yellow" style="background:#fffbeb;">
-    <div class="card-header">
-      <span class="pill pill-yellow">🟡 PERSONAL</span>
-      <span class="card-title">Jackie's Birthday is TOMORROW — June 6</span>
-    </div>
-    <div class="card-source">From: Google Calendar</div>
-    <div class="card-why">Jackie's birthday is June 6. If you haven't sent a gift, card, or made plans — today is your last chance.</div>
-    <div class="card-next">➡️ Send a message, order a gift, or make plans today.</div>
-    <div class="card-due">⏰ DUE: Today (event tomorrow June 6)</div>
+  <div class="card band-yellow">
+    <div class="card-label" style="color:#92400e;">🟡 Deadline Tomorrow</div>
+    <div class="card-title">CHRO Office Substack — Paid Subscription Expires TOMORROW</div>
+    <div class="card-detail" style="font-size:13px;margin-top:4px;">The CHRO Office newsletter notified you that your paid subscription expires on <strong>Saturday, June 6</strong>. Decide today whether to renew to maintain access to premium HR executive content.</div>
+    <div class="card-row"><span class="chip chip-yellow">Expires Jun 6</span><span class="chip chip-purple">Professional Resource</span></div>
+    <div style="font-size:13px;margin-top:10px;"><strong>Source:</strong> thehroffice@substack.com</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Next Step:</strong> Decide: Renew or let lapse. Given active job search, this may be worth keeping for executive HR insights.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Due:</strong> Today (expires Jun 6)</div>
   </div>
 
-  <!-- State Farm Bill -->
-  <div class="action-card band-yellow" style="background:#fffbeb;">
-    <div class="card-header">
-      <span class="pill pill-yellow">🟡 BILLING</span>
-      <span class="card-title">State Farm Bill Due Sunday, June 7</span>
-    </div>
-    <div class="card-source">From: Google Calendar</div>
-    <div class="card-why">State Farm insurance payment is calendared for June 7. Confirm payment is set up or pay manually before the weekend.</div>
-    <div class="card-next">➡️ Verify auto-pay is active or log into State Farm and pay now.</div>
-    <div class="card-due">⏰ DUE: Sunday, June 7</div>
+  <div class="card band-yellow">
+    <div class="card-label" style="color:#92400e;">🟡 Tomorrow — Personal</div>
+    <div class="card-title">Jackie's Birthday — June 6</div>
+    <div class="card-detail" style="font-size:13px;margin-top:4px;">Jackie's birthday is marked on your calendar for tomorrow, June 6. No gift, card, or plan is noted.</div>
+    <div class="card-row"><span class="chip chip-yellow">Tomorrow</span></div>
+    <div style="font-size:13px;margin-top:10px;"><strong>Source:</strong> Google Calendar</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Next Step:</strong> Send a message, card, or arrange a plan today before it's too late.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Due:</strong> Today</div>
   </div>
 
-  <!-- Netta Jenkins Zoom -->
-  <div class="action-card band-green" style="background:#f0fdf4;">
-    <div class="card-header">
-      <span class="pill pill-green">🟢 CAREER</span>
-      <span class="card-title">Prep for 15-Min Zoom with Netta Jenkins (HIC Consult) — June 9</span>
-    </div>
-    <div class="card-source">From: Google Calendar | netta@hicconsult.com</div>
-    <div class="card-why">You have a confirmed consultation with Netta Jenkins on June 9 at 12:00 PM ET. Zoom link and password available. This is a networking/career consultation — go in prepared.</div>
-    <div class="card-next">➡️ Research Netta Jenkins and HIC Consult. Prepare a 2-min career summary + 2–3 specific questions. Save Zoom link: https://us06web.zoom.us/j/5224221004 | Password: 424726</div>
-    <div class="card-due">⏰ DUE: Prep by end of day June 8</div>
+  <div class="card band-yellow">
+    <div class="card-label" style="color:#92400e;">🟡 Bill Reminder</div>
+    <div class="card-title">State Farm Bill Due — June 7</div>
+    <div class="card-detail" style="font-size:13px;margin-top:4px;">State Farm bill is due Sunday, June 7. No amount noted in calendar entry — verify and arrange payment.</div>
+    <div class="card-row"><span class="chip chip-yellow">Due Jun 7</span></div>
+    <div style="font-size:13px;margin-top:10px;"><strong>Source:</strong> Google Calendar</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Next Step:</strong> Log into State Farm, confirm bill amount, and pay or schedule payment before Sunday.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Due:</strong> June 7</div>
   </div>
 
-  <!-- HR Networking RSVP -->
-  <div class="action-card band-blue" style="background:#eff6ff;">
-    <div class="card-header">
-      <span class="pill pill-blue">🔵 RSVP NEEDED</span>
-      <span class="card-title">RSVP Pending: HR Networking & Job Search Zoom — June 10 & June 11</span>
-    </div>
-    <div class="card-source">From: Google Calendar</div>
-    <div class="card-why">Two HR networking Zoom sessions show status "needsAction" — you have not yet RSVP'd. June 10 (12–1:30 PM) and June 11 Open Office Hours (12–1 PM). These are active job search resources.</div>
-    <div class="card-next">➡️ Accept or decline both calendar invites today. Conflicts: June 10 overlaps with "Melissa x Meg drinks" at 1 PM.</div>
-    <div class="card-due">⏰ DUE: ASAP — events next week</div>
+  <div class="card band-green">
+    <div class="card-label" style="color:#15803d;">💼 Job Alert — High Priority</div>
+    <div class="card-title">VP of Human Resources (Private Equity) — Hoxton Circle ($220K–$240K)</div>
+    <div class="card-detail" style="font-size:13px;margin-top:4px;">Strong LinkedIn job alert for a VP HR role in Private Equity. Salary range $220K–$240K/year. Hoxton Circle is a specialist HR executive search firm — this could be a direct placement opportunity.</div>
+    <div class="card-row"><span class="chip chip-green">$220K–$240K</span><span class="chip chip-green">High Fit</span></div>
+    <div style="font-size:13px;margin-top:10px;"><strong>Source:</strong> LinkedIn Job Alerts</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Next Step:</strong> Review the full posting on LinkedIn, tailor resume/cover letter, and apply. Note: Hoxton Circle is also a recruiter — reaching out directly may accelerate placement.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Due:</strong> Apply ASAP</div>
   </div>
 
-  <!-- Vet / Prescription Policy Update -->
-  <div class="action-card band-yellow" style="background:#fffbeb;">
-    <div class="card-header">
-      <span class="pill pill-yellow">🟡 HEALTH</span>
-      <span class="card-title">Center for Veterinary Care — Third Party Prescription Policy Change for Stella</span>
-    </div>
-    <div class="card-source">From: Center for Veterinary Care &lt;contact@em.thrivepetcare.com&gt;</div>
-    <div class="card-why">Your vet has updated their third-party prescription request policy. This affects how you order Stella's medications. Could impact refill process — read carefully.</div>
-    <div class="card-next">➡️ Open email and review new prescription request process. Update any pharmacy orders accordingly.</div>
-    <div class="card-due">⏰ DUE: Review today if Stella has upcoming prescriptions</div>
+  <div class="card band-yellow">
+    <div class="card-label" style="color:#92400e;">🟡 RSVP Needed</div>
+    <div class="card-title">HR Networking & Job Search Group Zoom — Jun 10 &amp; Jun 11 (No RSVP Yet)</div>
+    <div class="card-detail" style="font-size:13px;margin-top:4px;">Two recurring HR Networking Zoom sessions (Jun 10 12–1:30 PM and Jun 11 12–1 PM) show status "needsAction" — you have not responded. Conflict warning: Jun 10 overlaps with Melissa x Meg drinks (1–2 PM).</div>
+    <div class="card-row"><span class="chip chip-yellow">RSVP Pending</span><span class="chip chip-blue">Jun 10 &amp; 11</span></div>
+    <div style="font-size:13px;margin-top:10px;"><strong>Source:</strong> Google Calendar</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Next Step:</strong> Accept or decline both events. Note the Jun 10 overlap with Meg drinks — plan accordingly.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Due:</strong> Before Jun 10</div>
   </div>
 
-  <!-- GitHub Workflow Failed -->
-  <div class="action-card band-red" style="background:#fff5f5;">
-    <div class="card-header">
-      <span class="pill pill-red">🔴 SYSTEM</span>
-      <span class="card-title">Daily Briefing GitHub Workflow Failed (3x Today)</span>
-    </div>
-    <div class="card-source">From: missophs &lt;notifications@github.com&gt;</div>
-    <div class="card-why">Your Daily Briefing automation (missophs/daily-briefing, webhooks job, commit 41906d6) failed 3 times today. This is directly related to the Claude API being disabled — fixing Anthropic billing should restore the workflow.</div>
-    <div class="card-next">➡️ After restoring Claude API credits, re-run the workflow manually and verify success.</div>
-    <div class="card-due">⏰ DUE: After Anthropic billing is fixed</div>
+  <div class="card band-yellow">
+    <div class="card-label" style="color:#92400e;">🟡 Health / Medical</div>
+    <div class="card-title">Vet Prescription Update — Center for Veterinary Care (Stella)</div>
+    <div class="card-detail" style="font-size:13px;margin-top:4px;">Center for Veterinary Care sent an important update about third-party prescription requests for Stella. Policy changes may affect how you refill Stella's prescriptions.</div>
+    <div class="card-row"><span class="chip chip-yellow">Action May Be Needed</span></div>
+    <div style="font-size:13px;margin-top:10px;"><strong>Source:</strong> Center for Veterinary Care / Thrive Pet Care</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Next Step:</strong> Read the full email. If Stella has any upcoming prescription refills, confirm the new process before your next order.</div>
+    <div style="font-size:13px;margin-top:4px;"><strong>Due:</strong> Before next refill</div>
   </div>
 
 </div>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 4. FULL 7-DAY CALENDAR                                     -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div class="section band-blue">
-  <div class="section-title">📅 Full 7-Day Calendar — June 5–11, 2026</div>
+<!-- ═══════════════════════════════════════════ FULL 7-DAY CALENDAR ═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">📅 Full 7-Day Calendar <span style="font-size:12px;font-weight:400;color:#64748b;">(June 5–11, 2026)</span></div>
 
-  <!-- Friday June 5 -->
+  <!-- TODAY: Friday June 5 -->
   <div class="cal-day">
-    <div class="cal-day-header">📌 Friday, June 5, 2026 — TODAY</div>
-    <div class="cal-event" style="background:#f9fafb;">
+    <div class="cal-day-header">📌 Today — Friday, June 5, 2026</div>
+    <div class="cal-event band-gray" style="border-left:5px solid #94a3b8;border-radius:8px;">
       <div class="cal-time">All Day</div>
       <div class="cal-details">
-        <div class="ev-title">No calendar events today</div>
-        <div class="ev-meta">Focus time — use today to resolve Anthropic billing, prep for Jackie's birthday, and review action items.</div>
+        <div class="cal-event-title">No scheduled calendar events today</div>
+        <div class="cal-meta">Focus time available. Use it to resolve Anthropic billing and review job applications.</div>
       </div>
     </div>
   </div>
@@ -311,33 +272,25 @@
   <!-- Saturday June 6 -->
   <div class="cal-day">
     <div class="cal-day-header">🎂 Saturday, June 6, 2026</div>
-    <div class="cal-event" style="background:#fef9c3;">
+    <div class="cal-event band-yellow" style="border-left:5px solid #f59e0b;border-radius:8px;">
       <div class="cal-time">All Day</div>
       <div class="cal-details">
-        <div class="ev-title">🎂 Jackie's Birthday</div>
-        <div class="ev-meta"><span class="pill pill-yellow">Confirmed</span> &nbsp; Personal</div>
-        <div class="ev-prep">📌 Prep: Send gift/message/call. Handle TODAY — birthday is tomorrow!</div>
-      </div>
-    </div>
-    <div class="cal-event" style="background:#fff5f5;">
-      <div class="cal-time">All Day</div>
-      <div class="cal-details">
-        <div class="ev-title">⏰ CHRO Office Subscription Expires</div>
-        <div class="ev-meta"><span class="pill pill-red">Deadline</span> &nbsp; Renew or cancel today</div>
-        <div class="ev-prep">📌 Prep: Decide renewal before midnight tonight (Friday).</div>
+        <div class="cal-event-title">🎂 Jackie's Birthday</div>
+        <div class="cal-meta">Status: <span class="chip chip-blue status-confirmed">Confirmed</span> &nbsp; | &nbsp; No attendees listed</div>
+        <div class="cal-prep">⚡ Prep: Send message, card, or gift TODAY before it's too late.</div>
       </div>
     </div>
   </div>
 
   <!-- Sunday June 7 -->
   <div class="cal-day">
-    <div class="cal-day-header">📋 Sunday, June 7, 2026</div>
-    <div class="cal-event" style="background:#fffbeb;">
+    <div class="cal-day-header">💳 Sunday, June 7, 2026</div>
+    <div class="cal-event band-yellow" style="border-left:5px solid #f59e0b;border-radius:8px;">
       <div class="cal-time">All Day</div>
       <div class="cal-details">
-        <div class="ev-title">🏦 State Farm Bill Due</div>
-        <div class="ev-meta"><span class="pill pill-yellow">Confirmed</span> &nbsp; Insurance Payment</div>
-        <div class="ev-prep">📌 Prep: Verify auto-pay or pay manually before end of day Sunday. Set up today.</div>
+        <div class="cal-event-title">💳 State Farm Bill Due</div>
+        <div class="cal-meta">Status: <span class="chip chip-blue status-confirmed">Confirmed</span> &nbsp; | &nbsp; No amount listed</div>
+        <div class="cal-prep">⚡ Prep: Log in to State Farm account and pay before end of day. Confirm amount and payment method.</div>
       </div>
     </div>
   </div>
@@ -345,12 +298,12 @@
   <!-- Monday June 8 -->
   <div class="cal-day">
     <div class="cal-day-header">👁️ Monday, June 8, 2026</div>
-    <div class="cal-event" style="background:#eff6ff;">
-      <div class="cal-time">9:00 – 10:00 AM ET</div>
+    <div class="cal-event band-blue" style="border-left:5px solid #3b82f6;border-radius:8px;">
+      <div class="cal-time">9:00 AM<br><span style="color:#94a3b8;font-weight:400;">–10:00 AM</span></div>
       <div class="cal-details">
-        <div class="ev-title">👁️ Eye Appointment</div>
-        <div class="ev-meta"><span class="pill pill-blue">Confirmed</span> &nbsp; Medical</div>
-        <div class="ev-prep">📌 Prep: Confirm location. Note: Warby Parker says your prescription expires in 2 weeks — ask your eye doctor about renewal. 1-800 Contacts also flagged you're overdue. Bring insurance card.</div>
+        <div class="cal-event-title">👁️ Eye Appointment</div>
+        <div class="cal-meta">Status: <span class="chip chip-blue status-confirmed">Confirmed</span> &nbsp; | &nbsp; Location: Not listed (confirm address)</div>
+        <div class="cal-prep">⚡ Prep: Confirm location. Note: Warby Parker says your prescription expires in 2 weeks — bring insurance card. 1-800 Contacts also flagged you as overdue for a reorder. Use this appointment to get an updated prescription.</div>
       </div>
     </div>
   </div>
@@ -358,453 +311,404 @@
   <!-- Tuesday June 9 -->
   <div class="cal-day">
     <div class="cal-day-header">🤝 Tuesday, June 9, 2026</div>
-    <div class="cal-event" style="background:#f0fdf4;">
-      <div class="cal-time">12:00 – 12:15 PM ET</div>
+    <div class="cal-event band-green" style="border-left:5px solid #22c55e;border-radius:8px;">
+      <div class="cal-time">12:00 PM<br><span style="color:#94a3b8;font-weight:400;">–12:15 PM</span></div>
       <div class="cal-details">
-        <div class="ev-title">🤝 Melissa × Netta Jenkins — 15-Min Consultation (Zoom)</div>
-        <div class="ev-meta"><span class="pill pill-green">Accepted</span> &nbsp; netta@hicconsult.com</div>
-        <div class="ev-meta">🔗 <a href="https://us06web.zoom.us/j/5224221004?pwd=UU5YNmlFckpjQnlzc2FDMHFlNUhhUT09" target="_blank">Zoom Link</a> | Password: 424726</div>
-        <div class="ev-prep">📌 Prep: Research Netta Jenkins / HIC Consult. Prepare 2-min career summary + 2-3 specific questions about career opportunities or coaching.</div>
+        <div class="cal-event-title">🤝 Melissa &amp; Netta Jenkins — 15-Min Consultation</div>
+        <div class="cal-meta">Status: <span class="chip chip-green status-accepted">Accepted</span> &nbsp; | &nbsp; Attendee: netta@hicconsult.com &nbsp; | &nbsp; <a href="https://us06web.zoom.us/j/5224221004?pwd=UU5YNmlFckpjQnlzc2FDMHFlNUhhUT09&omn=81785592238">Zoom Link</a> &nbsp; | &nbsp; Password: 424726</div>
+        <div class="cal-prep">⚡ Prep: Research HIC Consult and Netta Jenkins. Prepare a 60-second career summary. Have your target roles/industries ready. This is a short window — be crisp and direct about what you're looking for.</div>
       </div>
     </div>
   </div>
 
   <!-- Wednesday June 10 -->
   <div class="cal-day">
-    <div class="cal-day-header">⚠️ Wednesday, June 10, 2026 — CONFLICT DAY</div>
-    <div class="cal-event" style="background:#eff6ff;">
-      <div class="cal-time">12:00 – 1:30 PM ET</div>
+    <div class="cal-day-header">🌐 Wednesday, June 10, 2026</div>
+    <div class="cal-event band-purple" style="border-left:5px solid #8b5cf6;border-radius:8px;">
+      <div class="cal-time">12:00 PM<br><span style="color:#94a3b8;font-weight:400;">–1:30 PM</span></div>
       <div class="cal-details">
-        <div class="ev-title">👥 HR Networking & Job Search Group — Zoom 2</div>
-        <div class="ev-meta"><span class="pill pill-red">RSVP NEEDED</span> &nbsp; ~175 attendees</div>
-        <div class="ev-meta">🔗 <a href="https://us06web.zoom.us/j/81954171722?pwd=5jPMH9YWqdAg9bxMvAh3BEKmGfb4DK.1" target="_blank">Zoom Link</a></div>
-        <div class="ev-prep">📌 Prep: RSVP now. Review team guidelines linked in invite description. Note: NO AI recording tools per event rules.</div>
-        <div class="ev-conflict">⚠️ CONFLICT: Overlaps with "Melissa × Meg drinks" at 1:00 PM — 30-min overlap. Resolve now.</div>
+        <div class="cal-event-title">🌐 HR Networking &amp; Job Search Group — Zoom Session 2</div>
+        <div class="cal-meta">Status: <span class="chip chip-yellow status-pending">Needs Action ⚠️</span> &nbsp; | &nbsp; 190+ attendees &nbsp; | &nbsp; <a href="https://us06web.zoom.us/j/81954171722?pwd=5jPMH9YWqdAg9bxMvAh3BEKmGfb4DK.1">Zoom Link</a></div>
+        <div class="cal-prep">⚡ Prep: RSVP. Review HR Networking Team Guidelines (linked in invite). Note: No automated notetaking AI tools per organizer rules.</div>
+        <div class="cal-conflict">⚠️ CONFLICT: Overlaps with Melissa x Meg Drinks (1:00–2:00 PM) — 30-min overlap. Plan transition.</div>
       </div>
     </div>
-    <div class="cal-event" style="background:#f9fafb;">
-      <div class="cal-time">12:00 – 1:30 PM ET</div>
+    <div class="cal-event" style="background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+      <div class="cal-time">12:00 PM<br><span style="color:#94a3b8;font-weight:400;">–1:30 PM</span></div>
       <div class="cal-details">
-        <div class="ev-title">🌐 Network (Personal Reminder)</div>
-        <div class="ev-meta"><span class="pill pill-blue">Confirmed</span> &nbsp; Personal note/reminder</div>
-        <div class="ev-prep">📌 Appears to be a personal networking reminder block aligned with the HR Zoom session above.</div>
+        <div class="cal-event-title">📌 Network (Personal Calendar Block)</div>
+        <div class="cal-meta">Status: <span class="chip chip-blue status-confirmed">Confirmed</span> &nbsp; | &nbsp; Personal reminder — no location or attendees</div>
+        <div class="cal-meta" style="margin-top:4px;">Appears to be a personal reminder aligned with the HR Networking Zoom session above.</div>
       </div>
     </div>
-    <div class="cal-event" style="background:#f0fdf4;">
-      <div class="cal-time">1:00 – 2:00 PM ET</div>
+    <div class="cal-event band-green" style="border-left:5px solid #22c55e;border-radius:8px;">
+      <div class="cal-time">1:00 PM<br><span style="color:#94a3b8;font-weight:400;">–2:00 PM</span></div>
       <div class="cal-details">
-        <div class="ev-title">🍹 Melissa × Meg Drinks (Meg Park, Oakleaf Partnership)</div>
-        <div class="ev-meta"><span class="pill pill-green">Accepted</span> &nbsp; megpark@oakleafpartnership.com | Location: TBC</div>
-        <div class="ev-prep">📌 Prep: Confirm location with Meg. Note conflict with HR Networking Zoom (ends 1:30 PM). Consider leaving Zoom early or rescheduling drinks to later.</div>
-        <div class="ev-conflict">⚠️ CONFLICT: Overlaps with HR Networking Zoom (12:00–1:30 PM).</div>
+        <div class="cal-event-title">🥂 Melissa x Meg Drinks</div>
+        <div class="cal-meta">Status: <span class="chip chip-green status-accepted">Accepted</span> &nbsp; | &nbsp; Attendee: megpark@oakleafpartnership.com &nbsp; | &nbsp; Location: TBC</div>
+        <div class="cal-prep">⚡ Prep: Confirm location with Meg ASAP. Note the overlap with HR Networking Zoom (ends 1:30 PM). Oakleaf Partnership is an HR consulting/recruitment firm — great networking opportunity.</div>
+        <div class="cal-conflict">⚠️ CONFLICT: Overlaps with HR Networking Zoom (12:00–1:30 PM) — plan your exit from Zoom at 1:00 PM sharp.</div>
       </div>
     </div>
   </div>
 
   <!-- Thursday June 11 -->
   <div class="cal-day">
-    <div class="cal-day-header">📊 Thursday, June 11, 2026</div>
-    <div class="cal-event" style="background:#fafafa;">
-      <div class="cal-time">9:00 – 10:30 AM ET</div>
+    <div class="cal-day-header">🏆 Thursday, June 11, 2026</div>
+    <div class="cal-event band-gray" style="border-left:5px solid #ef4444;border-radius:8px;">
+      <div class="cal-time">9:00 AM<br><span style="color:#94a3b8;font-weight:400;">–10:30 AM</span></div>
       <div class="cal-details">
-        <div class="ev-title">📊 Executive Roundtable (Zoom — John Madigan)</div>
-        <div class="ev-meta"><span class="pill pill-red">DECLINED</span> &nbsp; Host: John Madigan</div>
-        <div class="ev-meta">🔗 <a href="https://us02web.zoom.us/j/207786667?pwd=Y3NXSHNVN1ozZjlQOVVFTUkwbHRKZz09" target="_blank">Zoom Link</a> | Password: 205454</div>
-        <div class="ev-prep">📌 You declined this event. If you wish to rejoin, reach out to John Madigan now.</div>
+        <div class="cal-event-title">🏆 Executive Roundtable (Zoom)</div>
+        <div class="cal-meta">Status: <span class="chip chip-red status-declined">Declined</span> &nbsp; | &nbsp; Hosted by: John Madigan &nbsp; | &nbsp; <a href="https://us02web.zoom.us/j/207786667?pwd=Y3NXSHNVN1ozZjlQOVVFTUkwbHRKZz09">Zoom Link</a> &nbsp; | &nbsp; Password: 205454</div>
+        <div class="cal-meta" style="margin-top:4px;color:#ef4444;font-weight:600;">⚠️ You have declined this event. Reconsider — Executive Roundtables are strong networking opportunities during an active job search.</div>
       </div>
     </div>
-    <div class="cal-event" style="background:#eff6ff;">
-      <div class="cal-time">12:00 – 1:00 PM ET</div>
+    <div class="cal-event band-purple" style="border-left:5px solid #8b5cf6;border-radius:8px;">
+      <div class="cal-time">12:00 PM<br><span style="color:#94a3b8;font-weight:400;">–1:00 PM</span></div>
       <div class="cal-details">
-        <div class="ev-title">👥 HR Networking & Job Search: Open Office Hours — Zoom 2</div>
-        <div class="ev-meta"><span class="pill pill-red">RSVP NEEDED</span> &nbsp; ~175 attendees</div>
-        <div class="ev-meta">🔗 <a href="https://us06web.zoom.us/j/85945371140?pwd=cmD1eXbMqRxNobikQODOI9IpHlVXbX.1" target="_blank">Zoom Link</a></div>
-        <div class="ev-prep">📌 Prep: RSVP now. No AI recording tools. Open discussion format — good for Q&A and peer support.</div>
+        <div class="cal-event-title">🌐 HR Networking &amp; Job Search: Open Office Hours — Zoom</div>
+        <div class="cal-meta">Status: <span class="chip chip-yellow status-pending">Needs Action ⚠️</span> &nbsp; | &nbsp; 190+ attendees &nbsp; | &nbsp; <a href="https://us06web.zoom.us/j/85945371140?pwd=cmD1eXbMqRxNobikQODOI9IpHlVXbX.1">Zoom Link</a></div>
+        <div class="cal-prep">⚡ Prep: RSVP. Open discussion format, no recording per organizer. Great opportunity for 1:1 connections with other HR professionals in job search.</div>
       </div>
     </div>
   </div>
 
 </div>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 5. JOB SEARCH & INTERVIEW PIPELINE                         -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div class="section band-green">
-  <div class="section-title">💼 Job Search & Interview Pipeline</div>
-  <table class="job-table">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Role / Event</th>
-        <th>Source / Contact</th>
-        <th>Details</th>
-        <th>Fit</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="pill pill-green">Job Alert</span></td>
-        <td>Vice President Human Resources (Private Equity)</td>
-        <td>Hoxton Circle via LinkedIn</td>
-        <td>$220K–$240K/year</td>
-        <td class="fit-high">HIGH</td>
-        <td>Review & apply if aligned</td>
-      </tr>
-      <tr>
-        <td><span class="pill pill-green">Job Alert</span></td>
-        <td>Head / Director of HR (US)</td>
-        <td>Flatpay via LinkedIn</td>
-        <td>$180K–$200K/year | In Trash — was deleted</td>
-        <td class="fit-high">HIGH</td>
-        <td>Restore from trash, review role</td>
-      </tr>
-      <tr>
-        <td><span class="pill pill-blue">Consultation</span></td>
-        <td>15-Min Zoom with Netta Jenkins</td>
-        <td>netta@hicconsult.com | HIC Consult</td>
-        <td>June 9, 12:00–12:15 PM ET | Accepted</td>
-        <td class="fit-high">HIGH</td>
-        <td>Prep talking points, research Netta</td>
-      </tr>
-      <tr>
-        <td><span class="pill pill-blue">Networking</span></td>
-        <td>HR Networking & Job Search Group Zoom</td>
-        <td>Large group (~175 HR professionals)</td>
-        <td>June 10, 12–1:30 PM | RSVP needed</td>
-        <td class="fit-high">HIGH</td>
-        <td>RSVP now; resolve conflict with Meg</td>
-      </tr>
-      <tr>
-        <td><span class="pill pill-blue">Networking</span></td>
-        <td>HR Open Office Hours Zoom</td>
-        <td>Same HR group</td>
-        <td>June 11, 12–1 PM | RSVP needed</td>
-        <td class="fit-high">HIGH</td>
-        <td>RSVP now</td>
-      </tr>
-      <tr>
-        <td><span class="pill pill-green">Drinks</span></td>
-        <td>Melissa × Meg Park (Oakleaf Partnership)</td>
-        <td>megpark@oakleafpartnership.com</td>
-        <td>June 10, 1–2 PM | Location TBC | Accepted</td>
-        <td class="fit-high">HIGH</td>
-        <td>Confirm location; resolve scheduling conflict</td>
-      </tr>
-      <tr>
-        <td><span class="pill pill-gray">Roundtable</span></td>
-        <td>Executive Roundtable — John Madigan</td>
-        <td>Via Calendar</td>
-        <td>June 11, 9–10:30 AM | DECLINED</td>
-        <td class="fit-med">MEDIUM</td>
-        <td>Reconsider — could be valuable network</td>
-      </tr>
-      <tr>
-        <td><span class="pill pill-gray">Group Msg</span></td>
-        <td>RNG Tampa Bay — Bank of America Recruiting Contact Request</td>
-        <td>Antonio Fiorentino via RNG Tampa Bay Google Group</td>
-        <td>Looking for BoA recruiting connection</td>
-        <td class="fit-low">LOW</td>
-        <td>Reply if you have a contact at BoA</td>
-      </tr>
-      <tr>
-        <td><span class="pill pill-green">Research $</span></td>
-        <td>Sago Financial Experiences Study — $100 Incentive</td>
-        <td>Sago / focusgroup.com</td>
-        <td>$100 for completing financial research study</td>
-        <td class="fit-med">MEDIUM</td>
-        <td>Complete pre-qualification if interested</td>
-      </tr>
-    </tbody>
-  </table>
+<!-- ═══════════════════════════════════════════ JOB SEARCH & PIPELINE ═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">💼 Job Search &amp; Interview Pipeline</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Role / Opportunity</th>
+          <th>Source / Sender</th>
+          <th>Salary / Details</th>
+          <th>Fit</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="chip chip-green">Job Alert</span></td>
+          <td><strong>VP Human Resources (Private Equity)</strong><br>Hoxton Circle</td>
+          <td>LinkedIn Job Alerts</td>
+          <td>$220K–$240K / year</td>
+          <td><span class="fit-high">HIGH</span></td>
+          <td>Review posting &amp; apply ASAP. Hoxton Circle is also a recruiter — reach out directly.</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-green">Job Alert</span></td>
+          <td><strong>Head / Director of HR (US)</strong><br>Flatpay</td>
+          <td>LinkedIn Job Alerts (Trash)</td>
+          <td>$180K–$200K / year</td>
+          <td><span class="fit-high">HIGH</span></td>
+          <td>Restore from trash &amp; review full posting. FinTech HR leadership role — strong fit if PE/tech experience applies.</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-blue">Networking</span></td>
+          <td><strong>15-Min Consultation — Netta Jenkins</strong><br>HIC Consult (netta@hicconsult.com)</td>
+          <td>Google Calendar</td>
+          <td>Tue Jun 9 | 12:00–12:15 PM | Zoom</td>
+          <td><span class="fit-high">HIGH</span></td>
+          <td>Prep talking points. 15 mins only — be sharp. Research HIC Consult before the call.</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-blue">Networking</span></td>
+          <td><strong>Melissa x Meg Drinks</strong><br>Meg Park (Oakleaf Partnership)</td>
+          <td>Google Calendar</td>
+          <td>Wed Jun 10 | 1:00–2:00 PM | TBC</td>
+          <td><span class="fit-high">HIGH</span></td>
+          <td>Confirm location. Oakleaf Partnership is an HR specialist — treat as a key networking meeting.</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-purple">Networking Event</span></td>
+          <td><strong>HR Networking &amp; Job Search Group — Zoom 2</strong><br>~190 HR professionals</td>
+          <td>Google Calendar</td>
+          <td>Wed Jun 10 | 12:00–1:30 PM | RSVP Needed</td>
+          <td><span class="fit-med">MEDIUM</span></td>
+          <td>RSVP. Good for broadening network. Note conflict with Meg drinks at 1 PM.</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-purple">Networking Event</span></td>
+          <td><strong>HR Networking &amp; Job Search: Open Office Hours</strong></td>
+          <td>Google Calendar</td>
+          <td>Thu Jun 11 | 12:00–1:00 PM | RSVP Needed</td>
+          <td><span class="fit-med">MEDIUM</span></td>
+          <td>RSVP. Open discussion format — ideal for 1:1 connections.</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-gray">Declined</span></td>
+          <td><strong>Executive Roundtable</strong><br>Hosted by John Madigan</td>
+          <td>Google Calendar</td>
+          <td>Thu Jun 11 | 9:00–10:30 AM | Zoom — DECLINED</td>
+          <td><span class="fit-med">MEDIUM</span></td>
+          <td>Consider reversing your decline — executive roundtables offer high-value peer networking during job search.</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-gray">Community</span></td>
+          <td><strong>RNG Tampa Bay — Bank of America Recruiting Contact Request</strong><br>Antonio Fiorentino</td>
+          <td>RNGTampa@googlegroups.com</td>
+          <td>Group networking request</td>
+          <td><span class="fit-low">LOW</span></td>
+          <td>Review. If you have a BoA recruiting contact, consider sharing. Good community engagement.</td>
+        </tr>
+        <tr>
+          <td><span class="chip chip-green">Membership</span></td>
+          <td><strong>Worldwide Women's Association — Membership Outreach</strong><br>Sophia Davis</td>
+          <td>worldwidewomensassociation.com</td>
+          <td>Professional membership</td>
+          <td><span class="fit-low">LOW</span></td>
+          <td>Evaluate value vs. cost. Low priority during active job search unless it provides direct HR executive connections.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 6. FULL EMAIL REVIEW BY CATEGORY                           -->
-<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════ FULL EMAIL REVIEW BY CATEGORY ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section-title">📧 Full Email Review by Category</div>
 
-  <!-- SECURITY / RISK -->
-  <div class="email-category band-red" style="background:#fff5f5;">
+  <!-- Security / Risk -->
+  <div class="cat-block band-red" style="border-radius:10px;">
     <div class="cat-header">
-      <span class="pill pill-red">🔴 Security / Risk</span>
-      <span class="cat-count">— 10 emails</span>
+      <div class="cat-name">🔴 Security / Risk</div>
+      <span class="cat-count chip-red chip">7 emails</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>Anthropic, PBC (failed-payments@mail.anthropic.com):</strong> 5 failed payment alerts — $21.78 (×4 attempts today at 14:14, 14:15, 14:17, 14:22) + $16.40 (14:12). Multiple duplicate attempts suggest a payment retry loop.<br><br>
-        <strong>Anthropic, PBC (invoice+statements@mail.anthropic.com):</strong> 2 receipts issued — #2510-6474-3048 (15:08) and #2010-4855-2725 (13:33). Payment may have partially succeeded via bank account.<br><br>
-        <strong>Link (notifications@link.com):</strong> 2 notifications — bank account connected to Anthropic, PBC (14:13 and 15:04). Stripe Link used to add bank payment.<br><br>
-        <strong>Anthropic (no-reply-tg3@mail.anthropic.com):</strong> Claude API access disabled due to no usage credits — action needed immediately.
-      </div>
+    <div class="cat-detail">
+      <strong>Anthropic — Failed Payment ($21.78, ×4 attempts):</strong> failed-payments@mail.anthropic.com sent multiple identical failures. These appear to be rapid retries, not separate charges. Timestamps: 14:14, 14:15, 14:17, 14:22 (also one earlier at 15:04–15:05).<br>
+      <strong>Anthropic — Failed Payment ($16.40, ×1):</strong> One failure for a different amount — possible second subscription tier.<br>
+      <strong>Anthropic — [Action Needed] API Access Turned Off:</strong> no-reply-tg3@mail.anthropic.com — API is currently disabled due to no usage credits.<br>
+      <strong>GitHub — Daily Briefing Workflow Failed (×3):</strong> missophs/daily-briefing all jobs failed for commit 41906d6. Likely downstream from API failure.<br>
+      <em>Note: The Link (Plaid) bank connection emails are listed under Financial/Billing below.</em>
     </div>
-    <div class="cat-action" style="background:#fee2e2; color:#b91c1c;">🔴 ACTION: Fix Anthropic billing NOW. Restore Claude API access. Verify bank account via Link is processed.</div>
+    <div class="cat-action" style="color:#b91c1c;">⚡ Action: Resolve Anthropic billing immediately. Re-run GitHub workflow once fixed. Archive duplicate failure emails.</div>
   </div>
 
-  <!-- JOB SEARCH -->
-  <div class="email-category band-green" style="background:#f0fdf4;">
+  <!-- Job Search -->
+  <div class="cat-block band-green" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-green">🟢 Job Search</span>
-      <span class="cat-count">— 2 emails</span>
+      <div class="cat-name">💼 Job Search</div>
+      <span class="cat-count chip-green chip">2 emails</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>LinkedIn Job Alerts:</strong> VP Human Resources (Private Equity) at Hoxton Circle — $220K–$240K/year (in inbox, unread).<br>
-        <strong>LinkedIn Job Alerts:</strong> Head/Director of HR (US) at Flatpay — $180K–$200K/year (in trash — was deleted; consider restoring).
-      </div>
+    <div class="cat-detail">
+      <strong>LinkedIn — VP Human Resources (Private Equity) at Hoxton Circle ($220K–$240K):</strong> Unread, in inbox. High priority.<br>
+      <strong>LinkedIn — Head / Director of HR (US) at Flatpay ($180K–$200K):</strong> Unread, in <em>trash</em> — was deleted. Restore and review.
     </div>
-    <div class="cat-action" style="background:#dcfce7; color:#166534;">🟢 ACTION: Review VP HR at Hoxton Circle immediately. Restore Flatpay alert from trash and evaluate.</div>
+    <div class="cat-action" style="color:#15803d;">⚡ Action: Review both postings immediately. Apply to both. Restore the Flatpay alert from trash.</div>
   </div>
 
-  <!-- RECRUITERS / NETWORKING -->
-  <div class="email-category band-green" style="background:#f0fdf4;">
+  <!-- Recruiters / Networking -->
+  <div class="cat-block band-green" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-green">🟢 Recruiters / Networking</span>
-      <span class="cat-count">— 2 emails</span>
+      <div class="cat-name">🤝 Recruiters / Networking</div>
+      <span class="cat-count chip-green chip">2 emails</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>Worldwide Women's Association (Sophia Davis):</strong> Membership invitation — "Things are moving fast at WWA." Could be a networking org for senior women executives. Unread, in inbox.<br>
-        <strong>RNG Tampa Bay (Antonio Fiorentino via Google Group):</strong> Seeking Bank of America Recruiting contact. Low-stakes group message; reply if you have a BoA connection.
-      </div>
+    <div class="cat-detail">
+      <strong>Sophia Davis — WWA Membership:</strong> Worldwide Women's Association outreach. Evaluate relevance to your job search.<br>
+      <strong>RNG Tampa Bay (Antonio Fiorentino) — Bank of America Recruiting Contact:</strong> Community group looking for BoA recruiting connection. Low urgency.
     </div>
-    <div class="cat-action" style="background:#dcfce7; color:#166534;">🟢 ACTION: Review WWA membership — could be a high-value executive network. Optionally reply to RNG Tampa Bay if you have a BoA contact.</div>
+    <div class="cat-action" style="color:#15803d;">⚡ Action: Evaluate WWA membership value. Respond to RNG Tampa Bay if you have a BoA contact to share.</div>
   </div>
 
-  <!-- CALENDAR / EVENTS -->
-  <div class="email-category band-blue" style="background:#eff6ff;">
+  <!-- Calendar / Events -->
+  <div class="cat-block band-blue" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-blue">🔵 Calendar / Events</span>
-      <span class="cat-count">— 1 email</span>
+      <div class="cat-name">📅 Calendar / Events</div>
+      <span class="cat-count chip-blue chip">1 email</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>Melissa Daily Briefing (melissaw212@gmail.com):</strong> Daily Briefing email sent at 13:50 UTC — previous automated briefing. Confirms the system was running earlier today before API cutoff.
-      </div>
+    <div class="cat-detail">
+      <strong>Melissa Daily Briefing (melissaw212@gmail.com):</strong> Self-sent daily briefing generated at 13:50 UTC today. Workflow ran before the API failure was fully resolved — partial output. This briefing supersedes it.
     </div>
-    <div class="cat-action" style="background:#dbeafe; color:#1d4ed8;">🔵 ACTION: Reference previous briefing. Restore API to ensure tomorrow's briefing runs successfully.</div>
+    <div class="cat-action" style="color:#1e40af;">⚡ Action: Archive. This briefing replaces the self-generated one.</div>
   </div>
 
-  <!-- MEDICAL / HEALTH -->
-  <div class="email-category" style="border-left:5px solid #0891b2; background:#ecfeff;">
+  <!-- Medical / Health -->
+  <div class="cat-block" style="border-left:5px solid #ec4899;background:#fdf2f8;border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill" style="background:#cffafe;color:#0e7490;">🏥 Medical / Health</span>
-      <span class="cat-count">— 1 email</span>
+      <div class="cat-name">🏥 Medical / Health</div>
+      <span class="cat-count" style="background:#fce7f3;color:#9d174d;" class="chip">1 email</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>Center for Veterinary Care (Thrive Pet Care):</strong> "Important Update: Third Party Prescription Requests" — policy change affecting Stella's prescriptions. Unread, in inbox.
-      </div>
+    <div class="cat-detail">
+      <strong>Center for Veterinary Care (Thrive Pet Care) — Stella Prescription Update:</strong> Important update re: third-party prescription requests. Policy change may affect Stella's medication refills.
     </div>
-    <div class="cat-action" style="background:#cffafe; color:#0e7490;">🏥 ACTION: Read in full. Update prescription ordering process for Stella accordingly.</div>
+    <div class="cat-action" style="color:#9d174d;">⚡ Action: Read full email. Confirm whether Stella has any upcoming refills affected by this change.</div>
   </div>
 
-  <!-- FINANCIAL / BILLING -->
-  <div class="email-category band-yellow" style="background:#fffbeb;">
+  <!-- Financial / Billing -->
+  <div class="cat-block band-yellow" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-yellow">🟡 Financial / Billing</span>
-      <span class="cat-count">— 3 emails</span>
+      <div class="cat-name">💳 Financial / Billing</div>
+      <span class="cat-count chip-yellow chip">5 emails</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>Robinhood:</strong> IRA/401K rollover reminder — earn a retirement match if transferred by June 19. (In trash — previously deleted.)<br>
-        <strong>Sago (focusgroup.com):</strong> $100 incentive to complete a financial research study on "Real-Life Money Decisions." In inbox, unread.<br>
-        <strong>Focus Group (participate@focusgroup.com):</strong> Update about Focus Group membership and new opportunities. Read, not in inbox.
-      </div>
+    <div class="cat-detail">
+      <strong>Anthropic Receipt #2510-6474-3048 (15:08 today):</strong> A successful payment receipt — may indicate the bank link resolved billing.<br>
+      <strong>Anthropic Receipt #2010-4855-2725 (13:33 today):</strong> Earlier receipt — verify this wasn't a duplicate charge.<br>
+      <strong>Link / Plaid — Bank Account Connected to Anthropic (×2):</strong> Two bank connection notifications (14:13 and 15:04) — suggests multiple attempts to connect payment. Confirm only one active connection.<br>
+      <strong>The CHRO Office Substack — Subscription Expires Tomorrow:</strong> Paid subscription ends Jun 6. Decide to renew or let lapse.
     </div>
-    <div class="cat-action" style="background:#fef3c7; color:#92400e;">🟡 ACTION: Consider Sago $100 study if interested. Robinhood retirement match deadline is June 19 — evaluate if worthwhile.</div>
+    <div class="cat-action" style="color:#92400e;">⚡ Action: Verify Anthropic billing is resolved and you haven't been double-charged. Confirm only one Plaid connection is active. Decide on CHRO Office subscription renewal today.</div>
   </div>
 
-  <!-- PROFESSIONAL DEVELOPMENT -->
-  <div class="email-category band-purple" style="background:#faf5ff;">
+  <!-- Professional Development -->
+  <div class="cat-block band-purple" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-purple">🟣 Professional Development</span>
-      <span class="cat-count">— 4 emails</span>
+      <div class="cat-name">🎓 Professional Development</div>
+      <span class="cat-count chip-purple chip">2 emails</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>The CHRO Office (Substack):</strong> Paid subscription expires TOMORROW, June 6. Renewal decision needed today.<br>
-        <strong>HR Brain Pickings (newsletter@mail.hrbrainpickings.com):</strong> "The Friday 5" — AI budgets, papal encyclical, sick leave. Unread, in inbox. Good HR intel digest.<br>
-        <strong>Phil Strazzulla / SelectSoftware Reviews:</strong> Free webinar on why HR software decisions fail — practical buy-in strategies. Read, not in inbox.<br>
-        <strong>Olivia Gamber / Career Evolved:</strong> "The room of 7 (and the block holding you back)" — career coaching email. In trash.
-      </div>
+    <div class="cat-detail">
+      <strong>Phil Strazzulla (SSR Newsletter) — [Free Webinar] Why HR Software Decisions Fail:</strong> Practical buy-in strategies for HR software — relevant for HR leaders.<br>
+      <strong>Olivia Gamber (Career Evolved) — "The Room of 7" (Trash):</strong> Career coaching content — was trashed. Evaluate if relevant.
     </div>
-    <div class="cat-action" style="background:#ede9fe; color:#5b21b6;">🟣 ACTION: Renew CHRO Office today or let lapse. Read HR Brain Pickings Friday 5. Evaluate webinar signup from Phil Strazzulla.</div>
+    <div class="cat-action" style="color:#6d28d9;">⚡ Action: Consider the free webinar if timing works. Olivia Gamber email — safe to delete if coaching outreach is unsolicited.</div>
   </div>
 
-  <!-- PERSONAL -->
-  <div class="email-category band-gray" style="background:#fafafa;">
+  <!-- Personal -->
+  <div class="cat-block band-gray" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-gray">⚪ Personal</span>
-      <span class="cat-count">— 1 email</span>
+      <div class="cat-name">👤 Personal</div>
+      <span class="cat-count chip-gray chip">1 email</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>Brya Team (hello@brya.com):</strong> Survey reminder — "Still time to share your thoughts." Survey closes end of week. Read, not in inbox.
-      </div>
+    <div class="cat-detail">
+      <strong>Brya Team — Survey Reminder:</strong> Short survey sent Tuesday, closes end of week. Brya appears to be a platform you've used. Low urgency but closing today.
     </div>
-    <div class="cat-action" style="background:#f3f4f6; color:#374151;">⚪ ACTION: Complete Brya survey today if you want to participate (deadline: end of this week).</div>
+    <div class="cat-action" style="color:#475569;">⚡ Action: Complete if relevant, takes ~2 minutes. Otherwise ignore.</div>
   </div>
 
-  <!-- NEWSLETTERS / SUBSCRIPTIONS -->
-  <div class="email-category band-purple" style="background:#faf5ff;">
+  <!-- Newsletters / Subscriptions -->
+  <div class="cat-block band-purple" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-purple">🟣 Newsletters / Subscriptions</span>
-      <span class="cat-count">— 4 emails</span>
+      <div class="cat-name">📰 Newsletters / Subscriptions</div>
+      <span class="cat-count chip-purple chip">4 emails</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>Mindstream:</strong> "Google unveils Dreambeans + 1 in 5 teens use AI for mental health." AI news digest. Unread, in inbox.<br>
-        <strong>CoolDeep AI (Beehiiv):</strong> "Claude did my Instagram content while I slept." AI workflow tips. Read, not in inbox.<br>
-        <strong>Hebba Youssef / I Hate It Here (Workweek):</strong> "Motivation with $0 — metrics + keeping people engaged without budget." HR newsletter. In trash.<br>
-        <strong>Pre-IPO Offering / Capital Noted:</strong> "Apple's Starlink Update Sparks Huge Earning Opportunity." Investment/promo newsletter. Not in inbox, not in trash.
-      </div>
+    <div class="cat-detail">
+      <strong>Mindstream — "Google unveils Dreambeans" + AI mental health stats:</strong> Tech/AI newsletter. AI mental health content (1 in 5 teens using AI for support) relevant if you work with employee wellness.<br>
+      <strong>HR Brain Pickings — The Friday 5 (AI budgets, sick leave, papal encyclical):</strong> HR-specific newsletter with Uber AI coding tools story + sick leave policy. Relevant HR content.<br>
+      <strong>Hebba Youssef (I Hate It Here) — Motivation with $0 (Trash):</strong> Popular HR newsletter trashed — evaluate if you want to keep receiving.<br>
+      <strong>CoolDeep AI — "Claude did my Instagram content while I slept" (not in inbox):</strong> AI workflow newsletter. Low priority given current Claude billing issues.
     </div>
-    <div class="cat-action" style="background:#ede9fe; color:#5b21b6;">🟣 ACTION: Read Mindstream and Hebba Youssef for professional relevance. Unsubscribe from Capital Noted (investment promo). CoolDeep AI — skim or archive.</div>
+    <div class="cat-action" style="color:#6d28d9;">⚡ Action: Read HR Brain Pickings Friday 5 — relevant HR intel. Consider restoring Hebba Youssef from trash. CoolDeep AI: unsubscribe if not valuable.</div>
   </div>
 
-  <!-- PROMOTIONAL / RETAIL -->
-  <div class="email-category band-gray" style="background:#f9fafb;">
+  <!-- Promotional / Retail (Inbox) -->
+  <div class="cat-block band-gray" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-gray">⚪ Promotional / Retail</span>
-      <span class="cat-count">— 16 emails</span>
+      <div class="cat-name">🛍️ Promotional / Retail (In Inbox)</div>
+      <span class="cat-count chip-gray chip">6 emails</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>CoinOut:</strong> "Earn up to 7,000 Coins" (inbox, unread) | <strong>BellaVitashop (TikTok Shop):</strong> Flash sale (trash) | <strong>Shoe Station:</strong> Sandal Savings Event (trash) | <strong>1-800 Contacts:</strong> Reorder for National Eyewear Day (trash) | <strong>PUMA:</strong> PUMA x Salehe Bembury (not in inbox/trash) | <strong>Chip City:</strong> 15% off catering (inbox, unread) | <strong>Walgreens:</strong> BOGO vitamins (trash) | <strong>Old Navy:</strong> 50% off active wear (not in inbox/trash) | <strong>Warby Parker:</strong> Prescription expires in 2 weeks (not in inbox/trash — but RELEVANT: eye appt June 8) | <strong>Venmo:</strong> 9% cash back credit card offer (not in inbox/trash) | <strong>Laura Geller (×2):</strong> $20 credit, ends tonight (both in trash) | <strong>Fayced Aesthetics NYC:</strong> Meet Daisy, new nurse injector (trash) | <strong>GLP-1 by DirectMeds:</strong> Spam weight loss email (not in inbox/trash — suspicious sender) | <strong>Mystery Deal:</strong> "The Kind of Find You Didn't Know You Needed" (trash) | <strong>Slack:</strong> "Invite your team to Slack today!" (not in inbox/trash)
-      </div>
+    <div class="cat-detail">
+      <strong>Fetch — "Get more points for your $":</strong> Supercharged offers. Rewards app promo.<br>
+      <strong>CoinOut — "Earn up to 7,000 Coins":</strong> Receipt scanning app promo.<br>
+      <strong>Sago (Focus Group) — "$100 Research Study on Financial Experiences":</strong> Paid research study — $100 incentive. Low effort opportunity.<br>
+      <strong>Chip City — 15% Off Catering this Summer:</strong> Cookie shop catering promo. NYC-based.<br>
+      <strong>Robinhood — Claim a Retirement Match (Trash):</strong> IRA/401K rollover promo, deadline June 19. In trash.<br>
+      <strong>Warby Parker — Prescription Expires in Two Weeks:</strong> Not a promo — see Health section below. Noted here for completeness — your prescription expires in ~2 weeks. Eye appointment June 8 is timely.
     </div>
-    <div class="cat-action" style="background:#f3f4f6; color:#374151;">⚪ ACTION: Note Warby Parker — prescription expires in 2 weeks; ask eye doctor on June 8. GLP-1 DirectMeds is spam — do not engage. Rest: safe to delete/ignore.</div>
+    <div class="cat-action" style="color:#475569;">⚡ Action: Sago study — worth $100 if qualifying takes minimal time. Chip City, Fetch, CoinOut — delete. Warby Parker — address at eye appointment June 8.</div>
   </div>
 
-  <!-- SYSTEM / TECH -->
-  <div class="email-category band-red" style="background:#fff5f5;">
+  <!-- Promotional / Retail (Not in inbox, not trash) -->
+  <div class="cat-block band-gray" style="border-radius:10px;margin-top:10px;">
     <div class="cat-header">
-      <span class="pill pill-red">🔴 System / Technical</span>
-      <span class="cat-count">— 4 emails</span>
+      <div class="cat-name">🛍️ Promotional / Retail (Not in Inbox)</div>
+      <span class="cat-count chip-gray chip">8 emails</span>
     </div>
-    <div class="cat-body">
-      <div class="cat-senders">
-        <strong>missophs / GitHub (notifications@github.com):</strong> 3 workflow failure notifications — Daily Briefing failed (commit 41906d6, webhooks job) at 06:27, 06:33, and 07:02 today. Root cause: Claude API disabled.<br>
-        <strong>Slack (no-reply@email.slackhq.com):</strong> "Invite your team to Slack today!" — promotional nudge for Pro trial. Not in inbox.
-      </div>
+    <div class="cat-detail">
+      <strong>PUMA — PUMA x SALEHE BEMBURY collaboration launch:</strong> Not in inbox/trash — likely filtered.<br>
+      <strong>Old Navy — 50% off active wear:</strong> Not in inbox.<br>
+      <strong>Venmo — Earn up to 9% cash back (credit card offer):</strong> Not in inbox.<br>
+      <strong>Slack — Invite your team (free trial Pro):</strong> Not in inbox. If you're actively using Slack for networking groups, worth reviewing.<br>
+      <strong>Robinhood — IRA/401K Rollover Match (Trash, deadline Jun 19):</strong> Restore if interested — deadline is June 19.<br>
+      <strong>Pre-IPO / Capital Noted — Apple Starlink/Mode Mobile promo:</strong> Investment newsletter promo. Likely spam-adjacent.<br>
+      <strong>Focus Group (participate@focusgroup.com) — Research Opportunities Update:</strong> Update about Focus Group membership and new opportunities.<br>
+      <strong>GLP-1 by DirectMeds — Weight loss promo (spam domain):</strong> Obvious spam/phishing-adjacent domain (clmo.jxstfafscurth.us). Do not click any links.
     </div>
-    <div class="cat-action" style="background:#fee2e2; color:#b91c1c;">🔴 ACTION: Fix Anthropic API → re-run GitHub workflow. Slack email is low priority — ignore/delete.</div>
+    <div class="cat-action" style="color:#475569;">⚡ Action: GLP-1 email — mark as spam, do not click. Robinhood — restore if interested (Jun 19 deadline). All others — delete/ignore.</div>
+  </div>
+
+  <!-- Trash Review (in email categories) -->
+  <div class="cat-block" style="border-left:5px solid #ef4444;background:#fff5f5;border-radius:10px;margin-top:10px;">
+    <div class="cat-header">
+      <div class="cat-name">🗑️ Trash Review</div>
+      <span class="cat-count chip-red chip">9 emails (in trash)</span>
+    </div>
+    <div class="cat-detail">
+      See dedicated Trash Review section below for full breakdown with Restore / Review / Delete recommendations.
+    </div>
   </div>
 
 </div>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 7. TRASH REVIEW                                            -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div class="section band-red">
+<!-- ═══════════════════════════════════════════ TRASH REVIEW ═══════════════════════════════════════════ -->
+<div class="section">
   <div class="section-title">🗑️ Trash Review</div>
-  <p style="font-size:0.85rem;color:#555;margin-bottom:14px;">The following 10 emails are currently in your Gmail Trash. Review before permanent deletion.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:14px;">9 emails currently in Gmail Trash. Reviewed and categorized below.</p>
 
-  <!-- RESTORE -->
-  <div class="trash-group" style="border-left:4px solid #16a34a;">
-    <div class="trash-group-title" style="color:#16a34a;">✅ RESTORE — These have value and should be moved back to inbox</div>
-    <div class="trash-item">
-      <strong>LinkedIn Job Alerts:</strong> "Head / Director of HR (US) at Flatpay: up to $200K/year" — $180K–$200K/year senior HR role. Accidentally trashed — restore and review immediately.
-    </div>
-    <div class="trash-item">
-      <strong>Hebba Youssef / I Hate It Here (Workweek):</strong> "📓 Motivation with $0" — HR newsletter on engagement metrics. Professionally relevant content. Restore or read before deleting.
+  <div class="trash-group">
+    <div class="trash-group-title trash-restore">✅ RESTORE — Do Not Delete</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sender</th><th>Subject</th><th>Why Restore</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>LinkedIn Job Alerts</td>
+            <td>Head / Director of HR (US) at Flatpay: up to $200K/year</td>
+            <td>High-value job alert ($180K–$200K). Should not have been trashed. Review and apply.</td>
+          </tr>
+          <tr>
+            <td>Hebba Youssef (I Hate It Here)</td>
+            <td>📓 Motivation with $0</td>
+            <td>Popular HR newsletter — metrics &amp; engagement without budget. Relevant to HR executive job search discussions. Restore if you want to keep the subscription.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- REVIEW -->
-  <div class="trash-group" style="border-left:4px solid #d97706;">
-    <div class="trash-group-title" style="color:#d97706;">🔍 REVIEW — May want to read before deleting</div>
-    <div class="trash-item">
-      <strong>Robinhood:</strong> "Reminder: Claim a retirement match" — IRA/401K transfer by June 19 earns a match. Financial opportunity worth considering before deleting.
-    </div>
-    <div class="trash-item">
-      <strong>Olivia Gamber / Career Evolved:</strong> "The room of 7 (and the block holding you back)" — career coaching email. Could be relevant given active job search. Skim before deleting.
+  <div class="trash-group">
+    <div class="trash-group-title trash-review">🔍 REVIEW BEFORE DELETING</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sender</th><th>Subject</th><th>Why Review</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Robinhood</td>
+            <td>Reminder: Claim a retirement match</td>
+            <td>Deadline June 19 — if you have an IRA or 401K to roll over, this is a real financial opportunity (3% match). Restore if interested.</td>
+          </tr>
+          <tr>
+            <td>Olivia Gamber (Career Evolved)</td>
+            <td>The room of 7 (and the block holding you back)</td>
+            <td>Career coaching email. May be relevant during job search. Review sender — if unsolicited sales funnel, safe to delete.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- SAFE TO DELETE -->
-  <div class="trash-group" style="border-left:4px solid #9ca3af;">
-    <div class="trash-group-title" style="color:#6b7280;">🗑️ SAFE TO DELETE — Low value, correctly trashed</div>
-    <div class="trash-item"><strong>Fayced Aesthetics NYC:</strong> "Meet Daisy" — new nurse injector promotional. Correctly deleted.</div>
-    <div class="trash-item"><strong>BellaVitashop (TikTok Shop):</strong> Flash sale. Correctly deleted.</div>
-    <div class="trash-item"><strong>Shoe Station:</strong> Sandal Savings Event. Correctly deleted.</div>
-    <div class="trash-item"><strong>1-800 Contacts:</strong> National Eyewear Day reorder promo. Correctly deleted (eye appt June 8 already scheduled).</div>
-    <div class="trash-item"><strong>Walgreens:</strong> BOGO vitamins. Correctly deleted.</div>
-    <div class="trash-item"><strong>Laura Geller (×2):</strong> "$20 Credit, Ends Tonight" — beauty promo sent twice. Both correctly deleted.</div>
-    <div class="trash-item"><strong>Mystery Deal:</strong> "The Kind of Find You Didn't Know You Needed" — generic promo. Correctly deleted.</div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 8. PROMOTIONAL / RETAIL SUMMARY                            -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div class="section band-gray">
-  <div class="section-title">🛍️ Promotional / Retail Summary</div>
-  <table class="promo-table">
-    <thead>
-      <tr>
-        <th>Sender / Brand</th>
-        <th>Count</th>
-        <th>Subject / Theme</th>
-        <th>Location</th>
-        <th>Recommendation</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>CoinOut</strong></td>
-        <td>1</td>
-        <td>Earn up to 7,000 Coins — Missions screen</td>
-        <td>Inbox</td>
-        <td><span class="pill pill-gray">Ignore / Archive</span></td>
-      </tr>
-      <tr>
-        <td><strong>BellaVitashop (TikTok Shop)</strong></td>
-        <td>1</td>
-        <td>Flash sale starts now</td>
-        <td>Trash</td>
-        <td><span class="pill pill-red">Delete</span></td>
-      </tr>
-      <tr>
-        <td><strong>Shoe Station</strong></td>
-        <td>1</td>
-        <td>Sandal Savings Event — under $20 / BOGO</td>
-        <td>Trash</td>
-        <td><span class="pill pill-red">Delete</span></td>
-      </tr>
-      <tr>
-        <td><strong>1-800 Contacts</strong></td>
-        <td>1</td>
-        <td>Reorder for National Eyewear Day</td>
-        <td>Trash</td>
-        <td><span class="pill pill-yellow">Review</span> — eye appt June 8; ask doctor about contacts</td>
-      </tr>
-      <tr>
-        <td><strong>PUMA</strong></td>
-        <td>1</td>
-        <td>PUMA × Salehe Bembury launch</td>
-        <td>Not in inbox</td>
-        <td><span class="pill pill-gray">Ignore</span></td>
-      </tr>
-      <tr>
-        <td><strong>Chip City</strong></td>
-        <td>1</td>
-        <td>15% off catering this summer</td>
-        <td>Inbox</td>
-        <td><span class="pill pill-gray">Archive</span> — save if planning an event</td>
-      </tr>
-      <tr>
-        <td><strong>Walgreens</strong></td>
-        <td>1</td>
-        <td>BOGO vitamins / essentials</td>
-        <td>Trash</td>
-        <td><span class="pill pill-red">Delete</span></td>
-      </tr>
-      <tr>
-        <td><strong>Old Navy</strong></td>
-        <td>1
+  <div class="trash-group">
+    <div class="trash-group-title trash-delete">🗑️ SAFE TO PERMANENTLY DELETE</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sender</th><th>Subject</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Fayced Aesthetics NYC</td>
+            <td>Meet Daisy (Nurse Injector promo)</td>
+            <td>Promotional marketing. No action needed.</td>
+          </tr>
+          <tr>
+            <td>BellaVitashop (TikTok Shop)</td>
+            <td>Flash sale starts now!</td>
+            <td>Generic TikTok Shop promo. Safe to delete.</td>
+          </tr>
+          <tr>
+            <td>Shoe Station</td>
+            <td>It's Here: The Sandal Savings Event!</td>
+            <td>
 <hr>
 <h2>Trash Review</h2>
 <p><strong>Purpose:</strong> Review deleted emails for anything important before permanent deletion. Anything from job search, billing, medical, calendar, security, legal, GitHub, Netlify, LinkedIn, recruiters, or professional contacts should be reviewed before deleting.</p>
@@ -832,7 +736,7 @@
   <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">Financial / Billing (10)</h3>
   
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#2 · Fri, 5 Jun 2026 15:08:38 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#3 · Fri, 5 Jun 2026 15:08:38 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Your receipt from Anthropic, PBC #2510-6474-3048</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;invoice+statements@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Your receipt from Anthropic, PBC #2510-6474-3048 ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏</div>
@@ -840,7 +744,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#6 · Fri, 5 Jun 2026 15:05:34 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#7 · Fri, 5 Jun 2026 15:05:34 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">$21.78 payment to Anthropic, PBC was unsuccessful</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;failed-payments@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We weren&amp;#39;t able to charge the credit card you provided. ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -848,7 +752,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#7 · Fri, 5 Jun 2026 15:04:43 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#8 · Fri, 5 Jun 2026 15:04:43 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">$21.78 payment to Anthropic, PBC was unsuccessful</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;failed-payments@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We weren&amp;#39;t able to charge the credit card you provided. ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -856,7 +760,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#17 · Fri, 5 Jun 2026 14:22:46 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#18 · Fri, 5 Jun 2026 14:22:46 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">$21.78 payment to Anthropic, PBC was unsuccessful again</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;failed-payments@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We weren&amp;#39;t able to charge the credit card you provided. ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -864,7 +768,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#20 · Fri, 5 Jun 2026 14:17:06 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#21 · Fri, 5 Jun 2026 14:17:06 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">$21.78 payment to Anthropic, PBC was unsuccessful</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;failed-payments@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We weren&amp;#39;t able to charge the credit card you provided. ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -872,7 +776,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#22 · Fri, 5 Jun 2026 14:15:46 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#23 · Fri, 5 Jun 2026 14:15:46 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">$21.78 payment to Anthropic, PBC was unsuccessful</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;failed-payments@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We weren&amp;#39;t able to charge the credit card you provided. ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -880,7 +784,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#24 · Fri, 5 Jun 2026 14:14:14 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#25 · Fri, 5 Jun 2026 14:14:14 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">$21.78 payment to Anthropic, PBC was unsuccessful</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;failed-payments@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We weren&amp;#39;t able to charge the credit card you provided. ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -888,7 +792,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#26 · Fri, 5 Jun 2026 14:12:03 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#27 · Fri, 5 Jun 2026 14:12:03 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">$16.40 payment to Anthropic, PBC was unsuccessful</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;failed-payments@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We weren&amp;#39;t able to charge the credit card you provided. ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -896,7 +800,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#36 · Fri, 5 Jun 2026 13:33:43 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#37 · Fri, 5 Jun 2026 13:33:43 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Your receipt from Anthropic, PBC #2010-4855-2725</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Anthropic, PBC&quot; &lt;invoice+statements@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Your receipt from Anthropic, PBC #2010-4855-2725 ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏</div>
@@ -904,7 +808,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#42 · Fri, 05 Jun 2026 13:18:56 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#43 · Fri, 05 Jun 2026 13:18:56 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">[action needed] Your Claude API access is turned off</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Anthropic &lt;no-reply-tg3-12bWhUPY4cJHtPeAoQ@mail.anthropic.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Hello, Your access to the Claude API has been disabled because your organization &amp;#39;Melissa&amp;#39;s Individual Org&amp;#39; is out of usage credits. Go to</div>
@@ -916,7 +820,7 @@
   <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">Job Search / Recruiters (5)</h3>
   
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#4 · Fri, 5 Jun 2026 15:06:20 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#5 · Fri, 5 Jun 2026 15:06:20 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Vice President Human Resources (Private Equity) at Hoxton Circle: up to $240K/year</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> LinkedIn Job Alerts &lt;jobalerts-noreply@linkedin.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">$220K-$240K / year salary ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -924,7 +828,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#30 · Fri, 05 Jun 2026 07:02:55 -0700</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#31 · Fri, 05 Jun 2026 07:02:55 -0700</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">[missophs/daily-briefing] Run failed: Daily Briefing - webhooks (41906d6)</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> missophs &lt;notifications@github.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">[missophs/daily-briefing] Daily Briefing workflow run Daily Briefing: All jobs have failed View workflow run Status Job Annotations Daily Briefing / u</div>
@@ -932,7 +836,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#35 · Fri, 05 Jun 2026 06:33:57 -0700</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#36 · Fri, 05 Jun 2026 06:33:57 -0700</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">[missophs/daily-briefing] Run failed: Daily Briefing - webhooks (41906d6)</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> missophs &lt;notifications@github.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">[missophs/daily-briefing] Daily Briefing workflow run Daily Briefing: All jobs have failed View workflow run Status Job Annotations Daily Briefing / u</div>
@@ -940,7 +844,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#41 · Fri, 05 Jun 2026 06:27:12 -0700</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#42 · Fri, 05 Jun 2026 06:27:12 -0700</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">[missophs/daily-briefing] Run failed: Daily Briefing - webhooks (41906d6)</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> missophs &lt;notifications@github.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">[missophs/daily-briefing] Daily Briefing workflow run Daily Briefing: All jobs have failed View workflow run Status Job Annotations Daily Briefing / u</div>
@@ -948,7 +852,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#48 · Fri, 5 Jun 2026 13:05:53 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#49 · Fri, 5 Jun 2026 13:05:53 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Head / Director of HR (US) at Flatpay: up to $200K/year</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> LinkedIn Job Alerts &lt;jobalerts-noreply@linkedin.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">$180K-$200K / year salary ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -960,7 +864,7 @@
   <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">Medical / Health (3)</h3>
   
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#1 · Fri, 05 Jun 2026 15:08:29 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#2 · Fri, 05 Jun 2026 15:08:29 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Google unveils... Dreambeans</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Mindstream &lt;hello@mindstream.news&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">+ 1 in 5 teens use AI for mental health support ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ </div>
@@ -968,7 +872,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#21 · Fri, 05 Jun 2026 09:26:42 -0400</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#22 · Fri, 05 Jun 2026 09:26:42 -0400</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">DirectMeds GLP-1 treatment helps you lose up to 4O lbs by the End of Year</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> GLP-1-by-DirectMeds &lt;makiuxdfydq@clmo.jxstfafscurth.us&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">DirectMeds Medical Portal Looking for Ozempic® or Mounjaro® alternative? Weight loss made simple with Semaglutide or Tirzepatide Genuine prescription </div>
@@ -976,7 +880,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#38 · Fri, 5 Jun 2026 13:06:13 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#39 · Fri, 5 Jun 2026 13:06:13 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">New ways to save on contact lenses!</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Target Optical &lt;news@e.targetoptical.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Find the perfect contact for you at Target Optical View in browser Target Optical ® Eyeglasses Sunglasses Contact lenses Plan your visit More ways to </div>
@@ -988,7 +892,7 @@
   <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">Other / Review (16)</h3>
   
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#3 · Fri, 05 Jun 2026 15:08:04 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#4 · Fri, 05 Jun 2026 15:08:04 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Coming Soon: Earn up to 7,000 Coins</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> CoinOut &lt;coinout@news.coinout.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Be on the look-out for your chance to earn up to 7000 Coins! Logo Earn up to 7000 Coins Be on the look-out in your Missions screen over the next few d</div>
@@ -996,7 +900,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#8 · Fri, 5 Jun 2026 15:04:23 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#9 · Fri, 5 Jun 2026 15:04:23 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">You&#x27;ve connected your bank account to Anthropic, PBC</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Link &lt;notifications@link.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">You connected your account with Link ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏</div>
@@ -1004,7 +908,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#9 · Fri, 05 Jun 2026 15:01:43 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#10 · Fri, 05 Jun 2026 15:01:43 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Things are moving fast at the WWA, secure your membership spot today!</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Sophia Davis &lt;sophia.davis@worldwidewomensassociation.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Join The Worldwide Women&amp;#39;s Association‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ </div>
@@ -1012,7 +916,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#11 · Fri, 05 Jun 2026 14:57:55 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#12 · Fri, 05 Jun 2026 14:57:55 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Reminder: Claim a retirement match</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Robinhood &lt;noreply@robinhood.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Transfer an IRA or rollover a 401K to Robinhood by June 19, and earn a match. ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ </div>
@@ -1020,7 +924,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#15 · Fri, 05 Jun 2026 14:44:00 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#16 · Fri, 05 Jun 2026 14:44:00 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Important Update: Third Party Prescription Requests</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Center for Veterinary Care  &lt;contact@em.thrivepetcare.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We&amp;#39;re committed to seamless care for Stella. Center for Veterinary Care New Home, Now Open Dear Melissa, At Center for Veterinary Care, we&amp;#39;re </div>
@@ -1028,7 +932,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#16 · Fri, 05 Jun 2026 13:28:49 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#17 · Fri, 05 Jun 2026 13:28:49 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Reorder in two taps for National Eyewear Day</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> 1-800 Contacts &lt;info@pr.1800contacts.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">You&amp;#39;re overdue, based on your last order date. ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌</div>
@@ -1036,7 +940,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#25 · Fri, 5 Jun 2026 14:13:56 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#26 · Fri, 5 Jun 2026 14:13:56 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">You&#x27;ve connected your bank account to Anthropic, PBC</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Link &lt;notifications@link.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">You connected your account with Link ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏</div>
@@ -1044,7 +948,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#27 · Fri, 05 Jun 2026 09:10:22 -0500</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#28 · Fri, 05 Jun 2026 09:10:22 -0500</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Double the Vitamins, Zero Extra Cost</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Walgreens &lt;walgreens@eml.walgreens.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Stock up on select same-brand essentials—your second item is on us. ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ </div>
@@ -1052,7 +956,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#31 · Fri, 05 Jun 2026 14:00:07 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#32 · Fri, 05 Jun 2026 14:00:07 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Still time to share your thoughts 🙏</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Brya Team &lt;hello@brya.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Hi there, Just a quick nudge — we sent a short survey on Tuesday and would love to hear from you before we close the survey at the end of the week. Yo</div>
@@ -1060,7 +964,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#32 · Fri, 5 Jun 2026 14:00:04 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#33 · Fri, 5 Jun 2026 14:00:04 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Claude did my Instagram content while I slept</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> CoolDeep AI &lt;cooldeepai@mail.beehiiv.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">The carousel workflow that changed my mornings ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌</div>
@@ -1068,7 +972,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#33 · Fri, 05 Jun 2026 13:59:43 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#34 · Fri, 05 Jun 2026 13:59:43 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Your prescription expires in two weeks</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Warby Parker &lt;sayhello@mail1.warbyparker.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Pick out some new frames today. ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -1076,7 +980,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#40 · Fri, 5 Jun 2026 06:27:59 -0700 (PDT)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#41 · Fri, 5 Jun 2026 06:27:59 -0700 (PDT)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">[RNG Tampa Bay] Bank of America contact</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;&#x27;Antonio Fiorentino&#x27; via RNG Tampa Bay&quot; &lt;RNGTampa@googlegroups.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Hi everyone, I&amp;#39;m looking to connect with someone in Recruiting at Bank of America. If anyone in the group currently works there or has a contact t</div>
@@ -1084,7 +988,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#44 · Fri, 05 Jun 2026 13:16:37 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#45 · Fri, 05 Jun 2026 13:16:37 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Earn up to 9% cash back for 6 months with the Venmo Credit Card</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Venmo &lt;venmo@email.venmo.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Apply with no impact to your credit score if declined. ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿ ͏ ‌ ﻿</div>
@@ -1092,7 +996,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#45 · Fri, 05 Jun 2026 13:10:52 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#46 · Fri, 05 Jun 2026 13:10:52 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">The room of 7 (and the block holding you back)</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Olivia Gamber &lt;careerevolved=oliviagamber.com@f.kajabimail.net&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Hi Melissa, It is an incredibly frustrating feeling to know exactly what you are capable of, yet watch the door close right at the finish line. To wal</div>
@@ -1100,7 +1004,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#47 · Fri, 05 Jun 2026 13:06:04 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#48 · Fri, 05 Jun 2026 13:06:04 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Your $20 Credit Is Waiting 🔥 Ends TONIGHT</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Laura Geller &lt;beauty@laurageller.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Save 40% + an Extra 10% ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -1108,7 +1012,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#49 · Fri, 05 Jun 2026 13:02:59 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#50 · Fri, 05 Jun 2026 13:02:59 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Your $20 Credit Is Waiting 🔥 Ends TONIGHT</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Laura Geller &lt;beauty@laurageller.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Save 40% + an Extra 10% ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -1120,7 +1024,7 @@
   <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">Professional Development / Newsletters (7)</h3>
   
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#10 · Fri, 05 Jun 2026 15:00:57 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#11 · Fri, 05 Jun 2026 15:00:57 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">The friday 5: AI budgets, papal encyclical, sick leave</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> HR Brain Pickings &lt;newsletter@mail.hrbrainpickings.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">June 05, 2026 | Read online Happy Friday, HR friends! 🙌 Uber&amp;#39;s engineers were told to go all-in on AI coding tools. They did. So enthusiastically,</div>
@@ -1128,7 +1032,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#12 · Fri, 05 Jun 2026 10:45:21 -0400</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#13 · Fri, 05 Jun 2026 10:45:21 -0400</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Let&#x27;s Talk Real-Life Money Decisions</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Sago &lt;Participate@focusgroup.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Hello Melissa We are currently offering $100.00 to our members who qualify and complete a research study on Financial Experiences. Pre-Qualification Q</div>
@@ -1136,7 +1040,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#14 · Fri, 05 Jun 2026 06:22:42 -0600</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#15 · Fri, 05 Jun 2026 06:22:42 -0600</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">It&#x27;s Here: The Sandal Savings Event!</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Shoe Station &lt;customerservice@email.shoestation.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Shop Sandals under $20 + Buy 1 Get 1 FREE Shoe Station You Have 138 Points | Shoe Perks Member $10 coupon offer Sandal Savings Event Sandal Blowout Wo</div>
@@ -1144,7 +1048,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#23 · Fri, 05 Jun 2026 14:15:31 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#24 · Fri, 05 Jun 2026 14:15:31 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">👨‍💻 [Free Webinar] Why HR Software Decisions Fail</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Phil Strazzulla &lt;ssr-newsletter@mail.beehiiv.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Learn practical ways to build buy-in for your HR software ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ </div>
@@ -1152,7 +1056,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#29 · Fri, 5 Jun 2026 14:04:57 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#30 · Fri, 5 Jun 2026 14:04:57 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Your subscription ends tomorrow.</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> The CHRO Office &lt;thehroffice@substack.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Melissa, Thank you for your support as a paying subscriber to The CHRO Office. Your paid subscription is about to expire tomorrow. To keep all the ben</div>
@@ -1160,7 +1064,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#34 · Fri, 05 Jun 2026 13:50:50 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#35 · Fri, 05 Jun 2026 13:50:50 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Melissa Daily Briefing - 2026-06-05 13:50 UTC</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Melissa Daily Briefing &lt;melissaw212@gmail.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Executive Briefing 👋 Good Morning, Melissa! Friday, June 5, 2026 | Prepared by your Executive Chief of Staff 📧 50 Emails Reviewed 📅 9 Calendar Events </div>
@@ -1168,7 +1072,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#39 · Fri, 05 Jun 2026 13:29:56 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#40 · Fri, 05 Jun 2026 13:29:56 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Important Update About Your Research Opportunities</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Focus Group &lt;participate@focusgroup.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Hello Melissa, We&amp;#39;re reaching out to share an important update about your Focus Group membership and new opportunities available to you. Based on </div>
@@ -1180,7 +1084,15 @@
   <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">Promotional / Retail (7)</h3>
   
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#5 · Fri,  5 Jun 2026 15:05:00 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#1 · Fri, 05 Jun 2026 15:20:09 +0000</div>
+  <div style="font-size:14px; font-weight:700; color:#1a202c;">‼️Get more points for your $</div>
+  <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Fetch &lt;fetch@e.fetch.com&gt;</div>
+  <div style="font-size:12px; color:#4a5568; margin-top:4px;">Supercharged offers to make your points POP off ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ </div>
+  <div style="font-size:12px; font-weight:700; color:#2b6cb0; margin-top:6px;">Recommendation: Delete or ignore unless useful</div>
+</div>
+
+<div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
+  <div style="font-size:12px; color:#718096; font-weight:700;">#6 · Fri,  5 Jun 2026 15:05:00 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Meet Daisy</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Fayced Aesthetics NYC &lt;info@faycedaestheticsnyc.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Our Newest Nurse Injector + Exclusive New Patient Offer Meet the newest member of the Fayced Aesthetics team Daisy 🌼 We are so excited to introduce th</div>
@@ -1188,7 +1100,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#13 · Fri, 05 Jun 2026 14:50:06 +0000 (UTC)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#14 · Fri, 05 Jun 2026 14:50:06 +0000 (UTC)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Melissa, flash sale starts now!⏰</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> BellaVitashop &lt;bellavitashop@tiktokshop.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Visit the shop and save big today! ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌</div>
@@ -1196,7 +1108,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#18 · Fri, 5 Jun 2026 16:17:58 +0200</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#19 · Fri, 5 Jun 2026 16:17:58 +0200</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">PUMA x SALEHE BEMBURY Is Here</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> PUMA &lt;email@email.us.puma.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Taking the show on the road ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌ ͏‌</div>
@@ -1204,7 +1116,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#19 · Fri, 5 Jun 2026 14:18:28 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#20 · Fri, 5 Jun 2026 14:18:28 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">15% Off Catering this Summer!</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Chip City &lt;messages+ml5y60byxd19g@squaremktg.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Have questions? Reply to this email and we&amp;#39;ll respond as soon as possible. Business Website Instagram Account Twitter Account Chip City 15-32 127t</div>
@@ -1212,7 +1124,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#43 · Fri, 05 Jun 2026 07:16:55 -0600</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#44 · Fri, 05 Jun 2026 07:16:55 -0600</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Invite your team to Slack today!</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Slack &lt;no-reply@email.slackhq.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">We&amp;#39;ll help you and your team get started Your team is on a free trial of Pro. Try in Slack → Slack from Salesforce It&amp;#39;s time—give Slack a try </div>
@@ -1220,18 +1132,10 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#46 · Fri, 5 Jun 2026 13:06:12 +0000</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#47 · Fri, 5 Jun 2026 13:06:12 +0000</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Apple’s Starlink Update Sparks Huge Earning Opportunity</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;Pre-IPO Offering ✍🏻 Capital Noted&quot; &lt;news@editor.capitalnoted.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Apple just secretly added Starlink satellite support to iPhones through iOS 18.3. One of the biggest potential winners? Mode Mobile. Capital Noted log</div>
-  <div style="font-size:12px; font-weight:700; color:#2b6cb0; margin-top:6px;">Recommendation: Delete or ignore unless useful</div>
-</div>
-
-<div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#50 · Fri, 05 Jun 2026 13:02:26 +0000</div>
-  <div style="font-size:14px; font-weight:700; color:#1a202c;">The Kind of Find You Didn&#x27;t Know You Needed</div>
-  <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> &quot;🔥 Mystery Deal 🔥&quot; &lt;marketing@mysterydeal.com&gt;</div>
-  <div style="font-size:12px; color:#4a5568; margin-top:4px;">A handful of unexpected picks that have a way of sticking around. ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
   <div style="font-size:12px; font-weight:700; color:#2b6cb0; margin-top:6px;">Recommendation: Delete or ignore unless useful</div>
 </div>
 </div>
@@ -1240,7 +1144,7 @@
   <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">Security / Risk (2)</h3>
   
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#28 · Fri, 05 Jun 2026 07:33:00 -0600</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#29 · Fri, 05 Jun 2026 07:33:00 -0600</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">Workout drawer: refreshed ✨ Snag 50% OFF all active*</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Old Navy &lt;oldnavy@email.oldnavy.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Plus, Encore Members get ✨ free shipping ✨ on $50+ orders ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div>
@@ -1248,7 +1152,7 @@
 </div>
 
 <div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#37 · Fri, 5 Jun 2026 09:32:18 -0400 (EDT)</div>
+  <div style="font-size:12px; color:#718096; font-weight:700;">#38 · Fri, 5 Jun 2026 09:32:18 -0400 (EDT)</div>
   <div style="font-size:14px; font-weight:700; color:#1a202c;">📓 motivation with $0</div>
   <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> Hebba Youssef &lt;ihateithere@workweek.com&gt;</div>
   <div style="font-size:12px; color:#4a5568; margin-top:4px;">Proving impact through metrics + keeping people engaged without a budget. I Hate It Here Hebba Youssef Jun 5th, 2026 Read in browser In partnership wi</div>
