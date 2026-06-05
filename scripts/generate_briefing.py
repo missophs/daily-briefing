@@ -451,11 +451,8 @@ def generate_briefing(emails: list, events: list) -> str:
 {email_rows}
 """
 
-    # Append forced sections at the end instead of inserting before </body>.
-    # This avoids breaking Claude-generated tables if Claude closes </body> in the wrong place.
-    if "Full Email Inventory" not in text:
-        text = text + forced_sections
-
+    # Do not append forced sections.
+    # Claude now has enough output tokens to generate the full briefing directly.
     return text
 
 
