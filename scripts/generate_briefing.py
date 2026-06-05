@@ -312,7 +312,7 @@ def generate_briefing(emails: list, events: list) -> str:
     client  = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=8192,
+        max_tokens=16000,
         messages=[{
             "role": "user",
             "content": PROMPT.format(
