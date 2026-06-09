@@ -39,3 +39,19 @@ jobs:
           git add BRIEFING.md README.md
           git commit -m "Daily briefing update" || echo "No changes"
           git push
+
+      - name: Capture date for subject
+        id: date
+        run: echo "today=$(date +'%Y-%m-%d %H:%M UTC')" >> "$GITHUB_OUTPUT"
+
+      - name: Email completed briefing
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "Melissa Daily Briefing - ${{ steps.date.outputs.today }}"
+          to: ${{ secrets.MAIL_TO }}
+          from: "Melissa Daily Briefing <${{ secrets.MAIL_USERNAME }}>"
+          html_body: file://BRIEFING.md
