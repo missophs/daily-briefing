@@ -45,13 +45,41 @@ jobs:
         run: echo "today=$(date +'%Y-%m-%d %H:%M UTC')" >> "$GITHUB_OUTPUT"
 
       - name: Email completed briefing
-        uses: dawidd6/action-send-mail@v4
-        with:
-          server_address: ${{ secrets.SMTP_SERVER }}
-          server_port: ${{ secrets.SMTP_PORT }}
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Melissa Daily Briefing - ${{ steps.date.outputs.today }}"
-          to: ${{ secrets.MAIL_TO }}
-          from: "Melissa Daily Briefing <${{ secrets.MAIL_USERNAME }}>"
-          html_body: file://BRIEFING.md
+        env:
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          EMAIL_SUBJECT: "Melissa Daily Briefing - ${{ steps.date.outputs.today }}"
+        run: |
+          python - <<'PYMAIL'
+          import os, smtplib
+          from email.mime.multipart import MIMEMultipart
+          from email.mime.text import MIMEText
+
+          sender = os.environ["MAIL_USERNAME"]
+          recipient = os.environ["MAIL_TO"]
+          subject = os.environ["EMAIL_SUBJECT"]
+
+          with open("BRIEFING.md", "r", encoding="utf-8") as f:
+              html = f.read()
+
+          msg = MIMEMultipart("alternative")
+          msg["From"] = f"Melissa Daily Briefing <{sender}>"
+          msg["To"] = recipient
+          msg["Subject"] = subject
+          msg.attach(MIMEText(html, "html", "utf-8"))
+
+          print(f"Email from:    {sender}")
+          print(f"Email to:      {recipient}")
+          print(f"Email subject: {subject}")
+
+          with smtplib.SMTP_SSL(os.environ["SMTP_SERVER"], int(os.environ["SMTP_PORT"])) as server:
+              server.login(sender, os.environ["MAIL_PASSWORD"])
+              result = server.sendmail(sender, [recipient], msg.as_string())
+
+          print("SMTP sendmail returned successfully")
+          print(f"SMTP result: {result}")
+          print(f"Email sent → {recipient}")
+          PYMAIL
