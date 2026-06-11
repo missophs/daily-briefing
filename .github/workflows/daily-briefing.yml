@@ -2,7 +2,8 @@ name: Daily Briefing
 
 on:
   schedule:
-    - cron: '10 11 * * 1-5'
+    - cron: '30,50 10 * * 1-5'
+    - cron: '10,30 11 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -15,16 +16,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check if briefing already sent today
+        id: guard
+        run: |
+          TODAY=$(TZ=America/New_York date +'%Y-%m-%d')
+          echo "today=$TODAY" >> "$GITHUB_OUTPUT"
+
+          if [ -f .last_briefing_date ] && [ "$(cat .last_briefing_date)" = "$TODAY" ]; then
+            echo "Briefing already sent today: $TODAY"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Briefing has not been sent today: $TODAY"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Set up Python
+        if: steps.guard.outputs.skip != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: pip
 
       - name: Install dependencies
+        if: steps.guard.outputs.skip != 'true'
         run: pip install -r scripts/requirements.txt
 
       - name: Generate real briefing
+        if: steps.guard.outputs.skip != 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
@@ -32,19 +50,13 @@ jobs:
           GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
         run: python scripts/generate_briefing.py
 
-      - name: Commit changes
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add BRIEFING.md README.md
-          git commit -m "Daily briefing update" || echo "No changes"
-          git push
-
       - name: Capture date for subject
+        if: steps.guard.outputs.skip != 'true'
         id: date
-        run: echo "today=$(date +'%Y-%m-%d %H:%M UTC')" >> "$GITHUB_OUTPUT"
+        run: echo "today=$(TZ=America/New_York date +'%Y-%m-%d %H:%M ET')" >> "$GITHUB_OUTPUT"
 
       - name: Email completed briefing
+        if: steps.guard.outputs.skip != 'true'
         env:
           SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
@@ -94,3 +106,13 @@ jobs:
           print(f"SMTP result: {result}")
           print(f"Email sent → {recipient}")
           PYMAIL
+
+      - name: Commit changes
+        if: steps.guard.outputs.skip != 'true'
+        run: |
+          echo "${{ steps.guard.outputs.today }}" > .last_briefing_date
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add BRIEFING.md README.md .last_briefing_date
+          git commit -m "Daily briefing update" || echo "No changes"
+          git push
