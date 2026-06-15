@@ -114,4 +114,5 @@ jobs:
           git config user.email "github-actions@github.com"
           git add BRIEFING.md README.md .last_briefing_date
           git commit -m "Daily briefing update" || echo "No changes"
-          git push
+          git pull --rebase origin webhooks
+          git push origin HEAD:webhooks
