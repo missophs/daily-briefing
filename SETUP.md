@@ -1,5 +1,19 @@
 # Daily Briefing — Setup & Maintenance
 
+## Key URLs & Resources
+
+| What | URL |
+|------|-----|
+| GitHub repo | https://github.com/missophs/daily-briefing |
+| GitHub Actions (run/monitor workflow) | https://github.com/missophs/daily-briefing/actions/workflows/daily-briefing.yml |
+| GitHub Secrets (update credentials) | https://github.com/missophs/daily-briefing/settings/secrets/actions |
+| Google Cloud project dashboard | https://console.cloud.google.com/home/dashboard?project=tough-talent-493313-u9 |
+| OAuth publishing status (Audience) | https://console.cloud.google.com/auth/audience?project=tough-talent-493313-u9 |
+| Gmail API status | https://console.cloud.google.com/apis/api/gmail.googleapis.com?project=tough-talent-493313-u9 |
+| Google Calendar API status | https://console.cloud.google.com/apis/api/calendar-json.googleapis.com?project=tough-talent-493313-u9 |
+| Local credentials file | /Users/Owner/Documents/Claude/05_RESOURCES/Scheduled/morning-email-digest/gmail_credentials.json |
+| Local token script | /Users/Owner/Documents/Claude/05_RESOURCES/Scheduled/morning-email-digest/get_new_token.py |
+
 ## Changing the delivery time
 
 1. Edit the `cron:` line in `.github/workflows/daily-briefing.yml`
