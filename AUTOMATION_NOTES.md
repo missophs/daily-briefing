@@ -13,7 +13,7 @@ It does all of this in one run:
 
 ## Schedule
 
-Cron: `7 8 * * *` (4:07 AM ET summer / 3:07 AM ET winter — big buffer before the 7:15 AM ET target).
+Cron: `7 7 * * *` (3:07 AM ET summer / 2:07 AM ET winter — bigger buffer before the 7:15 AM ET target, per user request to shift an extra hour earlier).
 
 ### Real cause of late/missed deliveries (2026-07-01)
 
