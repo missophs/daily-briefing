@@ -13,7 +13,11 @@ It does all of this in one run:
 
 ## Schedule
 
-Cron: `7 7 * * *` (3:07 AM ET summer / 2:07 AM ET winter — bigger buffer before the 7:15 AM ET target, per user request to shift an extra hour earlier).
+Cron: `52 7 * * *` (3:52 AM ET summer / 2:52 AM ET winter).
+
+2026-07-02: the `7 7 * * *` cron landed the email at 6:15 AM ET — a full hour
+of buffer before the 7:15 AM ET target went unused. Shifted 45 min later per
+user request to tighten the buffer instead of over-correcting.
 
 ### Real cause of late/missed deliveries (2026-07-01)
 
