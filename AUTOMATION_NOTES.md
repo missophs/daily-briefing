@@ -16,8 +16,21 @@ It does all of this in one run:
 Cron: `52 7 * * *` (3:52 AM ET summer / 2:52 AM ET winter).
 
 2026-07-02: the `7 7 * * *` cron landed the email at 6:15 AM ET — a full hour
-of buffer before the 7:15 AM ET target went unused. Shifted 45 min later per
-user request to tighten the buffer instead of over-correcting.
+of buffer before the 7:15 AM ET target went unused. Shifted 45 min later to
+`52 7 * * *` to tighten the buffer instead of over-correcting.
+
+Observed scheduler delay has been consistent the last 3 runs (~3-4h):
+- 2026-06-30: scheduled ~9:15 UTC, started 13:15 UTC (4h)
+- 2026-07-01: scheduled ~9:15 UTC, started 12:17 UTC (~3h02m)
+- 2026-07-02: scheduled 7:07 UTC, started 10:13 UTC (~3h06m)
+
+Projecting the same ~3h delay onto `52 7 * * *`: actual start ~10:58 UTC,
+landing ~7:02-7:06 AM ET — close to the 7:15 target with a small safety
+margin. **Decision (2026-07-02): hold at `52 7 * * *` and wait for the
+2026-07-03 run to confirm the actual landing time before changing the cron
+again.** Do not nudge the cron further on guesswork alone — check the actual
+run's `run_started_at` vs scheduled time first (see run history via
+`actions_list` → `list_workflow_runs` on `daily-briefing.yml`).
 
 ### Real cause of late/missed deliveries (2026-07-01)
 
