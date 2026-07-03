@@ -13,24 +13,36 @@ It does all of this in one run:
 
 ## Schedule
 
-Cron: `52 7 * * *` (3:52 AM ET summer / 2:52 AM ET winter).
+**2026-07-03: switched the primary delivery mechanism away from GitHub's
+`schedule:` trigger entirely.** Four consecutive days of data showed the
+scheduler delay is random within a wide range (2.5h-4h), not a fixed offset:
 
-2026-07-02: the `7 7 * * *` cron landed the email at 6:15 AM ET — a full hour
-of buffer before the 7:15 AM ET target went unused. Shifted 45 min later to
-`52 7 * * *` to tighten the buffer instead of over-correcting.
-
-Observed scheduler delay has been consistent the last 3 runs (~3-4h):
 - 2026-06-30: scheduled ~9:15 UTC, started 13:15 UTC (4h)
 - 2026-07-01: scheduled ~9:15 UTC, started 12:17 UTC (~3h02m)
-- 2026-07-02: scheduled 7:07 UTC, started 10:13 UTC (~3h06m)
+- 2026-07-02: scheduled 7:07 UTC, started 10:13 UTC (~3h06m), landed 6:15 AM ET
+- 2026-07-03: scheduled 7:52 UTC, started 10:20 UTC (~2h29m), landed 6:24 AM ET
 
-Projecting the same ~3h delay onto `52 7 * * *`: actual start ~10:58 UTC,
-landing ~7:02-7:06 AM ET — close to the 7:15 target with a small safety
-margin. **Decision (2026-07-02): hold at `52 7 * * *` and wait for the
-2026-07-03 run to confirm the actual landing time before changing the cron
-again.** Do not nudge the cron further on guesswork alone — check the actual
-run's `run_started_at` vs scheduled time first (see run history via
-`actions_list` → `list_workflow_runs` on `daily-briefing.yml`).
+No cron time can compensate for a delay that swings by 1.5+ hours day to day.
+Nudging the cron repeatedly (8+ times across this repo's history) was
+chasing the symptom.
+
+**Fix:** a platform-level scheduled trigger (`daily-briefing-dispatch`, cron
+`8 11 * * *` = 7:08 AM ET, bound to resume the Claude session at
+`session_019hb3CbfvEtCvSSU2hL7rtn`) fires `workflow_dispatch` on
+`daily-briefing.yml` directly every morning via `mcp__github__actions_run_trigger`
+(method `run_workflow`, ref `webhooks`). `workflow_dispatch` runs start
+almost immediately — no scheduler queue. Tested end-to-end on 2026-07-03:
+dispatch succeeded, workflow ran in 5s (correctly skipped via the
+`.last_briefing_date` guard since that day's briefing was already sent).
+
+The workflow's internal `schedule:` cron (`52 7 * * *`) stays as a backup
+only — if it fires after the dispatch already sent today's briefing, the
+guard no-ops it, so there's no duplicate-email risk.
+
+**Important:** the trigger's cron is UTC and EDT-adjusted. When US clocks
+change, update it: `8 12 * * *` for EST (Nov-Mar), `8 11 * * *` for EDT
+(Mar-Nov). If the trigger ever misfires, the prompt bound to it is written
+to push-notify immediately on failure rather than fail silently.
 
 ### Real cause of late/missed deliveries (2026-07-01)
 
