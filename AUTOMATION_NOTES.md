@@ -35,6 +35,11 @@ almost immediately — no scheduler queue. Tested end-to-end on 2026-07-03:
 dispatch succeeded, workflow ran in 5s (correctly skipped via the
 `.last_briefing_date` guard since that day's briefing was already sent).
 
+The trigger prompt also checks its own fire time against the 7:08 AM ET
+target and push-notifies if it fired more than ~20 min early/late, since a
+successful-but-late dispatch wouldn't otherwise be distinguishable from a
+normal on-time one.
+
 The workflow's internal `schedule:` cron (`52 7 * * *`) stays as a backup
 only — if it fires after the dispatch already sent today's briefing, the
 guard no-ops it, so there's no duplicate-email risk.
