@@ -40,9 +40,24 @@ target and push-notifies if it fired more than ~20 min early/late, since a
 successful-but-late dispatch wouldn't otherwise be distinguishable from a
 normal on-time one.
 
-The workflow's internal `schedule:` cron (`52 7 * * *`) stays as a backup
+The workflow's internal `schedule:` cron stays as a backup
 only — if it fires after the dispatch already sent today's briefing, the
 guard no-ops it, so there's no duplicate-email risk.
+
+**2026-07-03, later: shifted backup cron 45min later again (7:52 → 8:37
+UTC).** The 7/3 data point above (scheduled 7:52 UTC, landed 6:24 AM ET) was
+55 min earlier than needed — plenty of unused buffer against the 7:15 AM ET
+target. Moved the cron another 45 min later, to `37 8 * * *` (8:37 UTC),
+to tighten the buffer further. If the ~2.5h delay observed on 7/2 and 7/3
+holds, this should land close to 7:05-7:10 AM ET.
+
+Caveat: 8:37 UTC scheduled + a shorter-than-usual delay could put the
+`schedule:` run close in time to the 7:08 AM ET dispatch trigger. The
+`.last_briefing_date` guard is only checked at job start, not held for the
+job's duration, so if both runs start within the same generate+send window
+(before either commits the guard file) there's a real duplicate-email risk.
+Watch for this if both a schedule-triggered and dispatch-triggered run show
+up close together in the Actions history.
 
 **Important:** the trigger's cron is UTC and EDT-adjusted. When US clocks
 change, update it: `8 12 * * *` for EST (Nov-Mar), `8 11 * * *` for EDT
