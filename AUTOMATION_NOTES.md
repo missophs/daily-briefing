@@ -64,6 +64,33 @@ change, update it: `8 12 * * *` for EST (Nov-Mar), `8 11 * * *` for EDT
 (Mar-Nov). If the trigger ever misfires, the prompt bound to it is written
 to push-notify immediately on failure rather than fail silently.
 
+**2026-07-04: MCP connector auth failure + two additional fixes.**
+
+What went wrong on 7/4:
+- The platform trigger fired at exactly 7:08 AM ET ✓
+- BUT the GitHub MCP connector OAuth had expired overnight → dispatch call
+  failed silently with "requires authentication"
+- A push notification was sent but was NOT received by the user
+- Briefing arrived at 7:28 AM ET only after manual intervention
+
+Fix 1 — PAT-based dispatch (eliminates auth expiry entirely):
+Trigger prompt updated to use `curl` directly against the GitHub REST API
+with a Personal Access Token (classic, `workflow` scope, no expiry) instead
+of `mcp__github__actions_run_trigger`. There is no OAuth token to expire.
+The PAT is embedded in the trigger config (private to the user's account).
+Trigger ID: `trig_01UZzMZK9Vur8wLFnfmWvE4a`.
+
+Fix 2 — Backup schedule cron race condition (eliminates duplicate emails):
+Added `concurrency: group: daily-briefing` to the workflow so simultaneous
+runs queue rather than overlap. Added a time guard: schedule-triggered runs
+skip if it is before 7 AM ET, preventing early delivery when GitHub's
+scheduler is unusually fast. Schedule cron remains `0 8 * * *` UTC as a
+last-resort backup only.
+
+Push notification gap: the 7/4 failure notification was sent but not received.
+Cause unknown — may be a device notification settings issue. Investigate if
+it happens again.
+
 ### Real cause of late/missed deliveries (2026-07-01)
 
 This is NOT a case of "a few minutes late." GitHub's `schedule:` trigger is
