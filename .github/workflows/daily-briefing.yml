@@ -1,6 +1,11 @@
 name: Daily Briefing
 on:
+  schedule:
+    - cron: '0 8 * * *'
   workflow_dispatch:
+concurrency:
+  group: daily-briefing
+  cancel-in-progress: false
 permissions:
   contents: write
 jobs:
@@ -12,8 +17,11 @@ jobs:
         id: guard
         run: |
           TODAY=$(TZ=America/New_York date +'%Y-%m-%d')
+          HOUR=$(TZ=America/New_York date +'%H')
           echo "today=$TODAY" >> "$GITHUB_OUTPUT"
           if [ -f .last_briefing_date ] && [ "$(cat .last_briefing_date)" = "$TODAY" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ "$HOUR" -lt "7" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
