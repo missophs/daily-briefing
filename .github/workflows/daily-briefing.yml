@@ -1,11 +1,6 @@
 name: Daily Briefing
 on:
-  schedule:
-    - cron: '0 8 * * *'
   workflow_dispatch:
-concurrency:
-  group: daily-briefing
-  cancel-in-progress: false
 permissions:
   contents: write
 jobs:
