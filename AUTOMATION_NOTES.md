@@ -91,6 +91,35 @@ Push notification gap: the 7/4 failure notification was sent but not received.
 Cause unknown — may be a device notification settings issue. Investigate if
 it happens again.
 
+**2026-07-04, later: restored the backup cron's tuned offset.** When the
+backup `schedule:` cron was removed on 7/3 (duplicate-email fix) and
+re-added earlier today (MCP auth-failure fix), it went back in at its
+original untuned value, `0 8 * * *` (4:00 AM ET) — losing the 45-min-later
+tuning already reached on 7/3 (`37 8 * * *` / 8:37 UTC), which was never
+actually tested because the cron was pulled before it could fire.
+
+That 7/3 tuning was based on real data: cron scheduled 7:52 UTC, GitHub
+actually started the run at 10:20:58 UTC (6:20:58 AM ET) — about 55 min of
+unused buffer against the 7:15 AM ET target. Per user request, shifted the
+now-restored backup cron another 45 min later, back to `37 8 * * *`
+(8:37 UTC / 4:37 AM ET), continuing that tuning rather than restarting it
+from the untuned value.
+
+Note: this only affects the *backup*. The primary path (`daily-briefing-dispatch`
+platform trigger → PAT-based `workflow_dispatch` at 7:08 AM ET) is what
+actually needs to land by 7:15 AM ET and isn't subject to GitHub's `schedule:`
+queueing delay. The backup exists purely as a safety net for when the primary
+fails outright (as it did on 7/4), so its exact timing matters less than "it
+eventually fires automatically" — but keeping it reasonably tuned avoids
+wasting the buffer if it ever becomes the one that has to send.
+
+Also found two stray triggers on the account, not part of this documented
+setup: `daily briefing` (cron `0 13 * * *` = 9:00 AM ET, enabled) and
+`Briefing` (cron `0 11 * * 1-5` = 7:00 AM ET weekdays, appears paused).
+Neither matches today's 6:20 AM data point or the 7:15 AM target. Worth
+confirming with the user whether these are leftover and should be deleted,
+since an enabled stray trigger risks an unexpected duplicate email.
+
 ### Real cause of late/missed deliveries (2026-07-01)
 
 This is NOT a case of "a few minutes late." GitHub's `schedule:` trigger is

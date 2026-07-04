@@ -1,7 +1,7 @@
 name: Daily Briefing
 on:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '37 8 * * *'
   workflow_dispatch:
 concurrency:
   group: daily-briefing
