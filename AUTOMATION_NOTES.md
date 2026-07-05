@@ -162,8 +162,54 @@ Successful logs should include:
 SMTP sendmail returned successfully
 Email sent →
 
+## 2026-07-05: Google OAuth refresh + trigger fix
+
+### What broke
+- GMAIL_REFRESH_TOKEN expired → `invalid_grant` errors in workflow
+- GitHub PAT used for dispatch returned HTTP 403 (now replaced with GitHub MCP)
+- All GitHub secrets were missing and had to be re-added manually
+
+### What was fixed
+
+**Trigger (no more PAT):** The `daily-briefing-dispatch` trigger (ID: `trig_014Ekax1er6ujqdCNwKjsCmZ`,
+cron `8 11 * * *` = 7:08 AM ET) now calls `mcp__github__actions_run_trigger` directly
+via GitHub MCP — no PAT required, no OAuth expiry to worry about.
+Bound to session `session_019hb3CbfvEtCvSSU2hL7rtn`.
+
+**OAuth token regenerated:** New GMAIL_REFRESH_TOKEN generated on 2026-07-05 using
+`scripts/get_google_token.py` (manual URL-copy flow — avoids localhost redirect issue).
+All three secrets updated in GitHub to match (values in GitHub repository secrets —
+do NOT commit them here):
+- GOOGLE_CLIENT_ID — Google Cloud Console → OAuth 2.0 Client → `daily-briefing-2026`
+- GOOGLE_CLIENT_SECRET — same client
+- GMAIL_REFRESH_TOKEN — regenerated 2026-07-05
+
+**Netlify build credits:** Added `ignore = "exit 0"` to `netlify.toml` so pushes to
+`webhooks` branch no longer trigger Netlify builds. The email delivery is entirely
+GitHub Actions → SMTP and does not involve Netlify.
+
+**`scripts/get_google_token.py` rewritten:** Old version used `run_local_server()` which
+failed because localhost redirect never completed. New version uses manual URL-copy:
+displays auth URL, user visits browser, copies the full `http://localhost/?code=...` URL
+from address bar after "can't connect" error, pastes into terminal.
+
+### If refresh token expires again
+1. Run `python3 scripts/get_google_token.py` on your Mac from `~/daily-briefing/` (webhooks branch)
+2. Paste GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET when prompted
+3. Visit the URL, click Advanced → Go to app (unsafe), copy the localhost callback URL
+4. Paste it in terminal — get the refresh token
+5. Update ALL THREE secrets in GitHub to match (client ID, secret, refresh token must match)
+
+### Computer does not need to be on
+Everything runs in the cloud. The trigger lives on Anthropic's servers, fires into
+the Claude session, which calls GitHub Actions (also cloud). No Mac required.
+
+### DST reminder
+- EDT (Mar–Nov): cron `8 11 * * *` = 7:08 AM ET ✓ (current)
+- EST (Nov–Mar): update trigger to `8 12 * * *` = 7:08 AM ET
+
 ## Do not repeat
 
 Do not split generation and email into two scheduled workflows.
 Do not rerun Daily Briefing repeatedly without checking the exact error first.
-Do not update only one Google OAuth secret.
+Do not update only one Google OAuth secret — GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GMAIL_REFRESH_TOKEN must always match.
