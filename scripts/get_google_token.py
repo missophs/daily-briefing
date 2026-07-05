@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
 Run this script ONCE on your local machine to get your GMAIL_REFRESH_TOKEN.
-It opens a browser window for you to log in, then prints the token to paste
-into GitHub Secrets.
+Works without a localhost redirect — paste the URL from your browser.
 
 Prerequisites (run in your terminal first):
-  pip install google-auth-oauthlib
+  pip3 install google-auth-oauthlib
 
 Usage:
-  python scripts/get_google_token.py
+  python3 scripts/get_google_token.py
 """
 
+import urllib.parse
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 SCOPES = [
@@ -22,9 +22,6 @@ print()
 print("=" * 60)
 print("  Google OAuth Token Helper")
 print("=" * 60)
-print()
-print("Find these values in Google Cloud Console:")
-print("  APIs & Services → Credentials → your OAuth 2.0 Client ID")
 print()
 
 client_id     = input("Paste GOOGLE_CLIENT_ID:     ").strip()
@@ -41,15 +38,39 @@ client_config = {
     }
 }
 
-flow  = InstalledAppFlow.from_client_config(client_config, SCOPES)
-creds = flow.run_local_server(port=0, prompt="consent", access_type="offline")
+flow = InstalledAppFlow.from_client_config(client_config, SCOPES)
+flow.redirect_uri = "http://localhost"
+auth_url, _ = flow.authorization_url(prompt="consent", access_type="offline")
 
+print("STEP 1 — Open this URL in your browser:")
 print()
-print("=" * 60)
-print("  SUCCESS")
-print("=" * 60)
+print(auth_url)
 print()
-print("Add this as the GMAIL_REFRESH_TOKEN secret in GitHub:")
+print("STEP 2 — Log in and approve access.")
+print("         The browser will show a 'This site can't be reached' error.")
+print("         That is NORMAL. Don't close it.")
 print()
-print(creds.refresh_token)
+print("STEP 3 — Copy the FULL URL from the browser address bar")
+print("         (it starts with http://localhost/?state=...&code=...)")
 print()
+
+callback_url = input("Paste the full URL from the address bar: ").strip()
+
+parsed = urllib.parse.urlparse(callback_url)
+params = urllib.parse.parse_qs(parsed.query)
+code = params.get("code", [None])[0]
+
+if not code:
+    print()
+    print("ERROR: No authorization code found in that URL. Make sure you copied the full URL.")
+else:
+    flow.fetch_token(code=code)
+    print()
+    print("=" * 60)
+    print("  SUCCESS")
+    print("=" * 60)
+    print()
+    print("Add this as the GMAIL_REFRESH_TOKEN secret in GitHub:")
+    print()
+    print(flow.credentials.refresh_token)
+    print()
