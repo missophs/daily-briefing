@@ -1,6 +1,8 @@
 name: Daily Briefing
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'  # 8 AM ET backup — fires if platform trigger failed; guard prevents duplicates
 permissions:
   contents: write
 jobs:

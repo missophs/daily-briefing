@@ -208,8 +208,47 @@ the Claude session, which calls GitHub Actions (also cloud). No Mac required.
 - EDT (Mar–Nov): cron `8 11 * * *` = 7:08 AM ET ✓ (current)
 - EST (Nov–Mar): update trigger to `8 12 * * *` = 7:08 AM ET
 
+## 2026-07-08: Stale session auth failure + schedule backup restored
+
+### What broke (July 7–8)
+- Platform trigger (`trig_014Ekax1er6ujqdCNwKjsCmZ`) fired at 7:08 AM ET both days
+- But it was bound to session `session_019hb3CbfvEtCvSSU2hL7rtn` (months old) whose GitHub MCP OAuth had expired
+- Result: trigger fired → MCP call failed silently → NO workflow dispatched → NO briefing for 2 days
+
+### Root cause
+GitHub MCP uses OAuth. The OAuth token in the long-running bound session expires over time.
+When the trigger resumes that old session, the MCP call requires re-auth, which can't happen non-interactively.
+
+### Fixes applied (2026-07-08)
+
+**Fix 1 — Trigger now uses fresh sessions:**
+Deleted `trig_014Ekax1er6ujqdCNwKjsCmZ` and recreated as new trigger with `create_new_session_on_fire: true`.
+Each morning creates a brand-new session (no stale OAuth). Fresh sessions pick up the user's current
+connector auth state, which is valid as long as the GitHub MCP connector is authorized in claude.ai settings.
+
+New trigger ID: see below.
+Cron unchanged: `8 11 * * *` = 7:08 AM ET (EDT). Update to `8 12 * * *` for EST (Nov–Mar).
+
+**Fix 2 — Schedule backup restored:**
+Added `schedule: cron: '0 12 * * *'` (8 AM ET) back to `daily-briefing.yml` as last-resort backup.
+The `.last_briefing_date` guard prevents duplicate sends — if the platform trigger already ran,
+the schedule run sees today's date and skips. Only fires the full briefing if the platform trigger failed.
+GitHub schedule may be delayed 2-4h, but even a 10 AM delivery beats no delivery.
+
+**July 8 manual recovery:**
+Dispatched today's briefing manually at 4:29 PM ET. Delivered successfully.
+
+### If GitHub MCP connector loses auth again
+Sign in at claude.ai → Settings → Connectors → GitHub → reconnect.
+Fresh-session triggers pick up the renewed auth automatically on the next fire.
+
+### Trigger state after 2026-07-08 fix
+- Primary: platform trigger with `create_new_session_on_fire: true`, cron `8 11 * * *` (EDT)
+- Backup: workflow `schedule: '0 12 * * *'` (8 AM ET) — last resort, may be delayed
+
 ## Do not repeat
 
 Do not split generation and email into two scheduled workflows.
 Do not rerun Daily Briefing repeatedly without checking the exact error first.
 Do not update only one Google OAuth secret — GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GMAIL_REFRESH_TOKEN must always match.
+Do not bind the dispatch trigger to a persistent session — use create_new_session_on_fire: true so each firing gets fresh OAuth state.
