@@ -226,7 +226,7 @@ Deleted `trig_014Ekax1er6ujqdCNwKjsCmZ` and recreated as new trigger with `creat
 Each morning creates a brand-new session (no stale OAuth). Fresh sessions pick up the user's current
 connector auth state, which is valid as long as the GitHub MCP connector is authorized in claude.ai settings.
 
-New trigger ID: see below.
+New trigger ID: `trig_011NHYQpjSNTUK5kG85shGvM`.
 Cron unchanged: `8 11 * * *` = 7:08 AM ET (EDT). Update to `8 12 * * *` for EST (Nov–Mar).
 
 **Fix 2 — Schedule backup restored:**
