@@ -27,10 +27,10 @@
 
 These errors mean the Gmail refresh token expired or was revoked. Fix:
 
-1. On your Mac, run:
+1. On your Mac, clone or pull the repo and run:
 
-       cd /Users/Owner/Documents/Claude/05_RESOURCES/Scheduled/morning-email-digest
-       python get_new_token.py
+       cd ~/daily-briefing   # or wherever you cloned missophs/daily-briefing (webhooks branch)
+       python scripts/get_google_token.py
 
 2. Open the printed URL in your browser, sign in, click Allow
 3. Your browser shows an error page — that is expected
@@ -42,9 +42,9 @@ These errors mean the Gmail refresh token expired or was revoked. Fix:
 
    Paste the token when prompted, press Enter, then Ctrl+D
 
-Important: GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must match the gmail_credentials.json file used to generate the token.
-- Client ID: 522559244108-qq2gh2o0t58oe2jhvej0lad75740rh81.apps.googleusercontent.com
-- Credentials file: /Users/Owner/Documents/Claude/05_RESOURCES/Scheduled/morning-email-digest/gmail_credentials.json
+Important: GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must match the client used to generate the token.
+- Client ID: 522559244108-ga0gejqv2hgt0gi6ncskj5rb4bko8hqp.apps.googleusercontent.com
+- The token script is at scripts/get_google_token.py in this repo (webhooks branch)
 
 Note on token expiry: As of 2026-06-28, the Google Cloud project (tough-talent-493313-u9) is set to In production. Refresh tokens no longer expire every 7 days. The only reasons a token would become invalid now are: manually revoking access in your Google account, or changing your Google account password.
 

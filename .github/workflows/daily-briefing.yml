@@ -5,6 +5,9 @@ on:
     - cron: '0 12 * * *'  # 8 AM ET backup — fires if platform trigger failed; guard prevents duplicates
 permissions:
   contents: write
+concurrency:
+  group: daily-briefing
+  cancel-in-progress: false
 jobs:
   update-briefing:
     runs-on: ubuntu-latest
@@ -75,11 +78,11 @@ jobs:
           smtp_server = os.environ["SMTP_SERVER"]
           smtp_port = int(os.environ["SMTP_PORT"])
           if smtp_port == 465:
-              with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:
+              with smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=30) as server:
                   server.login(sender, os.environ["MAIL_PASSWORD"])
                   result = server.sendmail(sender, [recipient], msg.as_string())
           else:
-              with smtplib.SMTP(smtp_server, smtp_port) as server:
+              with smtplib.SMTP(smtp_server, smtp_port, timeout=30) as server:
                   server.ehlo()
                   server.starttls()
                   server.ehlo()
@@ -96,6 +99,58 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add BRIEFING.md README.md .last_briefing_date
-          git commit -m "Daily briefing update" || echo "No changes"
-          git pull --rebase origin webhooks
-          git push origin HEAD:webhooks
+          git diff --staged --quiet || git commit -m "Daily briefing update"
+          n=0
+          until git pull --rebase origin webhooks && git push origin HEAD:webhooks; do
+            n=$((n + 1))
+            [ $n -ge 3 ] && echo "Push failed after $n attempts" >&2 && exit 1
+            echo "Push attempt $n failed, retrying in $((n * 2))s…"
+            sleep $((n * 2))
+          done
+      - name: Notify on failure
+        if: failure()
+        continue-on-error: true
+        env:
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          python - <<'PYMAIL'
+          import os, smtplib
+          from email.mime.text import MIMEText
+          sender    = os.environ["MAIL_USERNAME"]
+          recipient = os.environ["MAIL_TO"]
+          subject   = "ALERT: Daily Briefing workflow FAILED — no briefing sent"
+          body = (
+              "The Daily Briefing GitHub Actions workflow failed. Your briefing was NOT delivered.\n\n"
+              "Run log:\n"
+              "https://github.com/missophs/daily-briefing/actions/workflows/daily-briefing.yml\n\n"
+              "Common causes and fixes:\n"
+              "  Google OAuth error (invalid_grant):\n"
+              "    Run scripts/get_google_token.py and update all 3 Google secrets.\n"
+              "  Anthropic API error:\n"
+              "    Check ANTHROPIC_API_KEY in GitHub secrets and account credits.\n"
+              "  SMTP error:\n"
+              "    Check MAIL_PASSWORD, SMTP_SERVER, SMTP_PORT in GitHub secrets.\n"
+          )
+          msg = MIMEText(body, "plain")
+          msg["From"]    = sender
+          msg["To"]      = recipient
+          msg["Subject"] = subject
+          smtp_server = os.environ["SMTP_SERVER"]
+          smtp_port   = int(os.environ["SMTP_PORT"])
+          if smtp_port == 465:
+              with smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=30) as server:
+                  server.login(sender, os.environ["MAIL_PASSWORD"])
+                  server.sendmail(sender, [recipient], msg.as_string())
+          else:
+              with smtplib.SMTP(smtp_server, smtp_port, timeout=30) as server:
+                  server.ehlo()
+                  server.starttls()
+                  server.ehlo()
+                  server.login(sender, os.environ["MAIL_PASSWORD"])
+                  server.sendmail(sender, [recipient], msg.as_string())
+          print("Failure notification sent")
+          PYMAIL

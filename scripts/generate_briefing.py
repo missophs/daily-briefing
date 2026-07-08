@@ -10,7 +10,10 @@ import json
 import os
 import re
 import sys
+import socket
+import time
 import datetime
+import zoneinfo
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -22,6 +25,22 @@ SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly",
     "https://www.googleapis.com/auth/calendar.readonly",
 ]
+
+# Global socket timeout — applies to all Google API HTTP calls.
+socket.setdefaulttimeout(60)
+
+
+def _retry(fn, *, attempts=3, delay=2):
+    """Call fn up to `attempts` times with exponential backoff on any exception."""
+    for attempt in range(1, attempts + 1):
+        try:
+            return fn()
+        except Exception as exc:
+            if attempt == attempts:
+                raise
+            wait = delay * (2 ** (attempt - 1))
+            print(f"  Attempt {attempt}/{attempts} failed ({exc}). Retrying in {wait}s…", flush=True)
+            time.sleep(wait)
 
 
 # ── Google credentials ──────────────────────────────────────────────────────────
@@ -51,16 +70,16 @@ def _header(headers: list, name: str) -> str:
 def fetch_emails(service, days: int = 7) -> list[dict]:
     after = (datetime.date.today() - datetime.timedelta(days=days)).strftime("%Y/%m/%d")
 
-    # Collect message IDs (capped at 50 to keep the Claude prompt reasonable)
+    # Collect message IDs (capped at 50 to keep the Claude prompt reasonable).
     ids, page_token = [], None
     while len(ids) < 50:
-        resp = service.users().messages().list(
+        resp = _retry(lambda pt=page_token: service.users().messages().list(
             userId="me",
             q=f"after:{after}",
             maxResults=50,
-            pageToken=page_token,
+            pageToken=pt,
             includeSpamTrash=True,
-        ).execute()
+        ).execute())
         ids.extend(resp.get("messages", []))
         page_token = resp.get("nextPageToken")
         if not page_token:
@@ -68,12 +87,12 @@ def fetch_emails(service, days: int = 7) -> list[dict]:
 
     emails = []
     for ref in ids[:50]:
-        msg = service.users().messages().get(
+        msg = _retry(lambda r=ref: service.users().messages().get(
             userId="me",
-            id=ref["id"],
+            id=r["id"],
             format="metadata",
             metadataHeaders=["From", "Subject", "Date"],
-        ).execute()
+        ).execute())
         labels = msg.get("labelIds", [])
         hdrs   = msg.get("payload", {}).get("headers", [])
         emails.append({
@@ -91,17 +110,20 @@ def fetch_emails(service, days: int = 7) -> list[dict]:
 # ── Google Calendar ─────────────────────────────────────────────────────────────
 
 def fetch_events(service, days: int = 7) -> list[dict]:
-    now = datetime.datetime.utcnow().isoformat() + "Z"
-    end = (datetime.datetime.utcnow() + datetime.timedelta(days=days)).isoformat() + "Z"
+    # Use start of the ET calendar day so events from earlier this morning
+    # are included regardless of what time the briefing actually runs.
+    et_tz = zoneinfo.ZoneInfo("America/New_York")
+    day_start = datetime.datetime.now(et_tz).replace(hour=0, minute=0, second=0, microsecond=0)
+    day_end   = day_start + datetime.timedelta(days=days)
 
-    result = service.events().list(
+    result = _retry(lambda: service.events().list(
         calendarId="primary",
-        timeMin=now,
-        timeMax=end,
+        timeMin=day_start.isoformat(),
+        timeMax=day_end.isoformat(),
         singleEvents=True,
         orderBy="startTime",
         maxResults=30,
-    ).execute()
+    ).execute())
 
     events = []
     for e in result.get("items", []):
@@ -329,7 +351,9 @@ def generate_briefing(emails: list, events: list) -> str:
     end_str    = (today + datetime.timedelta(days=7)).strftime("%b %-d, %Y")
     date_range = f"{today.strftime('%b %-d')}–{end_str}"
 
-    client  = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    # 5-minute timeout: long enough for a 16k-token response, short enough to
+    # fail cleanly rather than block the 6-hour GitHub Actions job limit.
+    client  = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], timeout=300.0)
     message = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=16000,
@@ -347,144 +371,9 @@ def generate_briefing(emails: list, events: list) -> str:
     )
 
     text = message.content[0].text.strip()
-    # Strip code fences if Claude wraps the output anyway
+    # Strip code fences if Claude wraps the output anyway.
     text = re.sub(r"^```(?:markdown)?\n?", "", text)
     text = re.sub(r"\n?```$", "", text.rstrip())
-
-    import html as _html
-    from collections import Counter
-
-    def _val(email, *keys):
-        for key in keys:
-            value = email.get(key)
-            if value:
-                return str(value)
-        return ""
-
-    def _labels(email):
-        labels = email.get("labels") or email.get("labelIds") or []
-        if isinstance(labels, list):
-            return " ".join(str(x) for x in labels)
-        return str(labels)
-
-    def _category(email):
-        blob = " ".join([
-            _val(email, "from", "sender"),
-            _val(email, "subject"),
-            _val(email, "snippet", "body"),
-            _labels(email),
-        ]).lower()
-
-        if "trash" in blob:
-            return "Trash Review"
-        if any(x in blob for x in ["password", "security", "locked", "pin", "phish", "scam", "casino", "account access"]):
-            return "Security / Risk"
-        if any(x in blob for x in ["linkedin", "job", "recruiter", "interview", "application", "people business partner", "chief people", "hr business"]):
-            return "Job Search / Recruiters"
-        if any(x in blob for x in ["doctor", "dr.", "medical", "appointment", "lens", "health", "skin"]):
-            return "Medical / Health"
-        if any(x in blob for x in ["bill", "payment", "invoice", "state farm", "netlify", "credits", "billing"]):
-            return "Financial / Billing"
-        if any(x in blob for x in ["webinar", "event", "training", "newsletter", "research", "hr.com", "substack"]):
-            return "Professional Development / Newsletters"
-        if any(x in blob for x in ["sale", "% off", "promo", "deal", "discount", "cart", "shop", "offer"]):
-            return "Promotional / Retail"
-        return "Other / Review"
-
-    groups = {}
-    counts = Counter()
-
-    for i, email in enumerate(emails, start=1):
-        category = _category(email)
-        counts[category] += 1
-        groups.setdefault(category, [])
-
-        sender = _html.escape(_val(email, "from", "sender") or "Unknown sender")
-        subject = _html.escape(_val(email, "subject") or "(No subject)")
-        date = _html.escape(_val(email, "date", "internalDate") or "")
-        snippet = _html.escape((_val(email, "snippet", "body") or "")[:160])
-
-        recommendation = "Review"
-        if category == "Security / Risk":
-            recommendation = "Act / Delete if scam"
-        elif category in ["Promotional / Retail", "Other / Review"]:
-            recommendation = "Delete or ignore unless useful"
-        elif category == "Trash Review":
-            recommendation = "Review before permanent delete"
-        elif category == "Job Search / Recruiters":
-            recommendation = "Review for opportunity or follow-up"
-
-        groups[category].append(f"""
-<div style="border-left:4px solid #cbd5e0; background:#ffffff; margin:8px 0; padding:10px 12px; border-radius:8px;">
-  <div style="font-size:12px; color:#718096; font-weight:700;">#{i} · {date}</div>
-  <div style="font-size:14px; font-weight:700; color:#1a202c;">{subject}</div>
-  <div style="font-size:12px; color:#4a5568;"><strong>From:</strong> {sender}</div>
-  <div style="font-size:12px; color:#4a5568; margin-top:4px;">{snippet}</div>
-  <div style="font-size:12px; font-weight:700; color:#2b6cb0; margin-top:6px;">Recommendation: {recommendation}</div>
-</div>""")
-
-    accounting_rows = "\n".join(
-        f"<tr><td>{_html.escape(cat)}</td><td>{count}</td></tr>"
-        for cat, count in sorted(counts.items())
-    )
-
-    color_map = {
-        "Security / Risk": "#fff5f5",
-        "Job Search / Recruiters": "#f0fff4",
-        "Financial / Billing": "#fffbf0",
-        "Medical / Health": "#ebf8ff",
-        "Professional Development / Newsletters": "#faf5ff",
-        "Promotional / Retail": "#f7fafc",
-        "Trash Review": "#fff5f5",
-        "Other / Review": "#f7fafc",
-    }
-
-    email_sections = []
-    for category in sorted(groups.keys()):
-        bg = color_map.get(category, "#f7fafc")
-        items = "\n".join(groups[category])
-        email_sections.append(f"""
-<div style="background:{bg}; border:1px solid #e2e8f0; border-radius:12px; padding:14px 16px; margin:16px 0;">
-  <h3 style="margin:0 0 8px 0; font-size:16px; color:#1a202c;">{_html.escape(category)} ({len(groups[category])})</h3>
-  {items}
-</div>""")
-
-    email_rows = "\n".join(email_sections)
-
-    forced_sections = f"""
-<hr>
-<h2>Trash Review</h2>
-<p><strong>Purpose:</strong> Review deleted emails for anything important before permanent deletion. Anything from job search, billing, medical, calendar, security, legal, GitHub, Netlify, LinkedIn, recruiters, or professional contacts should be reviewed before deleting.</p>
-
-<h2>Promotional / Retail Summary</h2>
-<p><strong>Purpose:</strong> Promotional emails are included in the full email inventory below. Delete or ignore retail/promotional items unless there is a deal you actually plan to use or a sender looks suspicious.</p>
-
-<h2>Email Accounting</h2>
-<p><strong>Total Emails Reviewed:</strong> {len(emails)}</p>
-<table border="1" cellpadding="6" cellspacing="0">
-<tr><th>Category</th><th>Count</th></tr>
-{accounting_rows}
-</table>
-
-<h2>Full Email Inventory</h2>
-<p><strong>Every fetched email is grouped below by category.</strong> Use this section to see what to act on, review, delete, or ignore.</p>
-{email_rows}
-"""
-
-    accounting_section = f"""
-<hr>
-<h2>Email Accounting</h2>
-<p><strong>Total Emails Reviewed:</strong> {len(emails)}</p>
-<table border="1" cellpadding="6" cellspacing="0">
-<tr><th>Category</th><th>Count</th></tr>
-{accounting_rows}
-</table>
-<p><strong>Audit Note:</strong> Every fetched email was reviewed and assigned to one category. Trash emails were included in review. Promotional and low-value emails were accounted for but deprioritized.</p>
-"""
-
-    if "Email Accounting" not in text:
-        text = text + accounting_section
-
     return text
 
 
@@ -492,7 +381,7 @@ def generate_briefing(emails: list, events: list) -> str:
 
 def main() -> None:
     print("Building Google credentials…")
-    creds    = build_google_credentials()
+    creds    = _retry(build_google_credentials)
     gmail    = build("gmail",    "v1", credentials=creds)
     calendar = build("calendar", "v3", credentials=creds)
 
@@ -505,7 +394,7 @@ def main() -> None:
     print(f"  {len(events)} events fetched")
 
     print("Generating briefing with Claude…")
-    briefing = generate_briefing(emails, events)
+    briefing = _retry(lambda: generate_briefing(emails, events), attempts=2, delay=5)
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     for filename in ("BRIEFING.md", "README.md"):
