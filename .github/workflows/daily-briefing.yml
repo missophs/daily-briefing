@@ -42,7 +42,7 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
-        run: python scripts/generate_briefing.py
+        run: python -u scripts/generate_briefing.py
       - name: Capture date for subject
         if: steps.guard.outputs.skip != 'true'
         id: date
@@ -102,6 +102,7 @@ jobs:
           git diff --staged --quiet || git commit -m "Daily briefing update"
           n=0
           until git pull --rebase origin webhooks && git push origin HEAD:webhooks; do
+            git rebase --abort 2>/dev/null || true
             n=$((n + 1))
             [ $n -ge 3 ] && echo "Push failed after $n attempts" >&2 && exit 1
             echo "Push attempt $n failed, retrying in $((n * 2))s…"

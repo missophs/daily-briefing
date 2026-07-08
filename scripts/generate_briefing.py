@@ -346,10 +346,7 @@ Return only the final complete HTML.
 """
 
 def generate_briefing(emails: list, events: list) -> str:
-    today      = datetime.date.today()
-    today_str  = today.strftime("%A, %B %-d, %Y")
-    end_str    = (today + datetime.timedelta(days=7)).strftime("%b %-d, %Y")
-    date_range = f"{today.strftime('%b %-d')}–{end_str}"
+    today_str = datetime.date.today().strftime("%A, %B %-d, %Y")
 
     # 5-minute timeout: long enough for a 16k-token response, short enough to
     # fail cleanly rather than block the 6-hour GitHub Actions job limit.
@@ -361,7 +358,6 @@ def generate_briefing(emails: list, events: list) -> str:
             "role": "user",
             "content": PROMPT.format(
                 today=today_str,
-                date_range=date_range,
                 email_count=len(emails),
                 event_count=len(events),
                 emails=json.dumps(emails,  indent=2, default=str),
