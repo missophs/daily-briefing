@@ -342,16 +342,25 @@ The platform trigger dispatch session (fires at 11:08 UTC, spawns fresh session 
 
 Per the dispatch trigger's prompt, it should have sent a push notification: *"Daily briefing dispatch FAILED at 7:08 AM ET..."*
 
-### Backup schedule (independent recovery path)
+### Backup schedule — ALSO FAILED (silent suspension)
 
-The GitHub Actions backup cron `0 12 * * *` (12:00 UTC = 8:00 AM ET) fires independently of the platform trigger and does not require the GitHub MCP connector. Guard check:
-- `.last_briefing_date` = `2026-07-08` ≠ `2026-07-09` → NOT skipped by date guard
-- Backup fires at `HOUR=8` ET → `8 -lt 7` = FALSE → NOT skipped by hour guard
-- Should run full generation pipeline
+**Check at 12:45 UTC:** `.last_briefing_date` still `2026-07-08`. No commits on `webhooks` today.
 
-**Expected:** backup runs at ~12:00–12:05 UTC, completes at ~12:05–12:10 UTC, briefing delivered at ~8:05 AM ET.
+Full 30-run GitHub Actions history reveals: **schedule events stopped after July 3.** The last `schedule` event was `28654299308` at `2026-07-03T10:20:58Z` (SUCCESS). After that, only `workflow_dispatch` events appear. The backup cron has been silently not firing for 6 days.
 
-A follow-up wakeup is scheduled for 12:45 UTC (8:45 AM ET) to verify backup run result.
+Historical schedule event times (UTC): June 21–July 3 averaged ~10–11 UTC with delays up to 5 hours (GitHub scheduler variance on private repos). After July 3, zero schedule events.
+
+**Probable cause:** GitHub silently suspended the scheduled workflow. Possible triggers: too many consecutive `workflow_dispatch` failures on July 5 (5 failures in 3 hours) may have affected scheduler state, OR GitHub's inactivity detection incorrectly flagged the schedule.
+
+### Manual dispatch (12:49 UTC)
+
+Since both delivery paths failed for non-script reasons, and no script error exists to investigate (the script was never invoked today), a manual dispatch was triggered via `mcp__github__actions_run_trigger`:
+
+- **Run ID:** `29019356153`
+- **Status:** queued at `2026-07-09T12:49:44Z`
+- **Guard:** will allow (`.last_briefing_date` = `2026-07-08` ≠ `2026-07-09`)
+
+Follow-up wakeup scheduled for 13:10 UTC (9:10 AM ET) to verify result.
 
 ---
 
@@ -391,9 +400,9 @@ If any check fails: stop, document the specific failure, return to engineering.
 | Concurrency under simultaneous load | ❌ CANNOT TEST |
 | git rebase --abort (live) | ❌ CANNOT TEST |
 
-**FINAL VERDICT: NOT APPROVED. Platform dispatch failed at 7:08 AM ET; backup schedule run pending.**
+**FINAL VERDICT: NOT APPROVED. Two delivery failures (platform MCP auth + schedule suspension). Manual dispatch pending at 12:49 UTC — see ISSUE-04 and ISSUE-05.**
 
-The system will be approved when the morning checklist above is satisfied without exception. New blocker: the platform trigger dispatch mechanism (GitHub MCP connector) requires authentication — see ISSUE-04 below.
+The system will be approved when the morning checklist above is satisfied without exception.
 
 ---
 
@@ -407,7 +416,26 @@ The `daily-briefing-dispatch` platform trigger (`trig_011NHYQpjSNTUK5kG85shGvM`)
 
 **Fix required:** Re-authenticate the GitHub connector via Claude.ai connector settings (interactive session required — cannot be done from a scheduled routine).
 
-**Mitigation in place:** The `0 12 * * *` backup cron at 8:00 AM ET provides a reliable fallback that does not depend on the GitHub MCP connector. The guard correctly prevents duplicate sends.
+**Mitigation:** The `0 12 * * *` backup cron SHOULD provide a reliable fallback, but see ISSUE-05 — the schedule has been suspended since July 3.
+
+---
+
+## ISSUE-05 — GitHub Actions Schedule Suspended Since July 3
+
+**Discovered:** 2026-07-09 12:45 UTC
+
+Analysis of 30 workflow runs shows no `schedule` events after `28654299308` (July 3 10:20 UTC, SUCCESS). The backup cron `0 12 * * *` has not fired July 4–9 despite:
+- `webhooks` being the default branch (confirmed via API)
+- No 60-day inactivity (repo has daily `workflow_dispatch` events)
+- Last schedule run was a SUCCESS (not the 5-consecutive-failures trigger)
+
+**Probable cause:** GitHub silently suspended the scheduled workflow, possibly due to the July 5 burst of 5 consecutive `workflow_dispatch` failures (13:29–17:28 UTC). GitHub's suspension behavior for schedules is not fully documented; it can be triggered by repo-level signals beyond just consecutive schedule failures.
+
+**Impact:** The 8:00 AM ET backup delivery window has been completely inoperative since July 4. Every successful delivery since July 4 relied solely on the platform trigger.
+
+**Fix:** Manually re-enable the schedule by pushing a commit to the default branch (`webhooks`) or by visiting GitHub Actions → "daily-briefing.yml" → "Enable workflow" if the workflow shows as disabled. Alternatively, delete and re-add the `schedule:` cron line in the workflow file.
+
+**Recommended action:** After verifying today's manual dispatch, check if GitHub shows the workflow as disabled in the Actions UI. If disabled, re-enable it. Then add a weekly check to confirm schedule events are still appearing.
 
 ---
 
