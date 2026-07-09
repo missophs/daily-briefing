@@ -323,11 +323,43 @@ The following cannot be executed until the July 9 morning generation run complet
 
 ---
 
+## July 9 Morning Run — Findings (7:55 AM ET check-in)
+
+**Check performed:** 2026-07-09 ~11:55 UTC (7:55 AM ET) by scheduled wakeup trigger.
+
+### Platform trigger findings
+
+| Item | Status |
+|------|--------|
+| Platform trigger `trig_011NHYQpjSNTUK5kG85shGvM` | Fired at 11:08 UTC (confirmed — `next_run_at` advanced to 2026-07-10) |
+| `webhooks` `.last_briefing_date` | `2026-07-08` — NOT updated |
+| New commits on `webhooks` today | None |
+| Briefing email at 7:08 AM ET | Unknown — assumed not sent |
+
+### Probable cause
+
+The platform trigger dispatch session (fires at 11:08 UTC, spawns fresh session with `create_new_session_on_fire: true`) uses `mcp__github__actions_run_trigger` to dispatch the GitHub Actions workflow. The GitHub MCP server connector is showing "requires authentication" in the 7:55 AM check-in session. The same authentication failure likely occurred in the 7:08 AM dispatch session — causing `mcp__github__actions_run_trigger` to fail without dispatching the workflow.
+
+Per the dispatch trigger's prompt, it should have sent a push notification: *"Daily briefing dispatch FAILED at 7:08 AM ET..."*
+
+### Backup schedule (independent recovery path)
+
+The GitHub Actions backup cron `0 12 * * *` (12:00 UTC = 8:00 AM ET) fires independently of the platform trigger and does not require the GitHub MCP connector. Guard check:
+- `.last_briefing_date` = `2026-07-08` ≠ `2026-07-09` → NOT skipped by date guard
+- Backup fires at `HOUR=8` ET → `8 -lt 7` = FALSE → NOT skipped by hour guard
+- Should run full generation pipeline
+
+**Expected:** backup runs at ~12:00–12:05 UTC, completes at ~12:05–12:10 UTC, briefing delivered at ~8:05 AM ET.
+
+A follow-up wakeup is scheduled for 12:45 UTC (8:45 AM ET) to verify backup run result.
+
+---
+
 ## Morning Run Monitoring Checklist
 
-Check at **8:15 AM ET on July 9**:
+Check at **8:15 AM ET on July 9** (or when backup run completes):
 
-- [ ] GitHub Actions tab shows a completed run on `webhooks`
+- [ ] GitHub Actions tab shows a completed run on `webhooks` (scheduled or dispatched)
 - [ ] Run head SHA = `f33a40c3173a4268c7fe12c8c5130bb0c4fbe127` or newer
 - [ ] All 9 substantive steps PASSED (not skipped)
 - [ ] Generation step: timestamps on print lines are sequential (python -u working)
@@ -359,9 +391,23 @@ If any check fails: stop, document the specific failure, return to engineering.
 | Concurrency under simultaneous load | ❌ CANNOT TEST |
 | git rebase --abort (live) | ❌ CANNOT TEST |
 
-**FINAL VERDICT: NOT APPROVED. Testing is blocked on the July 9 morning production run.**
+**FINAL VERDICT: NOT APPROVED. Platform dispatch failed at 7:08 AM ET; backup schedule run pending.**
 
-The system will be approved when the morning checklist above is satisfied without exception.
+The system will be approved when the morning checklist above is satisfied without exception. New blocker: the platform trigger dispatch mechanism (GitHub MCP connector) requires authentication — see ISSUE-04 below.
+
+---
+
+## ISSUE-04 — Platform Dispatch Trigger Requires GitHub MCP Re-authentication
+
+**Discovered:** 2026-07-09 11:55 UTC
+
+The `daily-briefing-dispatch` platform trigger (`trig_011NHYQpjSNTUK5kG85shGvM`) fires at 7:08 AM ET daily and calls `mcp__github__actions_run_trigger` to dispatch the GitHub Actions workflow. As of July 9, the GitHub MCP connector requires re-authentication — it shows `"requires authentication"` in fresh sessions. This means the 7:08 AM dispatch likely failed silently with no workflow run started.
+
+**Impact:** The 7:08 AM delivery window is unreliable until the GitHub MCP connector is re-authenticated. The backup schedule cron (`0 12 * * *`) runs independently via GitHub's own scheduler and is NOT affected.
+
+**Fix required:** Re-authenticate the GitHub connector via Claude.ai connector settings (interactive session required — cannot be done from a scheduled routine).
+
+**Mitigation in place:** The `0 12 * * *` backup cron at 8:00 AM ET provides a reliable fallback that does not depend on the GitHub MCP connector. The guard correctly prevents duplicate sends.
 
 ---
 
