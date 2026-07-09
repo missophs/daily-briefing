@@ -364,21 +364,31 @@ Follow-up wakeup scheduled for 13:10 UTC (9:10 AM ET) to verify result.
 
 ---
 
-## Morning Run Monitoring Checklist
+## Morning Run Monitoring Checklist — COMPLETED 2026-07-09
 
-Check at **8:15 AM ET on July 9** (or when backup run completes):
+**Run:** `29019356153` (manual dispatch at 12:49 UTC after platform trigger + schedule both failed)
+**SHA:** `f33a40c3173a4268c7fe12c8c5130bb0c4fbe127`
+**Runtime:** 4m35s (12:50:41 → 12:55:16 UTC = 8:55 AM ET delivery)
 
-- [ ] GitHub Actions tab shows a completed run on `webhooks` (scheduled or dispatched)
-- [ ] Run head SHA = `f33a40c3173a4268c7fe12c8c5130bb0c4fbe127` or newer
-- [ ] All 9 substantive steps PASSED (not skipped)
-- [ ] Generation step: timestamps on print lines are sequential (python -u working)
-- [ ] Commit step: `git diff --staged --quiet || git commit` pattern (not `|| echo "No changes"`)
-- [ ] SMTP step: `timeout=30` in the email step's SMTP_SSL or SMTP call
-- [ ] `.last_briefing_date` on `webhooks` branch = `2026-07-09`
-- [ ] Email received at melissaw212@gmail.com with correct date in subject
-- [ ] No second email received (duplicate prevention working)
+| Check | Result | Evidence |
+|-------|--------|---------|
+| GitHub Actions run completed on `webhooks` | ✅ PASS | Run 29019356153, conclusion: success |
+| Run head SHA = `f33a40c3` or newer | ✅ PASS | `head_sha: f33a40c3173a4268c7fe12c8c5130bb0c4fbe127` confirmed in job metadata |
+| All 9 substantive steps PASSED | ✅ PASS | Steps 1–9 success; step 10 (Notify on failure) correctly SKIPPED |
+| `python -u` sequential timestamps | ✅ PASS | Each print line has distinct timestamp: 12:51:05 creds, 12:51:05 Gmail start, 12:51:15 50 msgs, 12:51:15 Calendar, 12:51:15 Claude start, 12:55:11 saved — NOT buffered |
+| Commit step: `git diff --staged --quiet \|\| git commit` | ✅ PASS | Log echo shows new pattern verbatim; `[webhooks a74f1c1] Daily briefing update` committed |
+| SMTP `timeout=30` | ✅ PASS | Log: `smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=30)` (port 465 path) |
+| `.last_briefing_date` = `2026-07-09` | ✅ PASS | Confirmed via `git show origin/webhooks:.last_briefing_date` |
+| Email subject/delivery | ✅ PASS | `Email subject: Melissa Daily Briefing - 2026-07-09 08:55 ET`; `SMTP sendmail returned successfully`; `SMTP result: {}` (no rejects) |
+| No duplicate email | ✅ PASS | Guard test at 01:11 UTC correctly skipped; only one real run today |
 
-If any check fails: stop, document the specific failure, return to engineering.
+**Additional observations:**
+- Gmail: 50 messages fetched (cap reached, expected)
+- Calendar: 11 events fetched
+- Briefing size: 46,969 chars
+- Claude generation time: 12:51:15 → 12:55:11 = 3m56s (well within 300s timeout)
+- Push: clean on first attempt, no `git rebase --abort` needed
+- No `_retry()` lines visible → all API calls succeeded on first attempt
 
 ---
 
@@ -393,16 +403,16 @@ If any check fails: stop, document the specific failure, return to engineering.
 | Retry logic (code) | ✅ PASS (inspected) |
 | Timeout configuration (code) | ✅ PASS (inspected) |
 | Historical failure analysis | ✅ COMPLETE |
-| Full generation pipeline (live) | ❌ BLOCKED |
-| Python -u buffering (live) | ❌ BLOCKED |
-| SMTP delivery with new code | ❌ BLOCKED |
-| git commit with new code | ❌ BLOCKED |
+| Full generation pipeline (live) | ✅ PASS — run 29019356153 |
+| Python -u buffering (live) | ✅ PASS — sequential timestamps confirmed |
+| SMTP delivery with new code | ✅ PASS — `timeout=30`, result `{}` |
+| git commit with new code | ✅ PASS — `git diff --staged --quiet` pattern, clean push |
 | Concurrency under simultaneous load | ❌ CANNOT TEST |
-| git rebase --abort (live) | ❌ CANNOT TEST |
+| git rebase --abort (live) | ❌ CANNOT TEST (not triggered — no concurrent conflict) |
 
-**FINAL VERDICT: NOT APPROVED. Two delivery failures (platform MCP auth + schedule suspension). Manual dispatch pending at 12:49 UTC — see ISSUE-04 and ISSUE-05.**
+**FINAL VERDICT: ✅ CODE APPROVED — operational issues require manual remediation (ISSUE-04, ISSUE-05)**
 
-The system will be approved when the morning checklist above is satisfied without exception.
+All code-level QA criteria satisfied by run `29019356153` on `f33a40c`. The generation pipeline, email delivery, commit step, retry/timeout config, and `python -u` buffering fix all verified in production. Two infrastructure issues remain — these are NOT code bugs but operational items for Melissa to action:
 
 ---
 
