@@ -99,14 +99,12 @@ GitHub Actions: daily-briefing.yml (ubuntu-latest)
   │                               my_status, attendees, description}
   │    ↓
   │    generate_briefing(emails, events)
+  │      client = anthropic.Anthropic(api_key=..., timeout=300.0)
   │      client.messages.create(
   │        model="claude-sonnet-4-6",
   │        max_tokens=16000,
   │        messages=[{role:"user", content: PROMPT.format(...)}])
   │      strips code fences if present
-  │      builds Python fallback: forced_sections (DEAD CODE — never used)
-  │      builds accounting_section
-  │      if "Email Accounting" not in Claude output: appends accounting_section
   │      returns: HTML string
   │    ↓
   │    writes BRIEFING.md  (HTML content, .md extension)
@@ -134,9 +132,19 @@ GitHub Actions: daily-briefing.yml (ubuntu-latest)
        git config user.name "github-actions"
        git config user.email "github-actions@github.com"
        git add BRIEFING.md README.md .last_briefing_date
-       git commit -m "Daily briefing update" || echo "No changes"
-       git pull --rebase origin webhooks
-       git push origin HEAD:webhooks
+       git diff --staged --quiet || git commit -m "Daily briefing update"
+       n=0
+       until git pull --rebase origin webhooks && git push origin HEAD:webhooks; do
+         git rebase --abort 2>/dev/null || true
+         n=$((n + 1))
+         [ $n -ge 3 ] && exit 1
+         sleep $((n * 2))
+       done
+
+  └─ Step 9 (on any failure): Notify on failure
+       if: failure()
+       continue-on-error: true
+       sends SMTP email to MAIL_TO with Actions URL and remediation steps
 ```
 
 ---
@@ -261,11 +269,11 @@ All timezone handling is explicit; the runner is UTC by default.
 | Guard: today's date | `TZ=America/New_York date +'%Y-%m-%d'` |
 | Guard: current hour | `TZ=America/New_York date +'%H'` |
 | Email subject date | `TZ=America/New_York date +'%Y-%m-%d %H:%M ET'` |
-| Calendar fetch window | `datetime.datetime.utcnow()` — UTC, not ET |
+| Calendar fetch window | `datetime.datetime.now(ZoneInfo("America/New_York"))` — ET midnight start |
 | Email fetch window | `datetime.date.today()` — runner's local time (UTC) |
 | Platform trigger cron | UTC, manually adjusted per DST |
 
-**Note:** Gmail email fetch uses `datetime.date.today()` which is UTC in the GitHub runner. Calendar fetch uses `datetime.datetime.utcnow()`. These are UTC-based, not ET-based, which means the "last 7 days" window is computed from UTC midnight, not ET midnight.
+**Note:** Gmail email fetch uses `datetime.date.today()` which is UTC in the GitHub runner. Calendar fetch uses `datetime.datetime.now(ZoneInfo("America/New_York"))` — correct ET midnight. The Gmail lookback window is UTC-based (harmless: at 7 AM ET = 11 AM UTC, UTC date == ET date).
 
 ---
 
@@ -273,28 +281,50 @@ All timezone handling is explicit; the runner is UTC by default.
 
 ### Workflow level
 - Each step uses `if: steps.guard.outputs.skip != 'true'` to skip all substantive steps when guard fires
-- Git commit uses `|| echo "No changes"` to suppress error if nothing to commit
-- **No `continue-on-error` anywhere** — a failure in any step fails the whole workflow
+- Git commit uses `git diff --staged --quiet || git commit` — fails loudly on real commit errors (not masked)
+- Step 9 "Notify on failure" uses `if: failure()` + `continue-on-error: true` — sends SMTP alert on any step failure without masking the original failure
 
 ### Python script level
 - `main()` wrapped in `try/except Exception as exc: print(f"\nERROR: {exc}", file=sys.stderr); sys.exit(1)`
 - `sys.exit(1)` causes the GitHub Actions step to fail, which fails the workflow
-- No retries anywhere in the Python script
-- No timeouts set explicitly — default GitHub Actions step timeout is 6 hours; `max_tokens=16000` Anthropic call may take 30–90 seconds
+- `_retry(fn, *, attempts=3, delay=2)` wraps all external calls — see §11
+- All external HTTP calls bounded by timeouts — see §12
+- `python -u` flag ensures print statements appear in real time (not buffered until crash)
 
 ### Email step
 - No try/except — inline Python has no error handling
-- SMTP failures surface as uncaught exceptions → step fails → workflow fails
+- SMTP failures surface as uncaught exceptions → step fails → workflow fails → failure notification fires
 
 ---
 
 ## 11. Retry Logic
 
-**There is no retry logic anywhere in the system.**
+All external calls in `generate_briefing.py` are wrapped with `_retry()`:
 
-- GitHub Actions: no `retry` on any step
-- Python script: no retry on Google API calls, no retry on Anthropic API call, no retry on Gmail list/get
-- Email: no retry on SMTP
+```python
+def _retry(fn, *, attempts=3, delay=2):
+    for attempt in range(1, attempts + 1):
+        try:
+            return fn()
+        except Exception as exc:
+            if attempt == attempts:
+                raise
+            wait = delay * (2 ** (attempt - 1))
+            print(f"  Attempt {attempt}/{attempts} failed ({exc}). Retrying in {wait}s…", flush=True)
+            time.sleep(wait)
+```
+
+Exponential backoff: attempt 1 waits 2s, attempt 2 waits 4s.
+
+| Call | Attempts | Delay | Notes |
+|------|----------|-------|-------|
+| `build_google_credentials()` | 3 | 2s | Wraps entire OAuth token refresh |
+| `messages().list()` | 3 | 2s | Per page token |
+| `messages().get()` | 3 | 2s | Per message ID (closure-safe: `lambda r=ref:`) |
+| `events().list()` | 3 | 2s | Single calendar list call |
+| `generate_briefing()` | 2 | 5s | Claude generation — 2 attempts, longer delay |
+
+- Email step: no retry on SMTP
 - Platform trigger: no retry — if MCP call fails, sends push notification; workflow never started
 - Schedule backup: acts as a coarse-grained "retry" for the case where the platform trigger produced no workflow run at all
 
@@ -302,13 +332,15 @@ All timezone handling is explicit; the runner is UTC by default.
 
 ## 12. Timeout Handling
 
-**No explicit timeouts are set anywhere.**
+| Boundary | Timeout | Mechanism |
+|----------|---------|-----------|
+| All Google API HTTP calls | 60 s | `socket.setdefaulttimeout(60)` at module level |
+| Anthropic API call | 300 s | `anthropic.Anthropic(api_key=..., timeout=300.0)` |
+| SMTP connection (port 465) | 30 s | `smtplib.SMTP_SSL(server, port, timeout=30)` |
+| SMTP connection (port 587) | 30 s | `smtplib.SMTP(server, port, timeout=30)` |
+| GitHub Actions job | 6 h | Default — never reached in practice |
 
-- GitHub Actions default: 6 hours per job
-- Anthropic API call (`max_tokens=16000`): no timeout parameter in the SDK call; depends on Anthropic network latency
-- Gmail API: up to 51 HTTP calls (1 list + 50 get) with no explicit timeout; `google-api-python-client` uses its own default HTTP timeout
-- Calendar API: 1 HTTP call, no explicit timeout
-- SMTP: no timeout on `smtplib` calls
+Combined worst case before timeout: 60s (Google auth) + 3×60s (Gmail list+retries) + 50×60s (Gmail get+retries) + 60s (Calendar) + 300s (Claude) + 30s (SMTP) ≈ 56 minutes — well under the 6h limit.
 
 ---
 
@@ -337,16 +369,19 @@ No structured logging, no log levels, no log aggregation.
 
 ## 14. Duplicate Prevention
 
-The `.last_briefing_date` file is the only mechanism:
+Two complementary mechanisms:
 
+**1. `.last_briefing_date` state file**
 ```
 read at: Step 2 (Guard)
 written at: Step 8 (Commit)
 ```
+If the file exists and contains today's ET date, guard sets `skip=true` and all substantive steps are skipped.
 
-**Race condition:** Both reads happen before either writes. If two workflow runs start simultaneously (before either commits), both will pass the guard. This is unlikely in practice since `workflow_dispatch` events are serialized by GitHub, but the backup schedule run could theoretically overlap a dispatch run that is slow.
+**2. `concurrency: group: daily-briefing, cancel-in-progress: false`**
+GitHub queues any second run that starts while a first is in progress. When the first completes and commits `.last_briefing_date`, the second run starts, reads the committed date, and skips. This eliminates the simultaneous-run race condition.
 
-**State after email but before commit:** If the email step succeeds but the git commit/push fails, `.last_briefing_date` on the remote is NOT updated. A manual re-run same day would send a duplicate email.
+**Residual risk:** If the email step succeeds but the git commit/push fails (after 3 retries), `.last_briefing_date` on the remote is NOT updated. A manual re-run same day would send a duplicate email.
 
 ---
 
@@ -366,10 +401,9 @@ written at: Step 8 (Commit)
 
 | Location | Dead code | Impact |
 |----------|-----------|--------|
-| `generate_briefing.py` lines 394–452 | `_category()`, `groups`, `counts`, `color_map`, `email_rows` | All computed, never used — `forced_sections` variable built from `email_rows` is defined on line 454 but never appended to output |
-| `generate_briefing.py` lines 454–472 | `forced_sections` variable | Defined, never referenced after definition |
-| `accounting_section` (lines 474–483) | Only appended if Claude's output lacks "Email Accounting" | Claude reliably includes it, so this is rarely if ever used |
-| `email-briefing.yml` | `dawidd6/action-send-mail@v4` dependency | Workflow is manual-only, used for manual re-send; not part of automated flow |
+| `email-briefing.yml` | `dawidd6/action-send-mail@v4` dependency | Workflow is manual-only, not part of automated flow; safe to leave |
+
+`_category()`, `forced_sections`, `accounting_section`, and associated helpers were removed in commit `f33a40c`. `generate_briefing()` now returns Claude's output directly after stripping code fences.
 
 ---
 
@@ -396,7 +430,7 @@ written at: Step 8 (Commit)
 | Element | Status | Risk |
 |---------|--------|------|
 | `email-briefing.yml` | Manual-only, not automated | None — safe to leave |
-| `SETUP.md` | References old OAuth client ID (`...rh81...`) and local Mac file paths | Confusion if followed literally — would cause `unauthorized_client` errors |
+| `SETUP.md` | Current — correct client ID documented; local Mac file paths noted but not required | Low risk |
 | `SUMMARY.md` | Describes two-workflow architecture that no longer exists | Misleading documentation |
 | `index.html` + `.nojekyll` | Static SPA for web viewing; Pages not enabled | Unused infrastructure |
 | `netlify.toml` | Configured but always ignored | No risk; prevents Netlify credit consumption |
