@@ -2,7 +2,7 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '8 11 * * *'
+      - cron: '15 10 * * *'  # 10:15 UTC = 6:15 AM EDT — buffered ~53min ahead of the 7:08 AM ET target to absorb GitHub scheduler lag
 permissions:
   contents: write
 concurrency:
@@ -17,11 +17,8 @@ jobs:
         id: guard
         run: |
           TODAY=$(TZ=America/New_York date +'%Y-%m-%d')
-          HOUR=$(TZ=America/New_York date +'%H')
           echo "today=$TODAY" >> "$GITHUB_OUTPUT"
           if [ -f .last_briefing_date ] && [ "$(cat .last_briefing_date)" = "$TODAY" ]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.event_name }}" = "schedule" ] && [ "$HOUR" -lt "7" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
