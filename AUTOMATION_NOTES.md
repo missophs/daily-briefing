@@ -269,6 +269,21 @@ regenerated: run `scripts/get_google_token.py` (now requests `gmail.modify`) and
 update the `GMAIL_REFRESH_TOKEN` secret in GitHub. Per the do-not-repeat rule below,
 GOOGLE_CLIENT_ID/SECRET don't need to change, only the refresh token.
 
+## 2026-07-10 (cont'd): Backup cron retimed to 11:10 UTC (after the email wave, not before)
+
+Iterated the backup cron twice more today (10:15 → 10:30 → 11:10 UTC) while chasing the
+right buffer. Realized the earlier framing was backwards: the cron time controls when
+`generate_briefing.py` *fetches* Gmail, not just when the email is delivered. Since most
+of Melissa's mail arrives around 7:00 AM ET, any schedule before that time (10:15, 10:30,
+or the considered 10:45 UTC) fetches before that day's 7 AM wave has landed — those emails
+would be silently absent from the briefing every day, independent of GitHub's scheduler lag.
+
+Final value: `10 11 * * *` (11:10 UTC = 7:10 AM EDT) — 10 minutes after the typical arrival
+wave, so the fetch actually sees that morning's emails. Trade-off accepted: delivery lands
+a bit later than the original 7:08 AM ET target (realistically ~7:15–7:30 AM ET including
+generation/send time and any scheduler lag), in exchange for a complete briefing instead of
+a punctual-but-incomplete one. Revisit only if it turns out mail still arrives after 7:10.
+
 ## Do not repeat
 
 Do not split generation and email into two scheduled workflows.

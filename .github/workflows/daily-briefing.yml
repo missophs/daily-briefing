@@ -2,7 +2,7 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '30 10 * * *'  # 10:30 UTC = 6:30 AM EDT — buffered ~38min ahead of the 7:08 AM ET target to absorb GitHub scheduler lag
+      - cron: '10 11 * * *'  # 11:10 UTC = 7:10 AM EDT — runs after the ~7 AM email wave lands, accepting slightly later delivery for a complete briefing
 permissions:
   contents: write
 concurrency:
