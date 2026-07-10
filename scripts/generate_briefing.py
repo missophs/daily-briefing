@@ -22,7 +22,7 @@ import anthropic
 
 
 SCOPES = [
-    "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/gmail.modify",
     "https://www.googleapis.com/auth/calendar.readonly",
 ]
 
@@ -96,6 +96,7 @@ def fetch_emails(service, days: int = 7) -> list[dict]:
         labels = msg.get("labelIds", [])
         hdrs   = msg.get("payload", {}).get("headers", [])
         emails.append({
+            "id":       ref["id"],
             "from":     _header(hdrs, "From"),
             "subject":  _header(hdrs, "Subject"),
             "date":     _header(hdrs, "Date"),
@@ -105,6 +106,54 @@ def fetch_emails(service, days: int = 7) -> list[dict]:
             "in_trash": "TRASH"   in labels,
         })
     return emails
+
+
+# ── Phishing auto-trash ──────────────────────────────────────────────────────────
+
+PHISHING_PROMPT = """\
+You are a security triage assistant. Review these emails and identify ONLY the ones \
+that are high-confidence phishing or malicious — credential-harvesting attempts, \
+spoofed senders impersonating a known service/bank/employer with urgent account-\
+threat language, fake invoice/wire-fraud attempts, or similar clear attacks.
+
+Do NOT flag: newsletters, marketing, legitimate bills, recruiter/networking messages, \
+or anything merely low-value or ambiguous. When unsure, do not flag it — false \
+positives here get an email auto-deleted, so only flag what you are highly confident \
+is malicious.
+
+EMAILS:
+{emails}
+
+Return ONLY a JSON object, no markdown, no explanation:
+{{"phishing": [{{"id": "<message id>", "reason": "<short reason>"}}]}}
+If none qualify, return {{"phishing": []}}.
+"""
+
+
+def classify_phishing(client: "anthropic.Anthropic", emails: list) -> dict:
+    candidates = [e for e in emails if not e["in_trash"]]
+    if not candidates:
+        return {}
+    slim = [{"id": e["id"], "from": e["from"], "subject": e["subject"], "snippet": e["snippet"]} for e in candidates]
+    message = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": PHISHING_PROMPT.format(emails=json.dumps(slim, indent=2))}],
+    )
+    text = message.content[0].text.strip()
+    text = re.sub(r"^```(?:json)?\n?", "", text)
+    text = re.sub(r"\n?```$", "", text.rstrip())
+    data = json.loads(text)
+    return {item["id"]: item.get("reason", "") for item in data.get("phishing", [])}
+
+
+def trash_phishing_emails(service, phishing: dict) -> None:
+    for msg_id, reason in phishing.items():
+        try:
+            _retry(lambda m=msg_id: service.users().messages().trash(userId="me", id=m).execute())
+            print(f"  Trashed {msg_id}: {reason}")
+        except Exception as exc:
+            print(f"  Failed to trash {msg_id}: {exc}")
 
 
 # ── Google Calendar ─────────────────────────────────────────────────────────────
@@ -191,6 +240,11 @@ Use color-coded blocks:
 - Purple = professional development, newsletters, events
 - Gray = promotional, low priority, delete/ignore
 Use clear cards, tables, section headers, and short summaries.
+
+Some emails were already auto-trashed as high-confidence phishing before you received this \
+data (flagged "auto_trashed": true, with "auto_trash_reason"). List these under Security / Risk \
+and in Trash Review as "Auto-Trashed — Phishing" with the reason. Do not recommend further \
+action on them beyond noting they were removed.
 
 REQUIRED SECTIONS:
 
@@ -345,12 +399,9 @@ If any required section is missing, revise the output before returning it.
 Return only the final complete HTML.
 """
 
-def generate_briefing(emails: list, events: list) -> str:
+def generate_briefing(client: "anthropic.Anthropic", emails: list, events: list) -> str:
     today_str = datetime.date.today().strftime("%A, %B %-d, %Y")
 
-    # 5-minute timeout: long enough for a 16k-token response, short enough to
-    # fail cleanly rather than block the 6-hour GitHub Actions job limit.
-    client  = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], timeout=300.0)
     message = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=16000,
@@ -389,8 +440,26 @@ def main() -> None:
     events = fetch_events(calendar, days=7)
     print(f"  {len(events)} events fetched")
 
+    # 5-minute timeout: long enough for a 16k-token response, short enough to
+    # fail cleanly rather than block the 6-hour GitHub Actions job limit.
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], timeout=300.0)
+
+    print("Checking for phishing…")
+    try:
+        phishing = _retry(lambda: classify_phishing(client, emails), attempts=2, delay=5)
+    except Exception as exc:
+        print(f"  Phishing check failed, skipping ({exc})")
+        phishing = {}
+    if phishing:
+        print(f"  {len(phishing)} phishing email(s) flagged, trashing…")
+        trash_phishing_emails(gmail, phishing)
+    for e in emails:
+        if e["id"] in phishing:
+            e["auto_trashed"] = True
+            e["auto_trash_reason"] = phishing[e["id"]]
+
     print("Generating briefing with Claude…")
-    briefing = _retry(lambda: generate_briefing(emails, events), attempts=2, delay=5)
+    briefing = _retry(lambda: generate_briefing(client, emails, events), attempts=2, delay=5)
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     for filename in ("BRIEFING.md", "README.md"):

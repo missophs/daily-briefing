@@ -246,6 +246,29 @@ Fresh-session triggers pick up the renewed auth automatically on the next fire.
 - Primary: platform trigger with `create_new_session_on_fire: true`, cron `8 11 * * *` (EDT)
 - Backup: workflow `schedule: '0 12 * * *'` (8 AM ET) — last resort, may be delayed
 
+## 2026-07-10: Backup cron moved earlier + phishing auto-trash added
+
+**Backup schedule buffer:** Today's backup-cron run actually fired at 13:22 UTC against
+an 11:08 UTC schedule — a 2h14m scheduler delay. Moved `daily-briefing.yml`'s own
+`schedule:` cron from `8 11 * * *` to `15 10 * * *` (10:15 UTC / 6:15 AM EDT) to buy
+more headroom before the 7:08 AM ET target. Removed the guard's `HOUR -lt 7` early-skip
+branch (it would otherwise skip every run at the new, earlier time) — dedup now relies
+solely on the `.last_briefing_date` check.
+
+**Phishing auto-trash:** `generate_briefing.py` now runs a conservative Claude
+classification pass over fetched emails and calls Gmail's `messages.trash` on
+high-confidence phishing only (spoofed senders, credential harvesting, fake
+urgent-account-threat mail). Flagged items are reported in the briefing's
+Security/Trash Review sections, not silently dropped. This requires the
+`gmail.modify` scope instead of `gmail.readonly`.
+
+**Action required:** `GMAIL_REFRESH_TOKEN` was issued under the old readonly-only
+scope and does NOT have permission to trash messages yet. Auto-trash will fail
+silently (briefing still sends, phishing just won't be removed) until the token is
+regenerated: run `scripts/get_google_token.py` (now requests `gmail.modify`) and
+update the `GMAIL_REFRESH_TOKEN` secret in GitHub. Per the do-not-repeat rule below,
+GOOGLE_CLIENT_ID/SECRET don't need to change, only the refresh token.
+
 ## Do not repeat
 
 Do not split generation and email into two scheduled workflows.
