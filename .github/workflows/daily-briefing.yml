@@ -2,7 +2,7 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '20 9 * * *'  # 9:20 UTC = 5:20 AM EDT — GitHub's observed minimum scheduler delay for this workflow has never been under ~50min (51min-4h across 8 logged days), so even the fastest case still fetches at/after 10:10 UTC (6:10 AM EDT, after the email wave); typical/worst-case delays now land up to 50min earlier than before
+      - cron: '20 10 * * *'  # 10:20 UTC = 6:20 AM EDT — GitHub's observed minimum scheduler delay for this workflow has never been under ~50min (51min-4h across 8 logged days), so even the fastest case still fetches at/after 11:10 UTC (7:10 AM EDT, after the email wave); typical/worst-case delays now land up to 50min earlier than before
 permissions:
   contents: write
 concurrency:
