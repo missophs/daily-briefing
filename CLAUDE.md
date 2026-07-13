@@ -20,9 +20,10 @@ received; check the evidence below before saying anything to the user about it.
 
 ## The one real pipeline
 
-1. A **platform-level cron trigger** (lives in claude.ai Settings → Triggers,
-   NOT visible to `CronList`/`CronCreate` — those are session-scoped and
-   unrelated) fires every weekday morning (~7:08 AM ET) and calls
+1. A **Claude Code Routine** (managed in Claude Code's Routines UI — NOT
+   visible to `CronList`/`CronCreate`, those are session-scoped and
+   unrelated; internally it's still referred to by a `trig_...` ID in this
+   doc's history) fires every weekday morning (~7:08 AM ET) and calls
    `mcp__github__actions_run_trigger` (`method: run_workflow`) to dispatch
    `.github/workflows/daily-briefing.yml` on `owner: missophs`,
    `repo: daily-briefing`, `ref: webhooks`.
@@ -45,7 +46,7 @@ received; check the evidence below before saying anything to the user about it.
    branch you're checked out on) and updates `.last_briefing_date` to today's
    date (`America/New_York`).
 5. A backup `schedule:` cron in the same workflow (currently `20 10 * * *`
-   UTC) re-fires if the platform trigger didn't; the `.last_briefing_date`
+   UTC) re-fires if the Routine didn't; the `.last_briefing_date`
    guard prevents duplicate sends either way.
 
 ## What "verify, don't assume" means concretely
@@ -65,7 +66,7 @@ Before doing anything else, check facts, in this order:
    `actions_list` → `list_workflow_jobs`) to find the actual error before
    guessing. Known failure classes are catalogued with fixes in
    `AUTOMATION_NOTES.md` (OAuth `invalid_grant`, SMTP auth, missing secrets).
-4. If **no run fired today at all**, the platform trigger didn't fire (or
+4. If **no run fired today at all**, the Routine didn't fire (or
    its bound session's GitHub MCP OAuth expired — this has happened before,
    see `AUTOMATION_NOTES.md` 2026-07-08 entry). The fix is to dispatch it
    yourself: `mcp__github__actions_run_trigger` (`method: run_workflow`,
