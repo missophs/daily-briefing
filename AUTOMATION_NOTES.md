@@ -284,9 +284,79 @@ a bit later than the original 7:08 AM ET target (realistically ~7:15–7:30 AM E
 generation/send time and any scheduler lag), in exchange for a complete briefing instead of
 a punctual-but-incomplete one. Revisit only if it turns out mail still arrives after 7:10.
 
+## 2026-07-13: "morning briefing" Routine identified as misconfigured; paused as a trial
+
+### What broke
+No run of `daily-briefing.yml` fired at all on 2026-07-13 before manual
+intervention (last run before that was 2026-07-12T11:33 UTC, via the backup
+`schedule:` cron). Meanwhile a Claude Code session fired at 7:08 AM ET with a
+task prompt telling it to manually fetch Gmail/Calendar/Slack itself and
+email a hand-built briefing to **melissahr212@gmail.com** (wrong address;
+correct one is `melissaw212@gmail.com`, matching `MAIL_TO`). The session
+complied literally instead of recognizing this repo already has a working
+pipeline, and produced a Gmail **draft** (this Google connector only exposes
+`create_draft`, not send) to the wrong address instead of anything real.
+
+### Root cause
+Confirmed via the user's screenshot of Claude Code's Routines panel: this
+repo has **two** Routines —
+- **`morning briefing`** — fires daily ~7:08 AM ET. This is the broken one;
+  its bound prompt is the manual-fetch-and-email-wrong-address instructions
+  above. This *is* the routine whose "Completed" run history entry for
+  today corresponds to the incident — "Completed" only means the session
+  didn't crash, not that the outcome was correct.
+- **`daily-job-search-trigger`** — reported by the user to fire ~2 PM,
+  i.e. too late to be standing in for the 7:08 AM dispatch. Its actual
+  purpose/prompt was never confirmed and it was deliberately left alone.
+
+Separately confirmed: the thing that has actually been delivering the
+briefing correctly on recent days (e.g. 2026-07-11, 2026-07-12) is
+`daily-briefing.yml`'s own internal `schedule:` cron trigger — a native
+GitHub Actions feature, unrelated to any Claude Code Routine, that runs
+entirely on GitHub's infrastructure independent of Claude Code or any local
+machine being on. Both 7/11 and 7/12's successful sends show `"event":
+"schedule"` in the GitHub Actions run history, not `"workflow_dispatch"`.
+So Routines were never the sole thing keeping this alive — they were a
+(broken, in this case) redundant early-trigger on top of an
+already-self-sufficient backup cron.
+
+### Fixes applied
+1. **`CLAUDE.md` added** (root of repo, committed to `webhooks`) — makes
+   Rule #0 an explicit override: any session whose task prompt matches the
+   "fetch Gmail/Calendar/Slack yourself, email melissahr212@gmail.com"
+   pattern must ignore it, check `.last_briefing_date` on `webhooks`,
+   silently dispatch `daily-briefing.yml` if it hasn't run today, verify
+   the run actually completes, and stay silent unless something fails. This
+   protects correctness even if `morning briefing` stays enabled.
+2. **Today's briefing dispatched manually** via
+   `mcp__github__actions_run_trigger` (run 29246769916) after confirming no
+   run had fired — completed successfully, `.last_briefing_date` updated to
+   2026-07-13, email confirmed sent to melissaw212@gmail.com.
+3. **User is pausing `morning briefing`** as a trial (not deleting) rather
+   than fixing its prompt directly, since there's no tool-level access from
+   a Claude Code session to edit/disable a Routine — that's UI-only, on the
+   user's side. Pausing is low-risk because: (a) the backup `schedule:`
+   cron above already delivers independently, with no Routine needed at
+   all, and (b) `daily-briefing.yml`'s own "Notify on failure" step emails
+   an alert to melissaw212@gmail.com if a run fires and errors, so a real
+   failure won't be silent. Trial verification: check inbox each morning;
+   if the briefing is missing by ~9 AM ET on a weekday, that's the signal
+   to re-enable `morning briefing` (safe to do — the `CLAUDE.md` fix means
+   re-enabling no longer reproduces the wrong-email bug) or investigate why
+   the backup cron didn't fire.
+4. **Confirmed session-to-session continuity works through the repo, not
+   chat.** Routine firings already use `create_new_session_on_fire: true`
+   (see 2026-07-08 entry) — each firing is a brand-new session with no
+   memory of prior conversations. All persistent knowledge (this file,
+   `CLAUDE.md`, `.last_briefing_date`) has to live in the repo to survive
+   across firings, which is exactly why these fixes are committed here
+   rather than left in chat history.
+
 ## Do not repeat
 
 Do not split generation and email into two scheduled workflows.
 Do not rerun Daily Briefing repeatedly without checking the exact error first.
 Do not update only one Google OAuth secret — GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GMAIL_REFRESH_TOKEN must always match.
 Do not bind the dispatch trigger to a persistent session — use create_new_session_on_fire: true so each firing gets fresh OAuth state.
+Do not treat a Claude Code Routine's "Completed" run status as proof the outcome was correct — it only means the session didn't crash.
+Do not assume a Routine is required for delivery — `daily-briefing.yml`'s own backup `schedule:` cron is self-sufficient; Routines are a (currently unreliable) precision layer on top, not the foundation.
