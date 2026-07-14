@@ -14,12 +14,18 @@
 | Local credentials file | /Users/Owner/Documents/Claude/05_RESOURCES/Scheduled/morning-email-digest/gmail_credentials.json |
 | Local token script | /Users/Owner/Documents/Claude/05_RESOURCES/Scheduled/morning-email-digest/get_new_token.py |
 
+## Schedule
+
+Cron: `20 9 * * *` (9:20 UTC = 5:20 AM EDT / 6:20 AM EST)
+
+GitHub's scheduler typically adds 30 min–2 hr delay, so expect delivery between 6–8 AM EDT on most days. Runs entirely in the cloud — no computer needs to be open.
+
 ## Changing the delivery time
 
 1. Edit the `cron:` line in `.github/workflows/daily-briefing.yml`
 2. Convert Eastern time to UTC: add 4h (EDT, summer) or 5h (EST, winter)
-   - 7:15 AM ET (summer) = `15 11 * * *`
-   - 7:15 AM ET (winter) = `15 12 * * *`
+   - 6:00 AM ET (summer) = `0 10 * * *`
+   - 6:00 AM ET (winter) = `0 11 * * *`
 3. Commit and push to the `webhooks` branch
 4. Do not touch any secrets — the cron line is the only change needed
 
@@ -36,11 +42,7 @@ These errors mean the Gmail refresh token expired or was revoked. Fix:
 3. Your browser shows an error page — that is expected
 4. Copy the full URL from the address bar and paste it into the terminal
 5. Terminal prints your new refresh token — copy it
-6. In Terminal, run:
-
-       gh secret set GMAIL_REFRESH_TOKEN --repo missophs/daily-briefing
-
-   Paste the token when prompted, press Enter, then Ctrl+D
+6. In GitHub repo secrets, update `GMAIL_REFRESH_TOKEN` with the new value
 
 Important: GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must match the client used to generate the token.
 - Client ID: 522559244108-ga0gejqv2hgt0gi6ncskj5rb4bko8hqp.apps.googleusercontent.com
