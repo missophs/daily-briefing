@@ -352,6 +352,28 @@ already-self-sufficient backup cron.
    across firings, which is exactly why these fixes are committed here
    rather than left in chat history.
 
+## 2026-07-14: Cron timing adjusted to target ~7:15 AM EDT
+
+### Observed delivery times with cron `20 10 * * *` (10:20 UTC)
+| Date | Committed (UTC) | Delivered (EDT) |
+|------|----------------|-----------------|
+| 2026-07-14 | 11:52 | 7:52 AM |
+| 2026-07-13 | 11:40 | 7:40 AM |
+| 2026-07-12 | 11:38 | 7:38 AM |
+| 2026-07-11 | 12:05 | 8:05 AM |
+| 2026-07-10 | 16:47 | 12:47 PM |
+
+### Changes made
+- Changed cron from `20 10 * * *` → `20 9 * * *` initially (moved one hour earlier per user request)
+- However the 9 AM UTC slot had a *longer* GitHub scheduler delay — today delivered at 7:52 AM EDT, later than the 7:38–7:40 EDT seen with the old cron
+- Final setting: `20 8 * * *` (8:20 UTC = 4:20 AM EDT) — gives ~3hr buffer against GitHub's variable delay, targeting delivery by 7:15 AM EDT
+
+### Key insight
+GitHub's scheduler delay varies by time slot. Moving the cron earlier is not guaranteed to result in earlier delivery — the 9 AM UTC slot was slower than the 10 AM UTC slot on 2026-07-14. The current `20 8 * * *` setting builds in enough buffer that even a 3hr delay lands by 7:20 AM EDT.
+
+### Everything runs in the cloud
+No computer needs to be open. GitHub Actions handles all execution on GitHub's servers. The cron in `.github/workflows/daily-briefing.yml` (webhooks branch) is the sole trigger.
+
 ## Do not repeat
 
 Do not split generation and email into two scheduled workflows.
