@@ -2,7 +2,7 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '20 8 * * *'  # 8:20 UTC = 4:20 AM EDT — GitHub scheduler typically adds 1-3hr delay, targeting ~7:15 AM EDT delivery
+      - cron: '55 9 * * *'  # 9:55 UTC = 5:55 AM EDT — observed delay ~1h20min → targets 7:15 AM EDT delivery
 permissions:
   contents: write
 concurrency:
