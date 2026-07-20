@@ -374,6 +374,42 @@ GitHub's scheduler delay varies by time slot. Moving the cron earlier is not gua
 ### Everything runs in the cloud
 No computer needs to be open. GitHub Actions handles all execution on GitHub's servers. The cron in `.github/workflows/daily-briefing.yml` (webhooks branch) is the sole trigger.
 
+## 2026-07-20: Cron adjusted to `0 10 * * *` to target 7:15–7:30 AM EDT
+
+### Root cause diagnosis
+The workflow code is correct and working. The problem is exclusively GitHub's
+scheduler queue. Observed delays from recent run history:
+
+| Date | Scheduled (UTC) | Actual fire (UTC) | Delivered (EDT) | Delay |
+|------|----------------|-------------------|-----------------|-------|
+| Jul 20 | 9:55 | 12:07 | 8:07 AM* | 2h 12m |
+| Jul 19 | 9:55 | 11:01 | 7:01 AM | 1h 6m |
+| Jul 18 | 9:55 | 10:54 | 6:54 AM | 59m |
+| Jul 17 | 9:55 | 11:12 | 7:12 AM | 1h 17m |
+| Jul 16 | 9:55 | 11:25 | 7:25 AM | 1h 30m |
+| Jul 15 | 9:55 | 10:15 | 6:15 AM | 20m |
+| Jul 13 | 9:55 | 12:42 | 8:42 AM | 2h 47m |
+
+*Jul 20: user manually triggered `workflow_dispatch` at 11:57 UTC (7:57 AM EDT)
+first; the scheduled run at 12:07 UTC was skipped by the `.last_briefing_date`
+guard. Without the manual push, the briefing would have arrived at ~8:07 AM EDT.
+
+### Decision: keep GitHub Actions only, leave CCR Routine paused
+The "morning briefing" CCR Routine (`trig_01G1buM54UUvS7ZmWYD21Abm`) remains
+paused. Enabling it alongside the GitHub Actions workflow causes duplicate emails
+because the two systems share no state — the CCR Routine does not write
+`.last_briefing_date`, so the GitHub Actions guard cannot detect that the CCR
+Routine already sent the briefing. Running both guarantees two emails per day.
+
+### Final cron setting
+`0 10 * * *` (10:00 UTC). On typical days (1–1.5hr delay) delivery lands
+7:00–7:30 AM EDT. Worst-case (2h47m delay observed on Jul 13) still delivers
+by 7:47 AM EDT. Fast days (20min delay) deliver at ~6:20 AM EDT.
+
+If the window needs further tuning, adjust based on actual observed delivery
+times for a week rather than guessing — the delay varies too much to predict
+from cron time alone.
+
 ## Do not repeat
 
 Do not split generation and email into two scheduled workflows.
@@ -382,3 +418,4 @@ Do not update only one Google OAuth secret — GOOGLE_CLIENT_ID, GOOGLE_CLIENT_S
 Do not bind the dispatch trigger to a persistent session — use create_new_session_on_fire: true so each firing gets fresh OAuth state.
 Do not treat a Claude Code Routine's "Completed" run status as proof the outcome was correct — it only means the session didn't crash.
 Do not assume a Routine is required for delivery — `daily-briefing.yml`'s own backup `schedule:` cron is self-sufficient; Routines are a (currently unreliable) precision layer on top, not the foundation.
+Do not enable the CCR "morning briefing" Routine alongside the GitHub Actions workflow — they have no shared state and will send duplicate emails every day.
