@@ -2,7 +2,7 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '55 9 * * *'  # 9:55 UTC = 5:55 AM EDT — observed delay ~1h20min → targets 7:15 AM EDT delivery
+      - cron: '0 8 * * *'  # 8:00 UTC — worst-case ~3hr scheduler delay still lands before 7 AM EDT
 permissions:
   contents: write
 concurrency:
