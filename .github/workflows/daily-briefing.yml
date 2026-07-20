@@ -2,7 +2,7 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '0 8 * * *'  # 8:00 UTC — worst-case ~3hr scheduler delay still lands before 7 AM EDT
+      - cron: '30 8 * * *'  # 8:30 UTC — worst-case ~3hr scheduler delay lands at 7:17 AM EDT
 permissions:
   contents: write
 concurrency:
