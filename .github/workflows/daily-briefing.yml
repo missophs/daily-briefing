@@ -16,6 +16,7 @@ jobs:
       - name: Check if briefing already sent today
         id: guard
         run: |
+          git pull origin webhooks --quiet
           TODAY=$(TZ=America/New_York date +'%Y-%m-%d')
           echo "today=$TODAY" >> "$GITHUB_OUTPUT"
           if [ -f .last_briefing_date ] && [ "$(cat .last_briefing_date)" = "$TODAY" ]; then
