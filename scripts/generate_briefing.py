@@ -58,6 +58,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "pranit naik",
     "quillbot",
     "phil strazzulla",
+    "limitless creator",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
