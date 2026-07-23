@@ -47,6 +47,13 @@ NEWSLETTER_TRASH_PATTERNS = [
     "christopher rainey",
     "giulia guerrieri",
     "tradealgo",
+    "j.t. o'donnell",
+    "jt o'donnell",
+    "jtodonnell",
+    "sophia davis",
+    "fred from fireflies",
+    "fireflies.ai",
+    "experteer",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
@@ -220,7 +227,6 @@ def delete_spam(service) -> int:
         ids = [m["id"] for m in resp.get("messages", [])]
         if not ids:
             break
-        # batchDelete permanently removes up to 1000 messages in one call
         _retry(lambda batch=ids: service.users().messages().batchDelete(
             userId="me",
             body={"ids": batch},
@@ -276,7 +282,6 @@ If none qualify, return {{"phishing": []}}.
 
 
 def classify_phishing(client: "anthropic.Anthropic", emails: list) -> dict:
-    # Skip emails already trashed and skip protected senders — never flag them as phishing
     candidates = [e for e in emails if not e["in_trash"] and not e.get("auto_trashed") and not _is_protected(e)]
     if not candidates:
         return {}
@@ -347,7 +352,6 @@ If none qualify, return {{"rescue": []}}.
 
 
 def classify_legitimate_trash(client: "anthropic.Anthropic", emails: list) -> dict:
-    # Only consider trash emails not already handled
     trash_emails = [
         e for e in emails
         if e["in_trash"]
