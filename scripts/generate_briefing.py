@@ -60,6 +60,8 @@ NEWSLETTER_TRASH_PATTERNS = [
     "phil strazzulla",
     "limitless creator",
     "16handles",
+    "techspresso",
+    "stephanie adams",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
@@ -294,7 +296,7 @@ def classify_phishing(client: "anthropic.Anthropic", emails: list) -> dict:
     slim = [{"id": e["id"], "from": e["from"], "subject": e["subject"], "snippet": e["snippet"]} for e in candidates]
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=2000,
+tml        max_tokens=2000,
         messages=[{"role": "user", "content": PHISHING_PROMPT.format(emails=json.dumps(slim, indent=2))}],
     )
     text = message.content[0].text.strip()
