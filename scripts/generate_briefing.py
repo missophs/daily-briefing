@@ -43,6 +43,9 @@ NEWSLETTER_TRASH_PATTERNS = [
     "1percentbetter",
     "the ai report",
     "theaireport",
+    "optery",
+    "christopher rainey",
+    "giulia guerrieri",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
@@ -314,7 +317,7 @@ If none qualify, return {{"rescue": []}}.
 
 
 def classify_legitimate_trash(client: "anthropic.Anthropic", emails: list) -> dict:
-    # Only consider trash emails not already handled (auto_trashed or rescued_from_trash)
+    # Only consider trash emails not already handled
     trash_emails = [
         e for e in emails
         if e["in_trash"]
