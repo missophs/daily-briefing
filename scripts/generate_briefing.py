@@ -11,12 +11,9 @@ import os
 import re
 import sys
 import socket
-import smtplib
 import time
 import datetime
 import zoneinfo
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -29,12 +26,10 @@ SCOPES = [
     "https://www.googleapis.com/auth/calendar.readonly",
 ]
 
-# Global socket timeout — applies to all Google API HTTP calls.
 socket.setdefaulttimeout(60)
 
 
 def _retry(fn, *, attempts=3, delay=2):
-    """Call fn up to `attempts` times with exponential backoff on any exception."""
     for attempt in range(1, attempts + 1):
         try:
             return fn()
@@ -210,91 +205,6 @@ def rescue_emails(service, to_rescue: dict) -> None:
             print(f"  Failed to rescue {msg_id}: {exc}")
 
 
-# ── Individual email triage summary ─────────────────────────────────────────────
-
-SUMMARY_PROMPT = """\
-You are Melissa's email assistant. Write a short daily email digest.
-
-For EVERY email below, write exactly one line in this format:
-• [CATEGORY] From: [sender name] — [subject] — [one sentence summary of what it is]
-
-Categories to use: INBOX | RESCUED | TRASHED | TRASH
-
-- INBOX = currently in inbox, normal email
-- RESCUED = was in trash, moved back to inbox automatically (flagged rescued_from_trash: true)
-- TRASHED = auto-trashed as phishing (flagged auto_trashed: true)
-- TRASH = already in trash, not rescued, not phishing
-
-Sort by: RESCUED first, then INBOX, then TRASHED, then TRASH.
-Be concise. One line per email, no exceptions.
-
-EMAILS:
-{emails}
-
-Return plain text only. No markdown. No headers. Just the bullet list.
-"""
-
-
-def generate_email_summary(client: "anthropic.Anthropic", emails: list) -> str:
-    slim = [{
-        "from": e["from"],
-        "subject": e["subject"],
-        "snippet": e["snippet"],
-        "auto_trashed": e.get("auto_trashed", False),
-        "auto_trash_reason": e.get("auto_trash_reason", ""),
-        "rescued_from_trash": e.get("rescued_from_trash", False),
-        "rescue_reason": e.get("rescue_reason", ""),
-        "in_trash": e["in_trash"],
-        "in_inbox": e["in_inbox"],
-    } for e in emails]
-    message = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=4000,
-        messages=[{"role": "user", "content": SUMMARY_PROMPT.format(emails=json.dumps(slim, indent=2))}],
-    )
-    return message.content[0].text.strip()
-
-
-def send_triage_summary(summary_text: str, phishing: dict, rescued: dict) -> None:
-    sender    = os.environ["MAIL_USERNAME"]
-    recipient = os.environ["MAIL_TO"]
-    today_str = datetime.date.today().strftime("%A, %B %-d, %Y")
-    subject   = f"📬 Email Triage Summary – {today_str}"
-
-    trashed_count = len(phishing)
-    rescued_count = len(rescued)
-
-    header_lines = [f"📬 Email Triage – {today_str}", ""]
-    if trashed_count:
-        header_lines.append(f"🗑 {trashed_count} phishing email(s) auto-trashed")
-    if rescued_count:
-        header_lines.append(f"✅ {rescued_count} email(s) rescued from trash to inbox")
-    if not trashed_count and not rescued_count:
-        header_lines.append("Inbox looks clean — nothing trashed or rescued today.")
-    header_lines += ["", "— Individual Email Summary —", ""]
-
-    body = "\n".join(header_lines) + "\n" + summary_text
-
-    msg = MIMEMultipart("alternative")
-    msg["From"]    = f"Melissa Daily Briefing <{sender}>"
-    msg["To"]      = recipient
-    msg["Subject"] = subject
-    msg.attach(MIMEText(body, "plain", "utf-8"))
-
-    smtp_server = os.environ["SMTP_SERVER"]
-    smtp_port   = int(os.environ["SMTP_PORT"])
-    if smtp_port == 465:
-        with smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=30) as server:
-            server.login(sender, os.environ["MAIL_PASSWORD"])
-            server.sendmail(sender, [recipient], msg.as_string())
-    else:
-        with smtplib.SMTP(smtp_server, smtp_port, timeout=30) as server:
-            server.ehlo(); server.starttls(); server.ehlo()
-            server.login(sender, os.environ["MAIL_PASSWORD"])
-            server.sendmail(sender, [recipient], msg.as_string())
-    print(f"Triage summary sent to {recipient}")
-
-
 # ── Google Calendar ─────────────────────────────────────────────────────────────
 
 def fetch_events(service, days: int = 7) -> list[dict]:
@@ -386,7 +296,20 @@ Some emails were rescued from Trash back to the inbox before you received this d
 (flagged "rescued_from_trash": true, with "rescue_reason"). List these under their \
 appropriate category and note they were rescued from Trash with the reason.
 
-REQUIRED SECTIONS:
+REQUIRED SECTIONS — include in this order:
+
+0. Email Triage Quick List
+This is the FIRST section after the header, before everything else.
+Create a compact scannable table with one row per email:
+Columns: Status | From | Subject | Summary
+- Status values: ✅ RESCUED | 📥 INBOX | 🗑 TRASHED | 🗂 TRASH
+  - ✅ RESCUED = rescued_from_trash: true
+  - 🗑 TRASHED = auto_trashed: true
+  - 📥 INBOX = in inbox, not trashed or rescued
+  - 🗂 TRASH = in trash, not auto-trashed, not rescued
+- Summary = one short sentence describing what the email is
+- Sort order: RESCUED first, then INBOX, then TRASHED, then TRASH
+Every single email must appear in this table. No exceptions.
 
 1. Header
 Include:
@@ -508,6 +431,7 @@ End with exactly 3 numbered priorities.
 
 FINAL CHECK BEFORE OUTPUT:
 Before returning the HTML, verify that the output includes these exact section names:
+- Email Triage Quick List
 - Full 7-Day Calendar
 - Job Search & Interview Pipeline
 - Full Email Review by Category
@@ -516,10 +440,9 @@ Before returning the HTML, verify that the output includes these exact section n
 - Email Accounting
 - Dashboard
 
-MANDATORY END SECTIONS:
-You must include Trash Review, Promotional / Retail Summary, and Email Accounting near the end of the briefing.
-Do not skip these sections.
-If space is limited, summarize them briefly, but still include the section headings and counts.
+MANDATORY SECTIONS:
+Email Triage Quick List must appear first and contain every email as a table row.
+Trash Review, Promotional / Retail Summary, and Email Accounting must appear near the end.
 
 Email Accounting must include:
 - Total Emails Reviewed
@@ -608,14 +531,7 @@ def main() -> None:
             e["rescued_from_trash"] = True
             e["rescue_reason"] = to_rescue[e["id"]]
 
-    print("Generating individual email triage summary…")
-    try:
-        summary_text = _retry(lambda: generate_email_summary(client, emails), attempts=2, delay=5)
-        send_triage_summary(summary_text, phishing, to_rescue)
-    except Exception as exc:
-        print(f"  Triage summary failed, skipping ({exc})")
-
-    print("Generating full briefing with Claude…")
+    print("Generating briefing with Claude…")
     briefing = _retry(lambda: generate_briefing(client, emails, events), attempts=2, delay=5)
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
