@@ -2,7 +2,7 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '0 10 * * *'  # 10:00 UTC — typical 1-1.5hr scheduler delay lands 7:00-7:30 AM EDT
+      - cron: '30 9 * * *'  # 9:30 UTC — with typical 1.5-2hr scheduler delay lands 7:00-7:30 AM EDT
 permissions:
   contents: write
 concurrency:
@@ -40,6 +40,11 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
         run: python -u scripts/generate_briefing.py
       - name: Capture date for subject
         if: steps.guard.outputs.skip != 'true'
