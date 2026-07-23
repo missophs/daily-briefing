@@ -156,6 +156,59 @@ def trash_phishing_emails(service, phishing: dict) -> None:
             print(f"  Failed to trash {msg_id}: {exc}")
 
 
+# ── Rescue legitimate emails from Trash ─────────────────────────────────────────
+
+RESCUE_PROMPT = """\
+You are a helpful email assistant. Review these emails that are currently in the Trash.
+Identify any that appear to be legitimate and important — emails Melissa would likely
+want rescued back to her inbox. These include:
+- Purchase or payment receipts from real companies
+- Government or emergency alerts
+- Job application responses (from Greenhouse, Lever, Workday, hiring portals, etc.)
+- Bank or financial alerts from real institution domains (chase.com, bankofamerica.com, wellsfargo.com, etc.)
+- Subscription or account confirmations from known services (OpenAI, Perplexity, Apple, Google, etc.)
+- Vet, medical, or appointment-related emails
+- Direct personal or professional correspondence from real people
+
+Do NOT rescue: marketing emails, newsletters, retail promotions, sale announcements,
+spam, social network digests, or anything clearly unwanted even if from a real company.
+
+EMAILS IN TRASH:
+{emails}
+
+Return ONLY a JSON object, no markdown, no explanation:
+{{"rescue": [{{"id": "<message id>", "reason": "<short reason why legitimate>"}}]}}
+If none qualify, return {{"rescue": []}}.
+"""
+
+
+def classify_legitimate_trash(client: "anthropic.Anthropic", emails: list) -> dict:
+    # Only look at trash emails that we didn't just auto-trash as phishing.
+    trash_emails = [e for e in emails if e["in_trash"] and not e.get("auto_trashed")]
+    if not trash_emails:
+        return {}
+    slim = [{"id": e["id"], "from": e["from"], "subject": e["subject"], "snippet": e["snippet"]} for e in trash_emails]
+    message = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": RESCUE_PROMPT.format(emails=json.dumps(slim, indent=2))}],
+    )
+    text = message.content[0].text.strip()
+    text = re.sub(r"^```(?:json)?\n?", "", text)
+    text = re.sub(r"\n?```$", "", text.rstrip())
+    data = json.loads(text)
+    return {item["id"]: item.get("reason", "") for item in data.get("rescue", [])}
+
+
+def rescue_emails(service, to_rescue: dict) -> None:
+    for msg_id, reason in to_rescue.items():
+        try:
+            _retry(lambda m=msg_id: service.users().messages().untrash(userId="me", id=m).execute())
+            print(f"  Rescued to inbox {msg_id}: {reason}")
+        except Exception as exc:
+            print(f"  Failed to rescue {msg_id}: {exc}")
+
+
 # ── Google Calendar ─────────────────────────────────────────────────────────────
 
 def fetch_events(service, days: int = 7) -> list[dict]:
@@ -245,6 +298,10 @@ Some emails were already auto-trashed as high-confidence phishing before you rec
 data (flagged "auto_trashed": true, with "auto_trash_reason"). List these under Security / Risk \
 and in Trash Review as "Auto-Trashed — Phishing" with the reason. Do not recommend further \
 action on them beyond noting they were removed.
+
+Some emails were rescued from Trash back to the inbox before you received this data \
+(flagged "rescued_from_trash": true, with "rescue_reason"). List these under their \
+appropriate category and note they were rescued from Trash with the reason.
 
 REQUIRED SECTIONS:
 
@@ -457,6 +514,20 @@ def main() -> None:
         if e["id"] in phishing:
             e["auto_trashed"] = True
             e["auto_trash_reason"] = phishing[e["id"]]
+
+    print("Checking trash for legitimate emails to rescue…")
+    try:
+        to_rescue = _retry(lambda: classify_legitimate_trash(client, emails), attempts=2, delay=5)
+    except Exception as exc:
+        print(f"  Rescue check failed, skipping ({exc})")
+        to_rescue = {}
+    if to_rescue:
+        print(f"  {len(to_rescue)} email(s) being rescued from trash to inbox…")
+        rescue_emails(gmail, to_rescue)
+    for e in emails:
+        if e["id"] in to_rescue:
+            e["rescued_from_trash"] = True
+            e["rescue_reason"] = to_rescue[e["id"]]
 
     print("Generating briefing with Claude…")
     briefing = _retry(lambda: generate_briefing(client, emails, events), attempts=2, delay=5)
