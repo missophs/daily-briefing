@@ -11,9 +11,12 @@ import os
 import re
 import sys
 import socket
+import smtplib
 import time
 import datetime
 import zoneinfo
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -70,7 +73,6 @@ def _header(headers: list, name: str) -> str:
 def fetch_emails(service, days: int = 7) -> list[dict]:
     after = (datetime.date.today() - datetime.timedelta(days=days)).strftime("%Y/%m/%d")
 
-    # Collect message IDs (capped at 50 to keep the Claude prompt reasonable).
     ids, page_token = [], None
     while len(ids) < 50:
         resp = _retry(lambda pt=page_token: service.users().messages().list(
@@ -183,7 +185,6 @@ If none qualify, return {{"rescue": []}}.
 
 
 def classify_legitimate_trash(client: "anthropic.Anthropic", emails: list) -> dict:
-    # Only look at trash emails that we didn't just auto-trash as phishing.
     trash_emails = [e for e in emails if e["in_trash"] and not e.get("auto_trashed")]
     if not trash_emails:
         return {}
@@ -209,11 +210,94 @@ def rescue_emails(service, to_rescue: dict) -> None:
             print(f"  Failed to rescue {msg_id}: {exc}")
 
 
+# ── Individual email triage summary ─────────────────────────────────────────────
+
+SUMMARY_PROMPT = """\
+You are Melissa's email assistant. Write a short daily email digest.
+
+For EVERY email below, write exactly one line in this format:
+• [CATEGORY] From: [sender name] — [subject] — [one sentence summary of what it is]
+
+Categories to use: INBOX | RESCUED | TRASHED | TRASH
+
+- INBOX = currently in inbox, normal email
+- RESCUED = was in trash, moved back to inbox automatically (flagged rescued_from_trash: true)
+- TRASHED = auto-trashed as phishing (flagged auto_trashed: true)
+- TRASH = already in trash, not rescued, not phishing
+
+Sort by: RESCUED first, then INBOX, then TRASHED, then TRASH.
+Be concise. One line per email, no exceptions.
+
+EMAILS:
+{emails}
+
+Return plain text only. No markdown. No headers. Just the bullet list.
+"""
+
+
+def generate_email_summary(client: "anthropic.Anthropic", emails: list) -> str:
+    slim = [{
+        "from": e["from"],
+        "subject": e["subject"],
+        "snippet": e["snippet"],
+        "auto_trashed": e.get("auto_trashed", False),
+        "auto_trash_reason": e.get("auto_trash_reason", ""),
+        "rescued_from_trash": e.get("rescued_from_trash", False),
+        "rescue_reason": e.get("rescue_reason", ""),
+        "in_trash": e["in_trash"],
+        "in_inbox": e["in_inbox"],
+    } for e in emails]
+    message = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=4000,
+        messages=[{"role": "user", "content": SUMMARY_PROMPT.format(emails=json.dumps(slim, indent=2))}],
+    )
+    return message.content[0].text.strip()
+
+
+def send_triage_summary(summary_text: str, phishing: dict, rescued: dict) -> None:
+    sender    = os.environ["MAIL_USERNAME"]
+    recipient = os.environ["MAIL_TO"]
+    today_str = datetime.date.today().strftime("%A, %B %-d, %Y")
+    subject   = f"📬 Email Triage Summary – {today_str}"
+
+    trashed_count = len(phishing)
+    rescued_count = len(rescued)
+
+    header_lines = [f"📬 Email Triage – {today_str}", ""]
+    if trashed_count:
+        header_lines.append(f"🗑 {trashed_count} phishing email(s) auto-trashed")
+    if rescued_count:
+        header_lines.append(f"✅ {rescued_count} email(s) rescued from trash to inbox")
+    if not trashed_count and not rescued_count:
+        header_lines.append("Inbox looks clean — nothing trashed or rescued today.")
+    header_lines += ["", "— Individual Email Summary —", ""]
+
+    body = "\n".join(header_lines) + "\n" + summary_text
+
+    msg = MIMEMultipart("alternative")
+    msg["From"]    = f"Melissa Daily Briefing <{sender}>"
+    msg["To"]      = recipient
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain", "utf-8"))
+
+    smtp_server = os.environ["SMTP_SERVER"]
+    smtp_port   = int(os.environ["SMTP_PORT"])
+    if smtp_port == 465:
+        with smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=30) as server:
+            server.login(sender, os.environ["MAIL_PASSWORD"])
+            server.sendmail(sender, [recipient], msg.as_string())
+    else:
+        with smtplib.SMTP(smtp_server, smtp_port, timeout=30) as server:
+            server.ehlo(); server.starttls(); server.ehlo()
+            server.login(sender, os.environ["MAIL_PASSWORD"])
+            server.sendmail(sender, [recipient], msg.as_string())
+    print(f"Triage summary sent to {recipient}")
+
+
 # ── Google Calendar ─────────────────────────────────────────────────────────────
 
 def fetch_events(service, days: int = 7) -> list[dict]:
-    # Use start of the ET calendar day so events from earlier this morning
-    # are included regardless of what time the briefing actually runs.
     et_tz = zoneinfo.ZoneInfo("America/New_York")
     day_start = datetime.datetime.now(et_tz).replace(hour=0, minute=0, second=0, microsecond=0)
     day_end   = day_start + datetime.timedelta(days=days)
@@ -233,7 +317,6 @@ def fetch_events(service, days: int = 7) -> list[dict]:
         for a in e.get("attendees", []):
             if a.get("self"):
                 my_response = a.get("responseStatus", "")
-
         events.append({
             "summary":     e.get("summary", "(No title)"),
             "start":       e["start"].get("dateTime", e["start"].get("date", "")),
@@ -246,7 +329,7 @@ def fetch_events(service, days: int = 7) -> list[dict]:
     return events
 
 
-# ── Claude prompt ───────────────────────────────────────────────────────────────
+# ── Claude briefing prompt ───────────────────────────────────────────────────────
 
 PROMPT = """\
 You are Melissa's Executive Chief of Staff.
@@ -456,9 +539,9 @@ If any required section is missing, revise the output before returning it.
 Return only the final complete HTML.
 """
 
+
 def generate_briefing(client: "anthropic.Anthropic", emails: list, events: list) -> str:
     today_str = datetime.date.today().strftime("%A, %B %-d, %Y")
-
     message = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=16000,
@@ -473,9 +556,7 @@ def generate_briefing(client: "anthropic.Anthropic", emails: list, events: list)
             ),
         }],
     )
-
     text = message.content[0].text.strip()
-    # Strip code fences if Claude wraps the output anyway.
     text = re.sub(r"^```(?:markdown)?\n?", "", text)
     text = re.sub(r"\n?```$", "", text.rstrip())
     return text
@@ -497,8 +578,6 @@ def main() -> None:
     events = fetch_events(calendar, days=7)
     print(f"  {len(events)} events fetched")
 
-    # 5-minute timeout: long enough for a 16k-token response, short enough to
-    # fail cleanly rather than block the 6-hour GitHub Actions job limit.
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], timeout=300.0)
 
     print("Checking for phishing…")
@@ -529,7 +608,14 @@ def main() -> None:
             e["rescued_from_trash"] = True
             e["rescue_reason"] = to_rescue[e["id"]]
 
-    print("Generating briefing with Claude…")
+    print("Generating individual email triage summary…")
+    try:
+        summary_text = _retry(lambda: generate_email_summary(client, emails), attempts=2, delay=5)
+        send_triage_summary(summary_text, phishing, to_rescue)
+    except Exception as exc:
+        print(f"  Triage summary failed, skipping ({exc})")
+
+    print("Generating full briefing with Claude…")
     briefing = _retry(lambda: generate_briefing(client, emails, events), attempts=2, delay=5)
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
