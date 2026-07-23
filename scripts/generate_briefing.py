@@ -46,6 +46,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "optery",
     "christopher rainey",
     "giulia guerrieri",
+    "tradealgo",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
