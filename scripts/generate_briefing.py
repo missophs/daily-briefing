@@ -203,6 +203,35 @@ def fetch_emails(service, days: int = 7) -> list[dict]:
     return emails
 
 
+# ── Spam permanent delete ──────────────────────────────────────────────────────────
+
+def delete_spam(service) -> int:
+    """Permanently delete all messages in the Spam folder. Returns count deleted."""
+    deleted = 0
+    page_token = None
+    while True:
+        resp = _retry(lambda pt=page_token: service.users().messages().list(
+            userId="me",
+            labelIds=["SPAM"],
+            maxResults=500,
+            pageToken=pt,
+        ).execute())
+        ids = [m["id"] for m in resp.get("messages", [])]
+        if not ids:
+            break
+        # batchDelete permanently removes up to 1000 messages in one call
+        _retry(lambda batch=ids: service.users().messages().batchDelete(
+            userId="me",
+            body={"ids": batch},
+        ).execute())
+        deleted += len(ids)
+        print(f"  Permanently deleted {len(ids)} spam message(s)")
+        page_token = resp.get("nextPageToken")
+        if not page_token:
+            break
+    return deleted
+
+
 # ── Newsletter auto-trash (deterministic) ───────────────────────────────────────
 
 def trash_newsletter_emails(service, emails: list) -> set[str]:
@@ -640,6 +669,17 @@ def main() -> None:
     creds    = _retry(build_google_credentials)
     gmail    = build("gmail",    "v1", credentials=creds)
     calendar = build("calendar", "v3", credentials=creds)
+
+    # Step 0: Permanently delete all spam
+    print("Clearing spam folder…")
+    try:
+        spam_count = delete_spam(gmail)
+        if spam_count:
+            print(f"  {spam_count} spam message(s) permanently deleted")
+        else:
+            print("  Spam folder already empty")
+    except Exception as exc:
+        print(f"  Spam delete failed, skipping ({exc})")
 
     print("Fetching Gmail messages…")
     emails = fetch_emails(gmail, days=7)
