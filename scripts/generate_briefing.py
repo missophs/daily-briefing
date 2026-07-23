@@ -29,6 +29,101 @@ SCOPES = [
 socket.setdefaulttimeout(60)
 
 
+# ── Sender rules ─────────────────────────────────────────────────────────────────
+
+# Emails from these senders are auto-trashed deterministically (no Claude needed).
+# Case-insensitive substring match against the full From header.
+NEWSLETTER_TRASH_PATTERNS = [
+    "cooldeep",
+    "medium daily digest",
+    "@medium.com",
+    "the average joe",
+    "averagejoecrypto",
+    "1% better",
+    "1percentbetter",
+    "the ai report",
+    "theaireport",
+]
+
+# Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
+# Case-insensitive substring match against the full From header.
+PROTECTED_SENDER_PATTERNS = [
+    # Dating
+    "match.com",
+    # AI services
+    "chatgpt",
+    "openai.com",
+    "claude",
+    "anthropic.com",
+    # Airlines (common US + international)
+    "united.com",
+    "delta.com",
+    "aa.com",
+    "americanairlines",
+    "southwest.com",
+    "jetblue.com",
+    "spirit airlines",
+    "spiritairlines",
+    "frontier airlines",
+    "frontierairlines",
+    "alaskaair",
+    "hawaiianairlines",
+    "lufthansa",
+    "britishairways",
+    "emirates",
+    "airline",
+    "air canada",
+    "air france",
+    "airfrance",
+    # Financial — Merrill Lynch
+    "merrilllynch",
+    "merrill lynch",
+    "ml.com",
+    "merrilledge",
+    # Banks
+    "chase.com",
+    "bankofamerica",
+    "bank of america",
+    "wellsfargo",
+    "wells fargo",
+    "citibank",
+    "citi.com",
+    "usbank",
+    "us bank",
+    "tdbank",
+    "td bank",
+    "pnc.com",
+    "pncbank",
+    "capitalone",
+    "capital one",
+    "schwab.com",
+    "fidelity.com",
+    "vanguard.com",
+    "synchrony",
+    "ally.com",
+    "discover.com",
+    "barclays",
+    "regions.com",
+    "suntrust",
+    "truist",
+    "navyfederal",
+    "navy federal",
+    "usaa.com",
+]
+
+
+def _is_protected(email: dict) -> bool:
+    from_lower = email["from"].lower()
+    return any(p in from_lower for p in PROTECTED_SENDER_PATTERNS)
+
+
+def _is_newsletter(email: dict) -> bool:
+    from_lower = email["from"].lower()
+    return any(p in from_lower for p in NEWSLETTER_TRASH_PATTERNS)
+
+
+# ── Helpers ──────────────────────────────────────────────────────────────────────
+
 def _retry(fn, *, attempts=3, delay=2):
     for attempt in range(1, attempts + 1):
         try:
@@ -41,7 +136,7 @@ def _retry(fn, *, attempts=3, delay=2):
             time.sleep(wait)
 
 
-# ── Google credentials ──────────────────────────────────────────────────────────
+# ── Google credentials ───────────────────────────────────────────────────────
 
 def build_google_credentials() -> Credentials:
     creds = Credentials(
@@ -56,7 +151,7 @@ def build_google_credentials() -> Credentials:
     return creds
 
 
-# ── Gmail ───────────────────────────────────────────────────────────────────────
+# ── Gmail ───────────────────────────────────────────────────────────────────
 
 def _header(headers: list, name: str) -> str:
     for h in headers:
@@ -105,7 +200,27 @@ def fetch_emails(service, days: int = 7) -> list[dict]:
     return emails
 
 
-# ── Phishing auto-trash ──────────────────────────────────────────────────────────
+# ── Newsletter auto-trash (deterministic) ───────────────────────────────────────
+
+def trash_newsletter_emails(service, emails: list) -> set[str]:
+    """Trash emails that match NEWSLETTER_TRASH_PATTERNS. Never touches protected senders."""
+    trashed_ids: set[str] = set()
+    for e in emails:
+        if e["in_trash"] or e.get("auto_trashed"):
+            continue
+        if _is_protected(e):
+            continue
+        if _is_newsletter(e):
+            try:
+                _retry(lambda m=e["id"]: service.users().messages().trash(userId="me", id=m).execute())
+                print(f"  Newsletter-trashed {e['id']}: {e['from']}")
+                trashed_ids.add(e["id"])
+            except Exception as exc:
+                print(f"  Failed to newsletter-trash {e['id']}: {exc}")
+    return trashed_ids
+
+
+# ── Phishing auto-trash ────────────────────────────────────────────────────────────
 
 PHISHING_PROMPT = """\
 You are a security triage assistant. Review these emails and identify ONLY the ones \
@@ -128,7 +243,8 @@ If none qualify, return {{"phishing": []}}.
 
 
 def classify_phishing(client: "anthropic.Anthropic", emails: list) -> dict:
-    candidates = [e for e in emails if not e["in_trash"]]
+    # Skip emails already trashed and skip protected senders — never flag them as phishing
+    candidates = [e for e in emails if not e["in_trash"] and not e.get("auto_trashed") and not _is_protected(e)]
     if not candidates:
         return {}
     slim = [{"id": e["id"], "from": e["from"], "subject": e["subject"], "snippet": e["snippet"]} for e in candidates]
@@ -153,7 +269,25 @@ def trash_phishing_emails(service, phishing: dict) -> None:
             print(f"  Failed to trash {msg_id}: {exc}")
 
 
-# ── Rescue legitimate emails from Trash ─────────────────────────────────────────
+# ── Rescue protected senders from Trash (deterministic) ───────────────────────
+
+def rescue_protected_trash(service, emails: list) -> set[str]:
+    """Force-rescue any protected-sender emails that ended up in Trash."""
+    rescued_ids: set[str] = set()
+    for e in emails:
+        if not e["in_trash"] or e.get("auto_trashed"):
+            continue
+        if _is_protected(e):
+            try:
+                _retry(lambda m=e["id"]: service.users().messages().untrash(userId="me", id=m).execute())
+                print(f"  Protected-sender rescued {e['id']}: {e['from']}")
+                rescued_ids.add(e["id"])
+            except Exception as exc:
+                print(f"  Failed to rescue protected {e['id']}: {exc}")
+    return rescued_ids
+
+
+# ── Rescue legitimate emails from Trash (Claude) ─────────────────────────────
 
 RESCUE_PROMPT = """\
 You are a helpful email assistant. Review these emails that are currently in the Trash.
@@ -180,7 +314,14 @@ If none qualify, return {{"rescue": []}}.
 
 
 def classify_legitimate_trash(client: "anthropic.Anthropic", emails: list) -> dict:
-    trash_emails = [e for e in emails if e["in_trash"] and not e.get("auto_trashed")]
+    # Only consider trash emails not already handled (auto_trashed or rescued_from_trash)
+    trash_emails = [
+        e for e in emails
+        if e["in_trash"]
+        and not e.get("auto_trashed")
+        and not e.get("newsletter_trashed")
+        and not e.get("rescued_from_trash")
+    ]
     if not trash_emails:
         return {}
     slim = [{"id": e["id"], "from": e["from"], "subject": e["subject"], "snippet": e["snippet"]} for e in trash_emails]
@@ -239,7 +380,7 @@ def fetch_events(service, days: int = 7) -> list[dict]:
     return events
 
 
-# ── Claude briefing prompt ───────────────────────────────────────────────────────
+# ── Claude briefing prompt ───────────────────────────────────────────────────────────
 
 PROMPT = """\
 You are Melissa's Executive Chief of Staff.
@@ -292,6 +433,10 @@ data (flagged "auto_trashed": true, with "auto_trash_reason"). List these under 
 and in Trash Review as "Auto-Trashed — Phishing" with the reason. Do not recommend further \
 action on them beyond noting they were removed.
 
+Some emails were auto-trashed as unwanted newsletters/digests before you received this data \
+(flagged "newsletter_trashed": true). List these under Newsletters & Subscriptions and in \
+Trash Review as "Auto-Trashed — Newsletter" with the sender. No further action needed.
+
 Some emails were rescued from Trash back to the inbox before you received this data \
 (flagged "rescued_from_trash": true, with "rescue_reason"). List these under their \
 appropriate category and note they were rescued from Trash with the reason.
@@ -304,7 +449,7 @@ Create a compact scannable table with one row per email:
 Columns: Status | From | Subject | Summary
 - Status values: ✅ RESCUED | 📥 INBOX | 🗑 TRASHED | 🗂 TRASH
   - ✅ RESCUED = rescued_from_trash: true
-  - 🗑 TRASHED = auto_trashed: true
+  - 🗑 TRASHED = auto_trashed: true OR newsletter_trashed: true
   - 📥 INBOX = in inbox, not trashed or rescued
   - 🗂 TRASH = in trash, not auto-trashed, not rescued
 - Summary = one short sentence describing what the email is
@@ -485,7 +630,7 @@ def generate_briefing(client: "anthropic.Anthropic", emails: list, events: list)
     return text
 
 
-# ── Main ────────────────────────────────────────────────────────────────────────
+# ── Main ─────────────────────────────────────────────────────────────────────
 
 def main() -> None:
     print("Building Google credentials…")
@@ -503,6 +648,15 @@ def main() -> None:
 
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], timeout=300.0)
 
+    # Step 1: Trash newsletters/digests deterministically (no Claude call)
+    print("Auto-trashing newsletters…")
+    newsletter_trashed_ids = trash_newsletter_emails(gmail, emails)
+    for e in emails:
+        if e["id"] in newsletter_trashed_ids:
+            e["newsletter_trashed"] = True
+            e["in_trash"] = True
+
+    # Step 2: Classify and trash phishing (Claude) — skips protected senders
     print("Checking for phishing…")
     try:
         phishing = _retry(lambda: classify_phishing(client, emails), attempts=2, delay=5)
@@ -517,7 +671,17 @@ def main() -> None:
             e["auto_trashed"] = True
             e["auto_trash_reason"] = phishing[e["id"]]
 
-    print("Checking trash for legitimate emails to rescue…")
+    # Step 3: Deterministically rescue protected senders from trash
+    print("Rescuing protected-sender emails from trash…")
+    protected_rescued_ids = rescue_protected_trash(gmail, emails)
+    for e in emails:
+        if e["id"] in protected_rescued_ids:
+            e["rescued_from_trash"] = True
+            e["rescue_reason"] = "Protected sender — always keep in inbox"
+            e["in_trash"] = False
+
+    # Step 4: Rescue other legitimate trash emails (Claude)
+    print("Checking trash for other legitimate emails to rescue…")
     try:
         to_rescue = _retry(lambda: classify_legitimate_trash(client, emails), attempts=2, delay=5)
     except Exception as exc:
