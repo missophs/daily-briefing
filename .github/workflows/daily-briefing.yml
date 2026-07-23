@@ -2,7 +2,8 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '30 9 * * *'  # 9:30 UTC — with typical 1.5-2hr scheduler delay lands 7:00-7:30 AM EDT
+      - cron: '30 9 * * *'   # Primary: 9:30 UTC — typical delay lands 7:00-7:30 AM EDT
+      - cron: '15 10 * * *'  # Backup: 10:15 UTC — fires if primary misses; guard skips if already sent
 permissions:
   contents: write
 concurrency:
