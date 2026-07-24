@@ -79,6 +79,8 @@ NEWSLETTER_TRASH_PATTERNS = [
 PROTECTED_SENDER_PATTERNS = [
     # Dating
     "match.com",
+    # Job search — always keep
+    "linkedin",
     # AI services
     "chatgpt",
     "openai.com",
@@ -500,16 +502,18 @@ REQUIRED SECTIONS — include in this order:
 
 0. Email Triage Quick List
 This is the FIRST section after the header, before everything else.
-Create a compact scannable table with one row per email:
+Create a compact scannable table with one row per email.
 Columns: Status | From | Subject | Summary
-- Status values: ✅ RESCUED | 📥 INBOX | 🗑 TRASHED | 🗂 TRASH
-  - ✅ RESCUED = rescued_from_trash: true
-  - 🗑 TRASHED = auto_trashed: true OR newsletter_trashed: true
-  - 📥 INBOX = in inbox, not trashed or rescued
-  - 🗂 TRASH = in trash, not auto-trashed, not rescued
-- Summary = one short sentence describing what the email is
-- Sort order: RESCUED first, then INBOX, then TRASHED, then TRASH
-Every single email must appear in this table. No exceptions.
+
+STATUS RULES:
+- ✅ RESCUED = rescued_from_trash: true — show each one individually
+- 📥 INBOX = in inbox, not trashed or rescued — show each one individually
+- 🗑 TRASHED (auto) = auto_trashed: true OR newsletter_trashed: true — collapse into ONE summary row: "🗑 X emails auto-trashed (newsletters/phishing) — see Trash Review"
+- 🗂 TRASH (manual) = in_trash: true, not auto-trashed, not rescued — collapse into ONE summary row: "🗂 X emails in Trash — see Trash Review"
+
+Do NOT list every trashed email as its own row. Inbox and rescued emails get individual rows. Trash gets summary rows only.
+
+Sort order: RESCUED rows first, then INBOX rows, then the two summary rows at the bottom.
 
 1. Header
 Include:
@@ -641,7 +645,7 @@ Before returning the HTML, verify that the output includes these exact section n
 - Dashboard
 
 MANDATORY SECTIONS:
-Email Triage Quick List must appear first and contain every email as a table row.
+Email Triage Quick List must appear first.
 Trash Review, Promotional / Retail Summary, and Email Accounting must appear near the end.
 
 Email Accounting must include:
