@@ -72,6 +72,9 @@ NEWSLETTER_TRASH_PATTERNS = [
     "gap factory",
     "gapfactory",
     "gemma bonham",
+    "info@skincareessentials.com",
+    "hello@digistore24newsletter.com",
+    "community@transform.us",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
