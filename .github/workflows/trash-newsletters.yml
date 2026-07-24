@@ -1,0 +1,28 @@
+name: Trash Newsletter Emails
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'  # hourly
+permissions:
+  contents: read
+concurrency:
+  group: trash-newsletters
+  cancel-in-progress: false
+jobs:
+  trash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+      - name: Trash newsletter emails
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+        run: python -u scripts/trash_newsletters.py
