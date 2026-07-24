@@ -78,6 +78,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "talentrealist@substack.com",
     "talent realist",
     "no-reply@rs.email.nextdoor.com",
+    "reply@rs.email.nextdoor.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
