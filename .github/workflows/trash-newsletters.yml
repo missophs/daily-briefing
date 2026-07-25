@@ -2,7 +2,10 @@ name: Trash Newsletter Emails
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 * * * *'  # hourly
+    - cron: '0 * * * *'  # hourly (best-effort backup — GitHub cron drifts, see push trigger below)
+  push:
+    branches: [webhooks]
+    paths: [trigger/heartbeat.txt]  # external cron pushes here hourly for reliable timing
 permissions:
   contents: read
 concurrency:
