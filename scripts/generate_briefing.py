@@ -60,7 +60,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "phil strazzulla",
     "limitless creator",
     "16handles",
-    "techspresso",
+    "techpresso",
     "stephanie adams",
     "ifttt",
     "tldr newsletter",
