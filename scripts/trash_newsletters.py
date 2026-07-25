@@ -26,7 +26,7 @@ def main() -> None:
     gmail = build("gmail", "v1", credentials=creds)
 
     print("Fetching recent Gmail messages…")
-    emails = fetch_emails(gmail, days=2)
+    emails = fetch_emails(gmail, days=2, max_results=200, inbox_only=True)
     print(f"  {len(emails)} messages fetched")
 
     print("Auto-trashing newsletters…")

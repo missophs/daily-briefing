@@ -202,15 +202,16 @@ def _header(headers: list, name: str) -> str:
     return ""
 
 
-def fetch_emails(service, days: int = 7) -> list[dict]:
+def fetch_emails(service, days: int = 7, max_results: int = 50, inbox_only: bool = False) -> list[dict]:
     after = (datetime.date.today() - datetime.timedelta(days=days)).strftime("%Y/%m/%d")
+    query = f"after:{after}" + (" in:inbox" if inbox_only else "")
 
     ids, page_token = [], None
-    while len(ids) < 50:
+    while len(ids) < max_results:
         resp = _retry(lambda pt=page_token: service.users().messages().list(
             userId="me",
-            q=f"after:{after}",
-            maxResults=50,
+            q=query,
+            maxResults=min(max_results - len(ids), 100),
             pageToken=pt,
             includeSpamTrash=True,
         ).execute())
@@ -220,7 +221,7 @@ def fetch_emails(service, days: int = 7) -> list[dict]:
             break
 
     emails = []
-    for ref in ids[:50]:
+    for ref in ids[:max_results]:
         msg = _retry(lambda r=ref: service.users().messages().get(
             userId="me",
             id=r["id"],
