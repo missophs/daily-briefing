@@ -83,6 +83,13 @@ NEWSLETTER_TRASH_PATTERNS = [
     "team@craft.do",
     "insider monkey",
     "no-reply@is.email.nextdoor.com",
+    "lisa rangel",
+    "chameleonresumes.com",
+    "fractional in a box",
+    "fractionalpowerhouse.com",
+    "car shield",
+    "carshield",
+    "tractorsupply",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
