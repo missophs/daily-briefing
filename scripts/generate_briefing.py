@@ -94,6 +94,10 @@ NEWSLETTER_TRASH_PATTERNS = [
     "uncoverai@mail.beehiiv.com",
     "ai with mariah",
     "dreamtuesday.com",
+    "newsletter@lg.behindthemarkets.com",
+    "shopify",
+    "quince",
+    "david green",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
