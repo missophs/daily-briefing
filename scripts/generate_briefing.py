@@ -92,6 +92,8 @@ NEWSLETTER_TRASH_PATTERNS = [
     "tractorsupply",
     "uncovering ai",
     "uncoverai@mail.beehiiv.com",
+    "ai with mariah",
+    "dreamtuesday.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
