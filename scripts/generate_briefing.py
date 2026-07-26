@@ -98,6 +98,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "shopify",
     "quince",
     "david green",
+    "newsletters-noreply@linkedin.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
@@ -105,8 +106,10 @@ NEWSLETTER_TRASH_PATTERNS = [
 PROTECTED_SENDER_PATTERNS = [
     # Dating
     "match.com",
-    # Job search — always keep
-    "linkedin",
+    # Job search — always keep (narrowed 2026-07-26 from bare "linkedin" so LinkedIn-hosted
+    # newsletters like David Green's could be trashed without risking job alerts)
+    "jobs-noreply@linkedin.com",
+    "jobalerts-noreply@linkedin.com",
     # AI services
     "chatgpt",
     "openai.com",
