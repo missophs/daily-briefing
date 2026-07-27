@@ -111,6 +111,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "cultivatedculture.com",
     "m.themuse.com",
     "3percentconf.com",
+    "leapsome.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
