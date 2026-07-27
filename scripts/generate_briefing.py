@@ -112,6 +112,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "m.themuse.com",
     "3percentconf.com",
     "leapsome.com",
+    "jackcocchiarella@substack.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
