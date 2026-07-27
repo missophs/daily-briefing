@@ -102,6 +102,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "no-reply@otter.ai",
     "students.udemy.com",
     "email.shoestation.com",
+    "thepeoplepeoplegroup.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
