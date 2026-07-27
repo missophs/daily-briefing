@@ -105,6 +105,11 @@ NEWSLETTER_TRASH_PATTERNS = [
     "thepeoplepeoplegroup.com",
     "send.zapier.com",
     "redroosterharlem",
+    "sarmail.cuddly.com",
+    "anyaandniki.com",
+    "mindstream.news",
+    "cultivatedculture.com",
+    "m.themuse.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
