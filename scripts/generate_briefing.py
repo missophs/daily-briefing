@@ -97,7 +97,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "quince",
     "david green",
     "newsletters-noreply@linkedin.com",
-    "us-education.alison.com",
+    "alison.com",
     "mail.lemon8-app.com",
 ]
 
