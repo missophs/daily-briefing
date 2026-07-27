@@ -110,6 +110,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "mindstream.news",
     "cultivatedculture.com",
     "m.themuse.com",
+    "3percentconf.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
