@@ -114,6 +114,8 @@ NEWSLETTER_TRASH_PATTERNS = [
     "leapsome.com",
     "jackcocchiarella@substack.com",
     "jointhecolab@substack.com",
+    "ridethroo.ai",
+    "mail.promptmates.ai",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
