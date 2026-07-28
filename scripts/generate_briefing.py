@@ -116,6 +116,8 @@ NEWSLETTER_TRASH_PATTERNS = [
     "jointhecolab@substack.com",
     "ridethroo.ai",
     "mail.promptmates.ai",
+    "microsoftstore.microsoft.com",
+    "tealhq.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
