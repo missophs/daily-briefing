@@ -113,6 +113,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "3percentconf.com",
     "leapsome.com",
     "jackcocchiarella@substack.com",
+    "jointhecolab@substack.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
