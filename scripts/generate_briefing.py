@@ -120,6 +120,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "tealhq.com",
     "careerevolved=oliviagamber.com@f.kajabimail.net",
     "endeavorexecutive.com",
+    "patient-voices.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
