@@ -2,8 +2,8 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '45 10 * * *'   # Primary: 10:45 UTC — typical delay lands 7:15-7:30 AM EDT
-      - cron: '30 11 * * *'  # Backup: 11:30 UTC — fires if primary misses; guard skips if already sent
+      - cron: '0 10 * * *'   # Primary: 10:00 UTC = 6:00 AM EDT — buffer for GitHub delay to land by 7:15-7:30 AM
+      - cron: '45 10 * * *'  # Backup: 10:45 UTC = 6:45 AM EDT — fires if primary misses; guard skips if already sent
 permissions:
   contents: write
 concurrency:
