@@ -121,10 +121,6 @@ NEWSLETTER_TRASH_PATTERNS = [
     "careerevolved=oliviagamber.com@f.kajabimail.net",
     "endeavorexecutive.com",
     "patient-voices.com",
-    "kickresume.com",
-    "peoplestrategycollective.org",
-    "linktr.ee",
-    "mycitizenshr.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
