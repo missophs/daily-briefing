@@ -129,6 +129,8 @@ NEWSLETTER_TRASH_PATTERNS = [
     "workweek.com",
     "mail.apollo.io",
     "allevents.in",
+    "emails.zappos.com",
+    "marketing.landsend.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
