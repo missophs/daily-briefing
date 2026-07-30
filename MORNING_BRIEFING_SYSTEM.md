@@ -77,6 +77,7 @@ Case-insensitive substring match on From header. Single source of truth is `gene
 - theskimm.com (theSkimm)
 - workweek.com (Hebba Youssef)
 - mail.apollo.io (Apollo)
+- allevents.in (AllEvents)
 
 ## Protected Senders (PROTECTED_SENDER_PATTERNS)
 Never trashed; rescued from trash if found there:
