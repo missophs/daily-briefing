@@ -127,6 +127,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "mycitizenshr.com",
     "theskimm.com",
     "workweek.com",
+    "mail.apollo.io",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
