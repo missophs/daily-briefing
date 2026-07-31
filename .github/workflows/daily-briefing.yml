@@ -2,8 +2,8 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '0 9 * * *'   # Primary: 9:00 UTC = 5:00 AM EDT — targets 7:00 AM EDT delivery
-      - cron: '45 9 * * *'  # Backup: 9:45 UTC = 5:45 AM EDT — fires if primary misses; guard skips if already sent
+      - cron: '45 8 * * *'  # Primary: 8:45 UTC = 4:45 AM EDT — targets 7:00 AM EDT delivery
+      - cron: '30 9 * * *'  # Backup: 9:30 UTC = 5:30 AM EDT — fires if primary misses; guard skips if already sent
 permissions:
   contents: write
 concurrency:
