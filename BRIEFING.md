@@ -3,870 +3,794 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Executive Briefing — Melissa A. Weiss, MPA — July 30, 2026</title>
+<title>Executive Briefing — Melissa W — August 1, 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #222; font-size: 14px; line-height: 1.5; }
-  .page { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #222; font-size: 14px; }
+  .page { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
 
-  /* HEADER */
-  .header { background: linear-gradient(135deg, #1a2340 0%, #2d3f6b 100%); color: white; border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; }
-  .header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
-  .header .subtitle { font-size: 14px; opacity: 0.8; margin-top: 4px; }
-  .header .meta { display: flex; gap: 24px; margin-top: 14px; flex-wrap: wrap; }
-  .header .meta-item { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 8px 16px; font-size: 13px; }
-  .header .meta-item span { font-weight: 700; font-size: 18px; display: block; }
+  /* Header */
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: #fff; border-radius: 14px; padding: 32px 36px; margin-bottom: 24px; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: 0.5px; }
+  .header .subtitle { font-size: 15px; color: #b0c4de; margin-top: 6px; }
+  .header .meta { display: flex; gap: 32px; margin-top: 18px; flex-wrap: wrap; }
+  .header .meta-item { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 18px; text-align: center; }
+  .header .meta-item .num { font-size: 22px; font-weight: 700; color: #7ec8e3; }
+  .header .meta-item .lbl { font-size: 11px; color: #b0c4de; text-transform: uppercase; letter-spacing: 1px; }
 
-  /* SECTION HEADERS */
-  .section-title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin: 28px 0 12px 0; padding-bottom: 6px; border-bottom: 2px solid #dde1ea; color: #1a2340; display: flex; align-items: center; gap: 8px; }
-  .section-title .icon { font-size: 18px; }
+  /* Section */
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 17px; font-weight: 700; letter-spacing: 0.3px; padding: 10px 16px; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 8px; }
+  .section-body { background: #fff; border-radius: 0 0 10px 10px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
 
-  /* CARDS */
-  .card { border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; border-left: 5px solid #ccc; background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
-  .card.red { border-left-color: #e53935; background: #fff8f8; }
-  .card.yellow { border-left-color: #f9a825; background: #fffdf0; }
-  .card.blue { border-left-color: #1e88e5; background: #f5f9ff; }
-  .card.green { border-left-color: #2e7d32; background: #f4faf4; }
-  .card.purple { border-left-color: #6a1b9a; background: #faf5ff; }
-  .card.gray { border-left-color: #9e9e9e; background: #fafafa; }
-  .card.orange { border-left-color: #e65100; background: #fff8f3; }
+  /* Color themes */
+  .red .section-title    { background: #c0392b; color: #fff; }
+  .yellow .section-title { background: #f39c12; color: #fff; }
+  .blue .section-title   { background: #2471a3; color: #fff; }
+  .green .section-title  { background: #1e8449; color: #fff; }
+  .purple .section-title { background: #7d3c98; color: #fff; }
+  .gray .section-title   { background: #717d7e; color: #fff; }
+  .navy .section-title   { background: #1a1a2e; color: #fff; }
+  .teal .section-title   { background: #148f77; color: #fff; }
 
-  .card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .card-label.red { color: #e53935; }
-  .card-label.yellow { color: #f9a825; }
-  .card-label.blue { color: #1e88e5; }
-  .card-label.green { color: #2e7d32; }
-  .card-label.purple { color: #6a1b9a; }
-  .card-label.gray { color: #757575; }
-  .card-label.orange { color: #e65100; }
-
-  .card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #1a2340; }
-  .card .from { font-size: 12px; color: #666; margin-bottom: 6px; }
-  .card p { font-size: 13px; color: #444; margin-bottom: 4px; }
-  .card .action { font-size: 13px; font-weight: 600; margin-top: 8px; }
-  .card .action.red { color: #c62828; }
-  .card .action.yellow { color: #f57f17; }
-  .card .action.green { color: #2e7d32; }
-  .card .action.blue { color: #1565c0; }
-
-  /* TABLES */
-  table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.07); margin-bottom: 16px; }
-  th { background: #1a2340; color: white; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 10px 14px; text-align: left; }
-  td { padding: 9px 14px; border-bottom: 1px solid #eef0f4; font-size: 13px; vertical-align: top; }
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f4f6f8; font-weight: 700; text-align: left; padding: 9px 10px; border-bottom: 2px solid #dde; color: #444; }
+  td { padding: 8px 10px; border-bottom: 1px solid #eef; vertical-align: top; }
   tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: #f7f8fb; }
-  tr:hover td { background: #eef2ff; }
+  tr:hover td { background: #f9fbff; }
 
-  /* PRIORITY BADGES */
-  .badge { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-  .badge.high { background: #ffebee; color: #c62828; }
-  .badge.medium { background: #fff8e1; color: #f57f17; }
-  .badge.low { background: #f1f8e9; color: #33691e; }
-  .badge.rescued { background: #e8f5e9; color: #1b5e20; }
-  .badge.inbox { background: #e3f2fd; color: #0d47a1; }
-  .badge.trashed { background: #fce4ec; color: #880e4f; }
-  .badge.archived { background: #f3e5f5; color: #4a148c; }
-  .badge.fit-high { background: #e8f5e9; color: #1b5e20; }
-  .badge.fit-med { background: #fff8e1; color: #e65100; }
-  .badge.fit-low { background: #fafafa; color: #757575; }
+  /* Cards */
+  .card { border-left: 5px solid #ccc; background: #fafafa; border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; }
+  .card.red    { border-color: #c0392b; background: #fdf3f2; }
+  .card.yellow { border-color: #f39c12; background: #fefaf0; }
+  .card.blue   { border-color: #2471a3; background: #f0f6fd; }
+  .card.green  { border-color: #1e8449; background: #f0faf3; }
+  .card.purple { border-color: #7d3c98; background: #f8f0fd; }
+  .card.gray   { border-color: #717d7e; background: #f7f7f7; }
+  .card.teal   { border-color: #148f77; background: #f0faf8; }
+  .card-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
+  .card-label.red    { color: #c0392b; }
+  .card-label.yellow { color: #d68910; }
+  .card-label.blue   { color: #2471a3; }
+  .card-label.green  { color: #1e8449; }
+  .card-label.purple { color: #7d3c98; }
+  .card-label.gray   { color: #717d7e; }
+  .card-label.teal   { color: #148f77; }
+  .card-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .card-row { display: flex; gap: 6px; margin-bottom: 3px; font-size: 13px; flex-wrap: wrap; }
+  .card-field { font-weight: 700; color: #555; min-width: 110px; }
 
-  /* STATUS ICONS */
-  .status-confirmed { color: #2e7d32; font-weight: 700; }
-  .status-declined { color: #c62828; font-weight: 700; }
-  .status-pending { color: #f57f17; font-weight: 700; }
+  /* Badges */
+  .badge { display: inline-block; border-radius: 12px; padding: 2px 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge-red    { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
+  .badge-yellow { background: #fef9e7; color: #b7770d; border: 1px solid #f9e49a; }
+  .badge-green  { background: #eafaf1; color: #1e8449; border: 1px solid #a9dfbf; }
+  .badge-blue   { background: #eaf3fb; color: #1a5276; border: 1px solid #a9cce3; }
+  .badge-purple { background: #f5eef8; color: #7d3c98; border: 1px solid #d2b4de; }
+  .badge-gray   { background: #f2f3f4; color: #717d7e; border: 1px solid #d5d8dc; }
+  .badge-teal   { background: #e8f8f5; color: #148f77; border: 1px solid #a2d9ce; }
 
-  /* EXEC SUMMARY BULLETS */
-  .exec-bullets { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0; }
-  .exec-bullet { flex: 1; min-width: 280px; border-radius: 10px; padding: 14px 18px; border-left: 5px solid; }
-  .exec-bullet.risk { border-color: #e53935; background: #fff8f8; }
-  .exec-bullet.opp { border-color: #2e7d32; background: #f4faf4; }
-  .exec-bullet.cal { border-color: #1e88e5; background: #f5f9ff; }
-  .exec-bullet .bul-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .exec-bullet.risk .bul-label { color: #e53935; }
-  .exec-bullet.opp .bul-label { color: #2e7d32; }
-  .exec-bullet.cal .bul-label { color: #1e88e5; }
-  .exec-bullet p { font-size: 13px; color: #333; }
+  /* Executive Summary bullets */
+  .exec-bullet { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; padding: 12px 14px; border-radius: 8px; }
+  .exec-bullet.risk   { background: #fdf3f2; border: 1px solid #f5c6c2; }
+  .exec-bullet.opp    { background: #f0faf3; border: 1px solid #a9dfbf; }
+  .exec-bullet.cal    { background: #f0f6fd; border: 1px solid #a9cce3; }
+  .exec-icon { font-size: 22px; margin-top: 1px; }
+  .exec-text strong { display: block; font-size: 14px; margin-bottom: 3px; }
+  .exec-text span { font-size: 13px; color: #555; }
 
-  /* DASHBOARD */
-  .dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px; }
-  .dash-tile { background: white; border-radius: 10px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); border-top: 4px solid; }
-  .dash-tile.red { border-top-color: #e53935; }
-  .dash-tile.yellow { border-top-color: #f9a825; }
-  .dash-tile.blue { border-top-color: #1e88e5; }
-  .dash-tile.green { border-top-color: #2e7d32; }
-  .dash-tile.purple { border-top-color: #6a1b9a; }
-  .dash-tile.gray { border-top-color: #9e9e9e; }
-  .dash-tile .tile-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; margin-bottom: 6px; }
-  .dash-tile .tile-value { font-size: 26px; font-weight: 800; color: #1a2340; }
-  .dash-tile .tile-sub { font-size: 12px; color: #666; margin-top: 4px; }
+  /* Dashboard grid */
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .dash-card { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
+  .dash-card .dash-num { font-size: 32px; font-weight: 800; }
+  .dash-card .dash-lbl { font-size: 12px; color: #777; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .dash-card.d-red    { border-top: 4px solid #c0392b; }
+  .dash-card.d-yellow { border-top: 4px solid #f39c12; }
+  .dash-card.d-green  { border-top: 4px solid #1e8449; }
+  .dash-card.d-blue   { border-top: 4px solid #2471a3; }
+  .dash-card.d-purple { border-top: 4px solid #7d3c98; }
+  .dash-card.d-gray   { border-top: 4px solid #717d7e; }
 
-  /* TRIAGE TABLE special coloring */
-  .triage-rescued td { background: #f0fff4 !important; }
-  .triage-inbox td { background: #f5f9ff !important; }
-  .triage-trash td { background: #fafafa !important; }
+  /* Priority table */
+  .priority-HIGH   { color: #c0392b; font-weight: 800; }
+  .priority-MEDIUM { color: #d68910; font-weight: 700; }
+  .priority-LOW    { color: #1e8449; font-weight: 600; }
 
-  /* CALENDAR DAY */
-  .cal-day { font-weight: 700; font-size: 13px; color: #1a2340; background: #e8ecf7; padding: 6px 14px; border-radius: 6px; margin: 10px 0 6px 0; }
-  .cal-today { background: #1e88e5; color: white; }
+  /* Status icons */
+  .status-confirmed { color: #1e8449; }
+  .status-declined  { color: #c0392b; }
+  .status-needs     { color: #d68910; }
 
-  /* TOP 3 */
-  .top3 { display: flex; gap: 12px; flex-wrap: wrap; }
-  .top3-item { flex: 1; min-width: 260px; background: white; border-radius: 10px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); border-top: 5px solid #1e88e5; }
-  .top3-item .num { font-size: 32px; font-weight: 900; color: #1e88e5; opacity: 0.25; line-height: 1; }
-  .top3-item h4 { font-size: 14px; font-weight: 700; color: #1a2340; margin-top: -10px; }
-  .top3-item p { font-size: 13px; color: #555; margin-top: 6px; }
+  /* Top 3 */
+  .top3 { display: flex; gap: 16px; flex-wrap: wrap; }
+  .top3-card { flex: 1; min-width: 220px; background: linear-gradient(135deg, #1a1a2e, #0f3460); color: #fff; border-radius: 12px; padding: 22px 20px; }
+  .top3-num { font-size: 40px; font-weight: 900; color: #7ec8e3; line-height: 1; }
+  .top3-text { font-size: 15px; margin-top: 8px; line-height: 1.5; }
 
-  /* MISC */
+  /* Triage table status */
+  .t-rescued { color: #1e8449; font-weight: 700; }
+  .t-inbox   { color: #2471a3; font-weight: 700; }
+  .t-trash   { color: #c0392b; font-weight: 700; }
+  .t-manual  { color: #717d7e; font-weight: 700; }
+
   .note { font-size: 12px; color: #888; font-style: italic; margin-top: 8px; }
-  .divider { border: none; border-top: 1px solid #e0e4ed; margin: 20px 0; }
-  .tag { display: inline-block; background: #eef2ff; color: #3949ab; border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 600; margin-right: 4px; }
-  .tag.red { background: #ffebee; color: #c62828; }
-  .tag.green { background: #e8f5e9; color: #2e7d32; }
-  .tag.yellow { background: #fff8e1; color: #e65100; }
-  .warn { color: #e53935; font-weight: 700; font-size: 12px; }
-  .rescued-note { font-size: 11px; background: #e8f5e9; color: #1b5e20; border-radius: 4px; padding: 2px 8px; font-weight: 600; display: inline-block; margin-left: 6px; }
-  .auto-trash-note { font-size: 11px; background: #ffebee; color: #c62828; border-radius: 4px; padding: 2px 8px; font-weight: 600; display: inline-block; margin-left: 6px; }
+  .divider { border: none; border-top: 1px solid #e8eaec; margin: 14px 0; }
+  .pill { display: inline-block; background: #eef; border-radius: 20px; padding: 2px 10px; font-size: 11px; color: #445; margin: 2px; }
+
+  @media (max-width: 600px) {
+    .header .meta { gap: 12px; }
+    .top3 { flex-direction: column; }
+    .dash-grid { grid-template-columns: repeat(2, 1fr); }
+  }
 </style>
 </head>
 <body>
 <div class="page">
 
-<!-- ============================================================ -->
-<!-- SECTION 0: EMAIL TRIAGE QUICK LIST -->
-<!-- ============================================================ -->
-<div class="section-title"><span class="icon">⚡</span> Email Triage Quick List</div>
-<table>
-  <thead>
-    <tr>
-      <th style="width:120px">Status</th>
-      <th style="width:200px">From</th>
-      <th>Subject</th>
-      <th style="width:280px">Summary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- RESCUED -->
-    <tr class="triage-rescued">
-      <td><span class="badge rescued">✅ RESCUED</span></td>
-      <td>LinkedIn Job Alerts</td>
-      <td>Head of People and Talent at Bluemercury</td>
-      <td>Protected sender — kept in inbox. Posted 7/28. Review ASAP.</td>
-    </tr>
-    <!-- INBOX EMAILS (individual) -->
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Bank of America</td>
-      <td>A direct deposit was credited to your account ($582.09)</td>
-      <td>$582.09 direct deposit — USDC/gov payment. Received 7/30.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Bank of America</td>
-      <td>A direct deposit was credited to your account ($3,200.00)</td>
-      <td>$3,200 deposit from Goldman Sachs Bank. Received 7/29.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Robert T. Sicora, EdD via LinkedIn</td>
-      <td>Robert T. just messaged you</td>
-      <td>Unread LinkedIn message awaiting your response.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Indeed</td>
-      <td>Senior VP Human Resources @ Highgate Hotels</td>
-      <td>$270K–$320K role in NYC. Strong match per Indeed.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>LinkedIn Job Alerts</td>
-      <td>Head of People and Talent at Bluemercury (2nd alert)</td>
-      <td>Duplicate alert — posted 7/28. Review and apply.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>LinkedIn Job Alerts</td>
-      <td>Head of People and Talent at Bluemercury (3rd alert)</td>
-      <td>Third alert for same role. Deduplicate.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>LinkedIn Job Alerts</td>
-      <td>Chief Human Resources Officer at Edged</td>
-      <td>CHRO role, posted 7/28. Review for fit.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Rana Saini via LinkedIn</td>
-      <td>Rana just messaged you</td>
-      <td>Unread LinkedIn message awaiting response.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Melissa W (self)</td>
-      <td>AI Interview Prep: How To Answer All 3 | Learn AI With Mariah</td>
-      <td>Self-forwarded resource on AI interview prep.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Melissa W (self)</td>
-      <td>5 AI Design Skills That Give Claude Real Taste</td>
-      <td>Self-forwarded AI design skills guide.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Glassdoor Jobs</td>
-      <td>Community Manager at Vinyl Real Estate + 4 more jobs (NYC)</td>
-      <td>5 roles in NYC including Citizens Bank listing.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>22 Words</td>
-      <td>Your Amazon Lightning Deals ⚡ (Jul 30)</td>
-      <td>Amazon deals newsletter in inbox — low priority.</td>
-    </tr>
-    <tr class="triage-inbox">
-      <td><span class="badge inbox">📥 INBOX</span></td>
-      <td>Hinge Team</td>
-      <td>Eli &amp; Melissa, we recommend you to each other.</td>
-      <td>New Hinge match recommendation.</td>
-    </tr>
-    <!-- AUTO-TRASHED SUMMARY ROW -->
-    <tr class="triage-trash">
-      <td><span class="badge trashed">🗑 TRASHED (auto)</span></td>
-      <td colspan="2">3 emails auto-trashed (phishing/scam) — see Trash Review &amp; Security section</td>
-      <td>Hilton Financial LOAN scam, account lockout phishing, Slots of Vegas casino spam</td>
-    </tr>
-    <!-- MANUAL TRASH SUMMARY ROW -->
-    <tr class="triage-trash">
-      <td><span class="badge archived">🗂 TRASH (manual)</span></td>
-      <td colspan="2">22 emails in Trash — see Trash Review section</td>
-      <td>Newsletters, marketing, digests, job alerts, adult spam — review before permanent delete</td>
-    </tr>
-  </tbody>
-</table>
+<!-- ══════════════════════════════════════════════════════
+     SECTION 0: EMAIL TRIAGE QUICK LIST
+     ══════════════════════════════════════════════════════ -->
+<div class="section navy">
+  <div class="section-title">⚡ Email Triage Quick List — Saturday, August 1, 2026</div>
+  <div class="section-body">
+    <p style="font-size:13px;color:#555;margin-bottom:12px;">Rescued emails listed first, then Inbox emails, then collapsed trash summary rows. One row per individual email for items needing attention.</p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:130px;">Status</th>
+          <th style="width:200px;">From</th>
+          <th>Subject</th>
+          <th>Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- INBOX EMAILS — Individual rows -->
+        <tr>
+          <td><span class="t-inbox">📥 INBOX</span></td>
+          <td>Bank of America</td>
+          <td>Billing Dispute for account – 4018</td>
+          <td>Step 2 of 3 — BOA needs additional information to proceed with your billing dispute. <strong>Action required.</strong></td>
+        </tr>
+        <tr>
+          <td><span class="t-inbox">📥 INBOX</span></td>
+          <td>Bilt Rewards</td>
+          <td>Your rent payment is processing</td>
+          <td>Rent payment in progress; earning 1.25X Bilt Points. Monitor for confirmation.</td>
+        </tr>
+        <tr>
+          <td><span class="t-inbox">📥 INBOX</span></td>
+          <td>Old Navy</td>
+          <td>Order Confirmation #1RDGPJ0</td>
+          <td>Order placed Fri Jul 31. Retain for records / tracking.</td>
+        </tr>
+        <tr>
+          <td><span class="t-inbox">📥 INBOX</span></td>
+          <td>Old Navy</td>
+          <td>Re: Order pending! Complete your purchase</td>
+          <td>Abandoned cart reminder. Already placed order above — likely safe to ignore.</td>
+        </tr>
+        <tr>
+          <td><span class="t-inbox">📥 INBOX</span></td>
+          <td>Verizon</td>
+          <td>Your bill is now available online</td>
+          <td>Monthly bill ready. Review and schedule payment.</td>
+        </tr>
+        <tr>
+          <td><span class="t-inbox">📥 INBOX</span></td>
+          <td>LinkedIn</td>
+          <td>New jobs similar to HR Director at NY Post</td>
+          <td>Job alert in inbox — review similar roles. Unread.</td>
+        </tr>
+        <!-- COLLAPSED TRASH ROWS -->
+        <tr style="background:#fff8f8;">
+          <td><span class="t-trash">🗑 AUTO-TRASHED</span></td>
+          <td colspan="3"><strong>1 email auto-trashed (phishing)</strong> — Cloud storage payment-threat scam targeting melissaw212. See Trash Review § for full details.</td>
+        </tr>
+        <tr style="background:#f7f7f7;">
+          <td><span class="t-manual">🗂 TRASH (manual)</span></td>
+          <td colspan="3"><strong>3 emails in Trash</strong> (Kohl's promo, Alison Courses newsletter, Jack Cocchiarella Substack, Glassdoor duplicate) — See Trash Review § for full details.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">All remaining emails (non-inbox, non-trashed) reviewed and categorized in Full Email Review section below.</p>
+  </div>
+</div>
 
-<!-- ============================================================ -->
-<!-- SECTION 1: HEADER -->
-<!-- ============================================================ -->
+<!-- ══════════════════════════════════════════════════════
+     SECTION 1: HEADER
+     ══════════════════════════════════════════════════════ -->
 <div class="header">
-  <h1>Good morning, Melissa 👋</h1>
-  <div class="subtitle">Executive Briefing — Prepared by your Chief of Staff</div>
+  <div style="font-size:13px;color:#7ec8e3;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Executive Briefing</div>
+  <h1>Good Morning, Melissa ☀️</h1>
+  <div class="subtitle">Saturday, August 1, 2026 &nbsp;·&nbsp; Prepared by your Executive Chief of Staff</div>
   <div class="meta">
-    <div class="meta-item"><span>Thursday</span>July 30, 2026</div>
-    <div class="meta-item"><span>50</span>Emails Reviewed</div>
-    <div class="meta-item"><span>7</span>Calendar Events</div>
-    <div class="meta-item"><span>2</span>Urgent Actions</div>
-    <div class="meta-item"><span>5+</span>Open Job Leads</div>
+    <div class="meta-item"><div class="num">50</div><div class="lbl">Emails Reviewed</div></div>
+    <div class="meta-item"><div class="num">9</div><div class="lbl">Calendar Events</div></div>
+    <div class="meta-item"><div class="num">6</div><div class="lbl">Inbox Items</div></div>
+    <div class="meta-item"><div class="num">3</div><div class="lbl">Action Required</div></div>
+    <div class="meta-item"><div class="num">1</div><div class="lbl">Security Alert</div></div>
+    <div class="meta-item"><div class="num">8</div><div class="lbl">Job Leads</div></div>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SECTION 2: EXECUTIVE SUMMARY -->
-<!-- ============================================================ -->
-<div class="section-title"><span class="icon">📋</span> Executive Summary</div>
-<div class="exec-bullets">
-  <div class="exec-bullet risk">
-    <div class="bul-label">🔴 Biggest Risk / Urgent</div>
-    <p>3 phishing/scam emails were auto-trashed (a fake loan company, an account-lockout credential-harvesting attempt, and casino spam). Additionally, multiple explicit spam and adult-content emails landed in your inbox and folders — your spam filters need strengthening immediately.</p>
+<!-- ══════════════════════════════════════════════════════
+     SECTION 2: EXECUTIVE SUMMARY
+     ══════════════════════════════════════════════════════ -->
+<div class="section red">
+  <div class="section-title">🎯 Executive Summary</div>
+  <div class="section-body">
+    <div class="exec-bullet risk">
+      <div class="exec-icon">🔴</div>
+      <div class="exec-text">
+        <strong>BIGGEST RISK: Bank of America Billing Dispute — Step 2 of 3 Requires Your Response</strong>
+        <span>BOA has flagged account #4018 and is requesting additional information for an active billing dispute. This is time-sensitive and inaction could stall or close the dispute in the other party's favor. Additionally, one phishing email (cloud storage scareware targeting your username) was auto-trashed and flagged for your awareness.</span>
+      </div>
+    </div>
+    <div class="exec-bullet opp">
+      <div class="exec-icon">🟢</div>
+      <div class="exec-text">
+        <strong>BIGGEST OPPORTUNITY: Active Job Search Pipeline with Multiple Senior HR Leads</strong>
+        <span>LinkedIn, Glassdoor, and Jobright have surfaced multiple senior-level openings (VP of People at Nitra, Head of People at Adonis, Head of People NA at Artefact, Senior Director PBP via Jobright, HR Director at NY Post area). You also personally sent outreach to Michael (resume + website) and Amy/Sam at CVS for a Corporate Affairs HR role. Two HR networking Zoom sessions are scheduled next week to keep your pipeline warm.</span>
+      </div>
+    </div>
+    <div class="exec-bullet cal">
+      <div class="exec-icon">🔵</div>
+      <div class="exec-text">
+        <strong>BIGGEST CALENDAR ITEM: Eye Doctor Today at 2:30 PM + Two Unconfirmed Zoom Networking Sessions Next Week</strong>
+        <span>Eye appointment is today (Aug 1, 2:30–3:30 PM). Two HR networking Zoom sessions on Aug 5 and Aug 6 show status "needsAction" — RSVP needed. State Farm insurance bill due reminder appears Aug 7. Physical therapy is Aug 4.</span>
+      </div>
+    </div>
   </div>
-  <div class="exec-bullet opp">
-    <div class="bul-label">🟢 Biggest Opportunity</div>
-    <p>A Senior VP of Human Resources role at Highgate Hotels (NYC, $270K–$320K) matched by Indeed, plus two unread LinkedIn messages from Robert T. Sicora, EdD and Rana Saini — respond today to keep momentum. The Head of People &amp; Talent at Bluemercury was alerted 3 times and rescued from Trash — review now.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 3: ACTION REQUIRED
+     ══════════════════════════════════════════════════════ -->
+<div class="section yellow">
+  <div class="section-title">⚠️ Action Required</div>
+  <div class="section-body">
+
+    <div class="card yellow">
+      <div class="card-label yellow">🔴 URGENT — FINANCIAL</div>
+      <div class="card-title">Bank of America — Billing Dispute Step 2 of 3 (Account #4018)</div>
+      <div class="card-row"><span class="card-field">Source:</span> Bank of America — onlinebanking@ealerts.bankofamerica.com</div>
+      <div class="card-row"><span class="card-field">Why it matters:</span> Active billing dispute is at Step 2 of 3. BOA needs additional information from you to continue. Missing this window could result in the dispute being closed unfavorably.</div>
+      <div class="card-row"><span class="card-field">Next Step:</span> Log in to bankofamerica.com or call the number on the email to provide the requested documentation. Do NOT click links in the email — navigate directly.</div>
+      <div class="card-row"><span class="card-field">Due Date:</span> As soon as possible — time-sensitive dispute window.</div>
+    </div>
+
+    <div class="card yellow">
+      <div class="card-label yellow">⚠️ RSVP NEEDED — NETWORKING</div>
+      <div class="card-title">RSVP to HR Networking Zoom Sessions — Aug 5 & Aug 6</div>
+      <div class="card-row"><span class="card-field">Source:</span> Google Calendar — "HR Networking & Job Search Group – Zoom 2" + "HR Networking Open Office Hours"</div>
+      <div class="card-row"><span class="card-field">Why it matters:</span> Both events show status "needsAction" — you have not confirmed attendance. These are large peer networking sessions directly relevant to your job search. Organizers may use RSVPs to manage links.</div>
+      <div class="card-row"><span class="card-field">Next Step:</span> Open calendar invites and click Accept. Zoom links are already embedded in both invites.</div>
+      <div class="card-row"><span class="card-field">Due Date:</span> Aug 5 (12:00 PM) and Aug 6 (12:00 PM).</div>
+    </div>
+
+    <div class="card yellow">
+      <div class="card-label yellow">💰 BILLING — REMINDER</div>
+      <div class="card-title">Verizon Monthly Bill Now Available + State Farm Bill Due Aug 7</div>
+      <div class="card-row"><span class="card-field">Source:</span> Verizon Notification email + State Farm calendar reminder (Aug 7)</div>
+      <div class="card-row"><span class="card-field">Why it matters:</span> Two bills converging this weekend. Verizon bill available now; State Farm reminder set for Aug 7.</div>
+      <div class="card-row"><span class="card-field">Next Step:</span> Review and pay Verizon bill. Confirm State Farm auto-pay or set manual payment before Aug 7.</div>
+      <div class="card-row"><span class="card-field">Due Date:</span> Verizon: review now. State Farm: Aug 7.</div>
+    </div>
+
+    <div class="card green">
+      <div class="card-label green">💼 JOB SEARCH — FOLLOW-UP</div>
+      <div class="card-title">Follow Up on Outreach to Michael, Amy (CVS), and Sam (CVS)</div>
+      <div class="card-row"><span class="card-field">Source:</span> Sent emails from melissaw212@gmail.com on Jul 31, 2026</div>
+      <div class="card-row"><span class="card-field">Why it matters:</span> You sent a targeted resume + website to "Michael" and two tailored pitches to Amy and Sam at CVS for a Corporate Affairs HR role. These are warm outreach efforts and weekend follow-up planning ensures you're ready to respond quickly Monday.</div>
+      <div class="card-row"><span class="card-field">Next Step:</span> Log these contacts in your tracker. If no response by Wednesday, Aug 5, send a brief follow-up note.</div>
+      <div class="card-row"><span class="card-field">Due Date:</span> Monitor Mon–Wed, Aug 3–5.</div>
+    </div>
+
   </div>
-  <div class="exec-bullet cal">
-    <div class="bul-label">🔵 Biggest Calendar / Deadline</div>
-    <p>Today's HR Networking &amp; Job Search Open Office Hours (12–1 PM, Zoom) has no RSVP yet — confirm attendance. Slack Pro trial ends August 1st (3 days). Medium membership expires August 20th. Eye doctor appointment on Saturday Aug 1.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 4: FULL 7-DAY CALENDAR
+     ══════════════════════════════════════════════════════ -->
+<div class="section blue">
+  <div class="section-title">📅 Full 7-Day Calendar — Aug 1–7, 2026</div>
+  <div class="section-body">
+
+    <!-- Saturday Aug 1 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-weight:800;font-size:15px;color:#2471a3;border-bottom:2px solid #d0e8f8;padding-bottom:6px;margin-bottom:10px;">📆 Saturday, August 1, 2026 — TODAY</div>
+      <div class="card blue">
+        <div class="card-label blue">TODAY · CONFIRMED</div>
+        <div class="card-title">👁 Eye Doctor Appointment</div>
+        <div class="card-row"><span class="card-field">Time:</span> 2:30 PM – 3:30 PM (1 hour)</div>
+        <div class="card-row"><span class="card-field">Location:</span> Not specified in calendar</div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-confirmed">✅ Confirmed</span></div>
+        <div class="card-row"><span class="card-field">Prep Needed:</span> Confirm address, arrange transportation if needed (dilation may affect driving). Bring insurance card.</div>
+        <div class="card-row"><span class="card-field">Conflict:</span> None.</div>
+      </div>
+    </div>
+
+    <!-- Sunday Aug 2 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-weight:800;font-size:15px;color:#2471a3;border-bottom:2px solid #d0e8f8;padding-bottom:6px;margin-bottom:10px;">📆 Sunday, August 2, 2026</div>
+      <div class="card blue">
+        <div class="card-label blue">ALL DAY · CONFIRMED</div>
+        <div class="card-title">🎂 Shari's Birthday</div>
+        <div class="card-row"><span class="card-field">Time:</span> All Day (Aug 2–2, spans into Aug 3)</div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-confirmed">✅ Confirmed</span></div>
+        <div class="card-row"><span class="card-field">Prep Needed:</span> Send birthday message, gift, or plan if celebrating together. Don't forget!</div>
+        <div class="card-row"><span class="card-field">Conflict:</span> None.</div>
+      </div>
+    </div>
+
+    <!-- Monday Aug 3 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-weight:800;font-size:15px;color:#2471a3;border-bottom:2px solid #d0e8f8;padding-bottom:6px;margin-bottom:10px;">📆 Monday, August 3, 2026</div>
+      <div style="padding:10px;font-size:13px;color:#888;font-style:italic;">No calendar events scheduled. Good day to follow up on job applications and BOA billing dispute.</div>
+    </div>
+
+    <!-- Tuesday Aug 4 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-weight:800;font-size:15px;color:#2471a3;border-bottom:2px solid #d0e8f8;padding-bottom:6px;margin-bottom:10px;">📆 Tuesday, August 4, 2026</div>
+      <div class="card blue">
+        <div class="card-label blue">MORNING · CONFIRMED</div>
+        <div class="card-title">🏥 Physical Therapy (PT)</div>
+        <div class="card-row"><span class="card-field">Time:</span> 10:00 AM – 11:00 AM (1 hour)</div>
+        <div class="card-row"><span class="card-field">Location:</span> Not specified</div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-confirmed">✅ Confirmed</span></div>
+        <div class="card-row"><span class="card-field">Prep Needed:</span> Wear comfortable clothing. Confirm address and any co-pay requirements.</div>
+        <div class="card-row"><span class="card-field">Conflict:</span> None.</div>
+      </div>
+    </div>
+
+    <!-- Wednesday Aug 5 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-weight:800;font-size:15px;color:#2471a3;border-bottom:2px solid #d0e8f8;padding-bottom:6px;margin-bottom:10px;">📆 Wednesday, August 5, 2026</div>
+
+      <div class="card yellow">
+        <div class="card-label yellow">⚠️ RSVP NEEDED — ZOOM</div>
+        <div class="card-title">HR Networking &amp; Job Search Group — Zoom Session 2</div>
+        <div class="card-row"><span class="card-field">Time:</span> 12:00 PM – 1:30 PM</div>
+        <div class="card-row"><span class="card-field">Link:</span> <a href="https://us06web.zoom.us/j/81954171722?pwd=5jPMH9YWqdAg9bxMvAh3BEKmGfb4DK.1" style="color:#2471a3;" target="_blank">Join Zoom Meeting</a></div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-needs">⏳ Needs Action — RSVP Required</span></div>
+        <div class="card-row"><span class="card-field">Attendees:</span> 160+ HR professionals</div>
+        <div class="card-row"><span class="card-field">Prep Needed:</span> Review HR Networking Team Guidelines (link in invite). Prepare 30-second intro. Test Zoom link in advance. Disable AI note-taking tools per organizer request.</div>
+        <div class="card-row"><span class="card-field">Conflict:</span> Overlaps with "Network" calendar block (same time, same day — likely the same event double-booked).</div>
+      </div>
+
+      <div class="card blue">
+        <div class="card-label blue">MIDDAY · CONFIRMED</div>
+        <div class="card-title">📡 Network (personal block)</div>
+        <div class="card-row"><span class="card-field">Time:</span> 12:00 PM – 1:30 PM</div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-confirmed">✅ Confirmed</span></div>
+        <div class="card-row"><span class="card-field">Conflict Note:</span> Appears to be the same timeslot as the HR Networking Zoom above — likely a personal reminder block for the same session. No issue.</div>
+      </div>
+    </div>
+
+    <!-- Thursday Aug 6 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-weight:800;font-size:15px;color:#2471a3;border-bottom:2px solid #d0e8f8;padding-bottom:6px;margin-bottom:10px;">📆 Thursday, August 6, 2026</div>
+
+      <div class="card red">
+        <div class="card-label red">MORNING · CONFIRMED</div>
+        <div class="card-title">🦽 Disability Appointment</div>
+        <div class="card-row"><span class="card-field">Time:</span> 9:00 AM – 11:00 AM (2 hours)</div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-confirmed">✅ Confirmed</span></div>
+        <div class="card-row"><span class="card-field">Prep Needed:</span> Bring relevant documentation. Confirm address. Allow travel buffer time.</div>
+        <div class="card-row"><span class="card-field">Conflict:</span> <strong>Overlaps with Executive Roundtable (9:00–10:30 AM) — but you have already DECLINED that event.</strong> No conflict issue.</div>
+      </div>
+
+      <div class="card red">
+        <div class="card-label red">MORNING · DECLINED</div>
+        <div class="card-title">💼 Executive Roundtable (Zoom — Declined)</div>
+        <div class="card-row"><span class="card-field">Time:</span> 9:00 AM – 10:30 AM</div>
+        <div class="card-row"><span class="card-field">Host:</span> John Madigan</div>
+        <div class="card-row"><span class="card-field">Link:</span> <a href="https://us02web.zoom.us/j/207786667?pwd=Y3NXSHNVN1ozZjlQOVVFTUkwbHRKZz09" style="color:#2471a3;" target="_blank">Join Zoom</a> (Meeting ID: 207 786 667 · PW: 205454)</div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-declined">❌ Declined</span> — conflicts with Disability appointment.</div>
+        <div class="card-row"><span class="card-field">Prep Needed:</span> None — already declined. Consider sending a brief note to John Madigan if you have a relationship with him.</div>
+      </div>
+
+      <div class="card yellow">
+        <div class="card-label yellow">⚠️ RSVP NEEDED — ZOOM</div>
+        <div class="card-title">HR Networking &amp; Job Search: Open Office Hours — Zoom 2</div>
+        <div class="card-row"><span class="card-field">Time:</span> 12:00 PM – 1:00 PM</div>
+        <div class="card-row"><span class="card-field">Link:</span> <a href="https://us06web.zoom.us/j/85945371140?pwd=cmD1eXbMqRxNobikQODOI9IpHlVXbX.1" style="color:#2471a3;" target="_blank">Join Zoom Meeting</a></div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-needs">⏳ Needs Action — RSVP Required</span></div>
+        <div class="card-row"><span class="card-field">Attendees:</span> 160+ HR professionals</div>
+        <div class="card-row"><span class="card-field">Prep Needed:</span> This is an open discussion — turn off AI note-taking per organizer request. Great opportunity for 1:1 warm connections in your job search.</div>
+        <div class="card-row"><span class="card-field">Conflict:</span> Disability appointment ends at 11:00 AM — 1 hour buffer before noon. Allow travel time home if remote attendance needed.</div>
+      </div>
+    </div>
+
+    <!-- Friday Aug 7 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-weight:800;font-size:15px;color:#2471a3;border-bottom:2px solid #d0e8f8;padding-bottom:6px;margin-bottom:10px;">📆 Friday, August 7, 2026</div>
+      <div class="card yellow">
+        <div class="card-label yellow">💰 BILLING REMINDER</div>
+        <div class="card-title">🏠 State Farm Bill Due</div>
+        <div class="card-row"><span class="card-field">Time:</span> All Day Reminder</div>
+        <div class="card-row"><span class="card-field">Status:</span> <span class="status-confirmed">✅ Confirmed</span></div>
+        <div class="card-row"><span class="card-field">Prep Needed:</span> Confirm State Farm payment is scheduled or manually pay before end of day. Check for auto-pay enrollment to avoid late fees.</div>
+        <div class="card-row"><span class="card-field">Conflict:</span> None.</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SECTION 3: ACTION REQUIRED -->
-<!-- ============================================================ -->
-<div class="section-title"><span class="icon">🚨</span> Action Required</div>
+<!-- ══════════════════════════════════════════════════════
+     SECTION 5: JOB SEARCH & INTERVIEW PIPELINE
+     ══════════════════════════════════════════════════════ -->
+<div class="section green">
+  <div class="section-title">💼 Job Search &amp; Interview Pipeline</div>
+  <div class="section-body">
+    <p style="font-size:13px;color:#555;margin-bottom:14px;">Active job search activity across LinkedIn, Glassdoor, Jobright, and direct outreach. Melissa is targeting senior HR leadership roles (VP, Head of People, CHRO, HR Director level).</p>
 
-<div class="card red">
-  <div class="card-label red">🔴 SECURITY — PHISHING CAUGHT</div>
-  <h3>3 Phishing/Scam Emails Auto-Trashed</h3>
-  <div class="from">Auto-trashed before delivery to inbox</div>
-  <p><strong>Hilton Financial Management</strong> (fake loan company, Indonesian domain) — classic advance-fee scam. <strong>melissaw212 account lockout</strong> (credential harvesting, Unicode subject, random subdomain). <strong>CashApp/Slots of Vegas</strong> (spoofed casino spam, obfuscated Unicode).</p>
-  <p class="action red">→ No further action needed — already removed. Consider enabling Google's Enhanced Safe Browsing and reviewing spam filter settings.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Fit</th>
+          <th>Role / Opportunity</th>
+          <th>Source / Company</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-green">HIGH</span></td>
+          <td>VP of People</td>
+          <td>Nitra — LinkedIn Job Alert</td>
+          <td>Aug 1, 2026</td>
+          <td>New Alert — Unreviewed</td>
+          <td>Review JD and apply if aligned</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">HIGH</span></td>
+          <td>Senior Director, People Business Partner</td>
+          <td>Jobright.ai (Eric) — Direct invite to Melissa</td>
+          <td>Jul 31, 2026</td>
+          <td>Personalized outreach — unread</td>
+          <td>Open email, review role, respond to Eric</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">HIGH</span></td>
+          <td>Head of People, North America</td>
+          <td>Artefact — LinkedIn Job Alert</td>
+          <td>Aug 1, 2026</td>
+          <td>New Alert — Unreviewed</td>
+          <td>Review JD and apply if aligned</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">HIGH</span></td>
+          <td>HR Director &amp; Similar Roles (NY Post area)</td>
+          <td>LinkedIn — Jobs Inbox Alert</td>
+          <td>Aug 1, 2026</td>
+          <td>In Inbox — Unread</td>
+          <td>Review all roles listed in email</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">MEDIUM</span></td>
+          <td>Head of People</td>
+          <td>Adonis — LinkedIn Job Alert (3 alerts sent)</td>
+          <td>Jul 29–Aug 1</td>
+          <td>Duplicate alerts — role posted Jul 29</td>
+          <td>Apply if not already done; mark alert duplicates as read</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">MEDIUM</span></td>
+          <td>Complex HR Director</td>
+          <td>Highgate — Glassdoor (in Trash)</td>
+          <td>Jul 31, 2026</td>
+          <td>In Trash — manually trashed</td>
+          <td>Restore if role still relevant; otherwise delete</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">MEDIUM</span></td>
+          <td>People Business Partner at Pair Team + 6 Remote Roles</td>
+          <td>Glassdoor — Remote US</td>
+          <td>Aug 1, 2026</td>
+          <td>Unread alert</td>
+          <td>Review all 7 roles in the email</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">MEDIUM</span></td>
+          <td>Community Coordinator + 4 NYC roles</td>
+          <td>Glassdoor — New York, NY</td>
+          <td>Aug 1, 2026</td>
+          <td>Unread alert</td>
+          <td>Scan for any senior matches; likely lower-level</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">HIGH</span></td>
+          <td>Direct CVS Corporate Affairs Outreach (Amy &amp; Sam)</td>
+          <td>Sent by Melissa — melissaw212@gmail.com</td>
+          <td>Jul 31, 2026</td>
+          <td>Sent — awaiting response</td>
+          <td>Log in tracker; follow up Wed Aug 5 if no reply</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">HIGH</span></td>
+          <td>Resume + Website sent to Michael</td>
+          <td>Sent by Melissa — melissaw212@gmail.com</td>
+          <td>Jul 31, 2026</td>
+          <td>Sent — awaiting response</td>
+          <td>Log in tracker; follow up by mid-week</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">NETWORKING</span></td>
+          <td>HR Networking &amp; Job Search Group Zoom (160+ peers)</td>
+          <td>Calendar — Aug 5, 12–1:30 PM</td>
+          <td>Aug 5, 2026</td>
+          <td>RSVP Needed</td>
+          <td>Confirm attendance, prep 30-sec intro</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">NETWORKING</span></td>
+          <td>HR Networking Open Office Hours Zoom</td>
+          <td>Calendar — Aug 6, 12–1 PM</td>
+          <td>Aug 6, 2026</td>
+          <td>RSVP Needed</td>
+          <td>Confirm attendance, 1:1 connection opportunity</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">NETWORKING</span></td>
+          <td>LinkedIn — 1 New Connection Invitation</td>
+          <td>LinkedIn notifications-noreply</td>
+          <td>Aug 1, 2026</td>
+          <td>Read — pending review</td>
+          <td>Open LinkedIn and review invitation</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:14px;" class="card green">
+      <div class="card-label green">💡 JOB SEARCH NOTE</div>
+      <div class="card-title">LinkedIn Alert Duplication — Head of People at Adonis</div>
+      <p style="font-size:13px;color:#444;">This role generated 4 separate LinkedIn Job Alert emails (Jul 31–Aug 1). The role was posted Jul 29. Review once and mark remaining alerts as read. Consider adjusting LinkedIn alert frequency to avoid inbox clutter during active search.</p>
+    </div>
+  </div>
 </div>
 
-<div class="card red">
-  <div class="card-label red">🔴 SECURITY — SPAM IN INBOX/FOLDERS</div>
-  <h3>Explicit Adult Spam &amp; Suspicious Senders Not Yet Trashed</h3>
-  <div class="from">Multiple senders via random subdomains</div>
-  <p>Explicit adult spam ("FUCK-BUDDY SECRET," "Hot Sex," "Sex.Trick") arrived in folders. "DirectMeds" GLP-1 spam (2 emails), "Smart-Beauty Alternatives" hair spray spam, and "Slots of Vegas casino payment" all arrived from random subdomain addresses and should be deleted immediately.</p>
-  <p class="action red">→ Delete all immediately. Mark as spam. Consider unrolling or reviewing Gmail spam settings.</p>
+<!-- ══════════════════════════════════════════════════════
+     SECTION 6: FULL EMAIL REVIEW BY CATEGORY
+     ══════════════════════════════════════════════════════ -->
+<div class="section navy">
+  <div class="section-title">📬 Full Email Review by Category</div>
+  <div class="section-body">
+
+    <!-- 6A: Security / Risk -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#c0392b;margin-bottom:8px;padding:6px 10px;background:#fdf3f2;border-radius:6px;">🔴 SECURITY / RISK (1 email)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr style="background:#fdf3f2;">
+            <td><strong>Payment-Declined</strong> (spoofed sender)</td>
+            <td>[melissaw212] Your Cloud Account has been locked on [Fri,31 Jul-2026]</td>
+            <td><span class="badge badge-red">AUTO-TRASHED — PHISHING</span></td>
+            <td>No action needed. Already removed. Do not click any links if you see it. Random domain impersonating cloud storage; classic credential-harvesting scareware.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">Auto-trash reason: Spoofed 'Payment-Declined' sender from random domain, targeting user by username with urgent account-threat language (payment failed, account locked, photos/videos deleted) — credential-harvesting/scareware phishing. Removed before inbox delivery.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 6B: Job Search -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#1e8449;margin-bottom:8px;padding:6px 10px;background:#f0faf3;border-radius:6px;">💼 JOB SEARCH (13 emails)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Read?</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>LinkedIn Job Alerts</td><td>VP of People at Nitra</td><td>Read</td><td>Review and apply if aligned — HIGH fit</td></tr>
+          <tr><td>LinkedIn Job Alerts</td><td>Head of People at Adonis (×4 duplicate alerts)</td><td>Mixed</td><td>Apply once; delete duplicates</td></tr>
+          <tr><td>LinkedIn Job Alerts</td><td>Head of People, North America at Artefact</td><td>Read</td><td>Review JD — HIGH fit</td></tr>
+          <tr><td>LinkedIn (Inbox)</td><td>New jobs similar to HR Director at NY Post</td><td>Unread</td><td>Open and review — in inbox</td></tr>
+          <tr><td>Glassdoor Jobs</td><td>People Business Partner at Pair Team + 6 Remote roles</td><td>Unread</td><td>Scan all 7 roles</td></tr>
+          <tr><td>Glassdoor Jobs</td><td>Community Coordinator at NYC Housing Authority + 4 NYC roles</td><td>Unread</td><td>Scan for senior matches</td></tr>
+          <tr><td>Eric at Jobright.com</td><td>Senior Director, People Business Partner — invited Jul 31</td><td>Read</td><td>Respond to Eric — HIGH fit personalized outreach</td></tr>
+          <tr><td>melissa (self-sent)</td><td>Melissa Weiss Resume and website → Michael</td><td>Read (sent)</td><td>Track; follow up if no reply by Wed</td></tr>
+          <tr><td>melissa (self-sent)</td><td>15 years, one specific fit → Amy (CVS)</td><td>Read (sent)</td><td>Track; follow up Wed Aug 5</td></tr>
+          <tr><td>melissa (self-sent)</td><td>15 years, one specific fit → Sam (CVS)</td><td>Read (sent)</td><td>Track; follow up Wed Aug 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 6C: Professional Networking -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#7d3c98;margin-bottom:8px;padding:6px 10px;background:#f8f0fd;border-radius:6px;">🤝 PROFESSIONAL NETWORKING / LINKEDIN (2 emails)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Read?</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>LinkedIn</td><td>You have 1 new invitation</td><td>Read</td><td>Open LinkedIn and review who sent the invite</td></tr>
+          <tr><td>Melissa W (self)</td><td>Claude Projects / Learn AI with Mariah (self-forwarded resource)</td><td>Unread</td><td>Save for later — AI learning resource for professional development</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 6D: Financial / Billing -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#d68910;margin-bottom:8px;padding:6px 10px;background:#fefaf0;border-radius:6px;">💰 FINANCIAL / BILLING (3 emails)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr style="background:#fefaf0;"><td><strong>Bank of America</strong></td><td>Billing Dispute for account – 4018 — Request for additional info</td><td><span class="badge badge-red">URGENT — INBOX</span></td><td>Log into BOA directly and provide required info for Step 2 of 3 dispute process</td></tr>
+          <tr><td>Verizon</td><td>Your bill is now available online</td><td><span class="badge badge-yellow">INBOX — Review</span></td><td>Review and pay Verizon bill</td></tr>
+          <tr><td>Bilt Rewards</td><td>Your rent payment is processing</td><td><span class="badge badge-green">INBOX — Monitor</span></td><td>Confirm rent payment completes; retain for records</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 6E: Medical / Health -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#c0392b;margin-bottom:8px;padding:6px 10px;background:#fdf3f2;border-radius:6px;">🏥 MEDICAL / HEALTH (1 email — calendar-related)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Calendar: Eye Dr</td><td>Eye Doctor Appointment — Today 2:30 PM</td><td>Attend. Bring insurance card. Arrange transport if dilation expected.</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Note: Multiple GLP-1 spam/weight loss emails (10 total) are categorized under Spam/Promotional — not medical content.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 6F: Personal -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#148f77;margin-bottom:8px;padding:6px 10px;background:#f0faf8;border-radius:6px;">👤 PERSONAL (2 emails)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Match.com</td><td>Henry (66, Wayne NJ) viewed your profile</td><td>Check out Henry's profile if interested — view returned or ignore</td></tr>
+          <tr><td>Match.com</td><td>Eliot likes you — see if it's mutual</td><td>Review Eliot's profile if interested</td></tr>
+          <tr><td>Match.com</td><td>Paul likes you — see if it's mutual</td><td>Review Paul's profile if interested</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 6G: Newsletters / Subscriptions -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#7d3c98;margin-bottom:8px;padding:6px 10px;background:#f8f0fd;border-radius:6px;">📰 NEWSLETTERS / SUBSCRIPTIONS (3 emails)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Status</th><th>Recommendation</th></tr></thead>
+        <tbody>
+          <tr><td>Manychat</td><td>Updates to Manychat's Privacy Policy (effective Aug 16, 2026)</td><td>Read</td><td>Review if you actively use Manychat. Note Aug 16 effective date.</td></tr>
+          <tr style="background:#fff8f8;"><td>Alison Courses</td><td>Wondering how credible Alison courses are, Melissa A?</td><td><span class="badge badge-red">In Trash (manual)</span></td><td>Delete — already trashed. Consider unsubscribing if not using Alison.</td></tr>
+          <tr style="background:#fff8f8;"><td>Jack Cocchiarella (Substack)</td><td>Crying Trump Forced To Quit His Plan</td><td><span class="badge badge-red">In Trash (manual)</span></td><td>Delete — already trashed. Unsubscribe from political Substack if unwanted.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 6H: Promotional / Retail -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#717d7e;margin-bottom:8px;padding:6px 10px;background:#f7f7f7;border-radius:6px;">🛍 PROMOTIONAL / RETAIL (17 emails) — See Promotional Summary Section</div>
+      <p style="font-size:13px;color:#666;padding:8px;">Includes: Old Navy (3), SHEIN (2), Kohl's (1–trashed), UNIQLO (1), Temu (1), VIVAIA (1), Laura Geller (2), MEDVi GLP-1 spam (10 total across multiple senders). All detailed in Promotional/Retail Summary below.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 6I: Political -->
+    <div style="margin-bottom:20px;">
+      <div style="font-weight:800;font-size:14px;color:#717d7e;margin-bottom:8px;padding:6px 10px;background:#f7f7f7;border-radius:6px;">🏛 POLITICAL / FUNDRAISING (1 email)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>DJT (donaldjtrump.com)</td><td>"Goodnight." — fundraising/engagement email</td><td>Ignore or unsubscribe. Low priority.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
 
-<div class="card yellow">
-  <div class="card-label yellow">🟡 DEADLINE — SLACK TRIAL ENDING</div>
-  <h3>Slack Pro Trial Expires August 1, 2026 (3 days)</h3>
-  <div class="from">Slack &lt;no-reply@slack.com&gt;</div>
-  <p>Your consulting work's Slack Pro plan trial ends August 1st. Decide now: upgrade to paid Pro plan or downgrade to free tier before losing premium features.</p>
-  <p class="action yellow">→ Review usage and decide by August 1st. Act today to avoid disruption.</p>
-  <p><strong>Due:</strong> August 1, 2026</p>
+<!-- ══════════════════════════════════════════════════════
+     SECTION 7: TRASH REVIEW
+     ══════════════════════════════════════════════════════ -->
+<div class="section red">
+  <div class="section-title">🗑️ Trash Review</div>
+  <div class="section-body">
+
+    <div style="margin-bottom:16px;">
+      <div style="font-weight:800;color:#c0392b;margin-bottom:8px;font-size:14px;">🚨 AUTO-TRASHED — PHISHING (1 email)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Reason</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr style="background:#fdf3f2;">
+            <td>Payment-Declined &lt;yawzjehisgl@wklf.avtvlskjxatsi.us&gt;</td>
+            <td>[melissaw212] Your Cloud Account has been locked on [Fri,31 Jul-2026]. Your photos and videos will be removed!</td>
+            <td>Spoofed sender on random domain; impersonating cloud storage service; targeted by username; urgent threat language; classic phishing/scareware to harvest credentials.</td>
+            <td><span class="badge badge-red">No Action — Auto-Removed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <div style="margin-bottom:16px;">
+      <div style="font-weight:800;color:#d68910;margin-bottom:8px;font-size:14px;">🔄 RESTORE IMMEDIATELY (1 email)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Why Restore</th></tr></thead>
+        <tbody>
+          <tr style="background:#fefaf0;">
+            <td>Glassdoor Jobs</td>
+            <td>Complex HR Director at Highgate and 6 more jobs in New York, NY — Apply Now</td>
+            <td>Relevant job leads for active job search. May have been manually trashed by mistake. HR Director at Highgate (NYC) warrants review before discarding.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <div style="margin-bottom:16px;">
+      <div style="font-weight:800;color:#d68910;margin-bottom:8px;font-size:14px;">👀 REVIEW BEFORE DELETING (1 email)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Alison Courses</td>
+            <td>Wondering how credible Alison courses are, Melissa A?</td>
+            <td>If you enrolled in Alison for professional development, this may be relevant. If not, delete and unsubscribe.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <div>
+      <div style="font-weight:800;color:#717d7e;margin-bottom:8px;font-size:14px;">✅ SAFE TO DELETE (2 emails)</div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td>Kohl's Friends &amp; Family</td><td>Extra 20% off | Discover the denim you deserve</td><td>Standard retail promo — already trashed. Safe to permanently delete.</td></tr>
+          <tr><td>Jack Cocchiarella (Substack)</td><td>Crying Trump Forced To Quit His Plan</td><td>Political Substack — already trashed. Permanently delete and unsubscribe.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
 
-<div class="card yellow">
-  <div class="card-label yellow">🟡 RSVP NEEDED — TODAY</div>
-  <h3>HR Networking &amp; Job Search Open Office Hours — No RSVP</h3>
-  <div class="from">Google Calendar — Today 12:00–1:00 PM ET</div>
-  <p>This event starts in hours and your status is "Needs Action." 100+ attendees are registered. This is a core job-search networking session.</p>
-  <p class="action yellow">→ RSVP now and add Zoom link to your browser: https://us06web.zoom.us/j/85945371140</p>
-  <p><strong>Due:</strong> Today, July 30 — 12:00 PM ET</p>
-</div>
-
-<div class="card green">
-  <div class="card-label green">🟢 JOB LEAD — HIGH PRIORITY</div>
-  <h3>SVP Human Resources — Highgate Hotels, NYC ($270K–$320K)</h3>
-  <div class="from">Indeed &lt;donotreply@match.indeed.com&gt;</div>
-  <p>Indeed flagged this as a strong match based on your HR leadership experience. NYC-based, senior executive level, hospitality industry.</p>
-  <p class="action green">→ Review full posting today and apply or save. Prepare tailored resume and cover letter.</p>
-  <p><strong>Due:</strong> Review today</p>
-</div>
-
-<div class="card green">
-  <div class="card-label green">🟢 LINKEDIN MESSAGES — RESPOND TODAY</div>
-  <h3>Unread Messages: Robert T. Sicora, EdD &amp; Rana Saini</h3>
-  <div class="from">LinkedIn via Gmail</div>
-  <p>Two separate LinkedIn messages are unread and awaiting response. Both could be recruiter outreach, networking, or referral opportunities during an active job search.</p>
-  <p class="action green">→ Log into LinkedIn and respond to both today. Do not let these go cold.</p>
-  <p><strong>Due:</strong> Today, July 30</p>
-</div>
-
-<div class="card green">
-  <div class="card-label green">🟢 JOB LEAD — RESCUED FROM TRASH</div>
-  <h3>Head of People and Talent — Bluemercury (Rescued)</h3>
-  <div class="from">LinkedIn Job Alerts — Rescued from Trash</div>
-  <p>This alert was sent 3 times and one instance was rescued from Trash (protected sender rule). Posted 7/28/2026. Bluemercury is a luxury beauty brand (Macy's Inc.).</p>
-  <p class="action green">→ Review role details on LinkedIn. Assess fit and apply if aligned.</p>
-  <p><strong>Due:</strong> Today — time-sensitive posting</p>
-</div>
-
-<div class="card yellow">
-  <div class="card-label yellow">🟡 MEMBERSHIP EXPIRY</div>
-  <h3>Medium Membership Expires August 20, 2026</h3>
-  <div class="from">Medium Daily Digest (in Trash)</div>
-  <p>Your Medium membership will expire on August 20, 2026. If you use Medium for professional development articles, decide whether to renew.</p>
-  <p class="action yellow">→ Decide by August 20 whether to reactivate or let lapse.</p>
-  <p><strong>Due:</strong> August 20, 2026</p>
-</div>
-
-<!-- ============================================================ -->
-<!-- SECTION 4: FULL 7-DAY CALENDAR -->
-<!-- ============================================================ -->
-<div class="section-title"><span class="icon">📅</span> Full 7-Day Calendar</div>
-
-<div class="cal-day cal-today">📅 TODAY — Thursday, July 30, 2026</div>
-<table>
-  <thead>
-    <tr><th>Time</th><th>Event</th><th>Status</th><th>Location / Link</th><th>Prep Needed</th><th>Notes</th></tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>9:00–10:30 AM</td>
-      <td><strong>Executive Roundtable</strong></td>
-      <td><span class="status-declined">❌ DECLINED</span></td>
-      <td><a href="https://us02web.zoom.us/j/207786667?pwd=Y3NXSHNVN1ozZjlQOVVFTUkwbHRKZz09" style="color:#1e88e5;">Zoom Link</a><br><small>ID: 207 786 667 / PW: 205454</small></td>
-      <td>None — declined</td>
-      <td><span class="warn">You declined this meeting.</span> Host: John Madigan. If you wish to rejoin, contact organizer before 9 AM.</td>
-    </tr>
-    <tr>
-      <td>12:00–1:00 PM</td>
-      <td><strong>HR Networking &amp; Job Search: Open Office Hours</strong></td>
-      <td><span class="status-pending">⚠️ RSVP NEEDED</span></td>
-      <td><a href="https://us06web.zoom.us/j/85945371140?pwd=cmD1eXbMqRxNobikQODOI9IpHlVXbX.1" style="color:#1e88e5;">Zoom Link</a></td>
-      <td>Prepare intro, network talking points, job targets. No AI notetakers.</td>
-      <td><strong class="warn">⚠️ RSVP NOW.</strong> 100+ attendees. Open discussion — no recording. This is a core networking session during active job search.</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="cal-day">📅 Friday, July 31, 2026</div>
-<table>
-  <thead><tr><th>Time</th><th>Event</th><th>Status</th><th>Location</th><th>Prep Needed</th><th>Notes</th></tr></thead>
-  <tbody>
-    <tr>
-      <td colspan="6" style="color:#888; font-style:italic; text-align:center;">No events scheduled. Good day to job search, apply, and follow up on LinkedIn messages.</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="cal-day">📅 Saturday, August 1, 2026</div>
-<table>
-  <thead><tr><th>Time</th><th>Event</th><th>Status</th><th>Location</th><th>Prep Needed</th><th>Notes</th></tr></thead>
-  <tbody>
-    <tr>
-      <td>2:30–3:30 PM</td>
-      <td><strong>Eye Doctor Appointment</strong></td>
-      <td><span class="status-confirmed">✅ Confirmed</span></td>
-      <td>TBD — no location set</td>
-      <td>Confirm office address. Bring insurance card.</td>
-      <td><strong class="warn">⚠️ Also: Slack Pro trial expires today.</strong> Decide on Slack plan before end of day.</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="cal-day">📅 Sunday, August 2, 2026</div>
-<table>
-  <thead><tr><th>Time</th><th>Event</th><th>Status</th><th>Location</th><th>Prep Needed</th><th>Notes</th></tr></thead>
-  <tbody>
-    <tr>
-      <td>All Day</td>
-      <td><strong>🎂 Shari's Birthday</strong></td>
-      <td><span class="status-confirmed">✅ Confirmed</span></td>
-      <td>—</td>
-      <td>Send card/message or plan celebration if applicable.</td>
-      <td>All-day event. Don't forget to reach out!</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="cal-day">📅 Monday, August 3, 2026</div>
-<table>
-  <thead><tr><th>Time</th><th>Event</th><th>Status</th><th>Location</th><th>Prep Needed</th><th>Notes</th></tr></thead>
-  <tbody>
-    <tr>
-      <td colspan="6" style="color:#888; font-style:italic; text-align:center;">No events scheduled. Shari's Birthday (all-day event) carries over from Sunday.</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="cal-day">📅 Tuesday, August 4, 2026</div>
-<table>
-  <thead><tr><th>Time</th><th>Event</th><th>Status</th><th>Location</th><th>Prep Needed</th><th>Notes</th></tr></thead>
-  <tbody>
-    <tr>
-      <td>10:00–11:00 AM</td>
-      <td><strong>PT (Physical Therapy)</strong></td>
-      <td><span class="status-confirmed">✅ Confirmed</span></td>
-      <td>No location set</td>
-      <td>Confirm provider address. Wear comfortable clothing.</td>
-      <td>Personal health appointment. No conflict.</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="cal-day">📅 Wednesday, August 5, 2026</div>
-<table>
-  <thead><tr><th>Time</th><th>Event</th><th>Status</th><th>Location</th><th>Prep Needed</th><th>Notes</th></tr></thead>
-  <tbody>
-    <tr>
-      <td>12:00–1:30 PM</td>
-      <td><strong>HR Networking &amp; Job Search Group — Zoom 2</strong></td>
-      <td><span class="status-pending">⚠️ RSVP NEEDED</span></td>
-      <td><a href="https://us06web.zoom.us/j/81954171722?pwd=5jPMH9YWqdAg9bxMvAh3BEKmGfb4DK.1" style="color:#1e88e5;">Zoom Link</a></td>
-      <td>Review team guidelines. Prepare networking agenda. No AI notetakers.</td>
-      <td><span class="warn">⚠️ RSVP pending.</span> 100+ attendees. This is the weekly group session — longer format (1.5 hrs).</td>
-    </tr>
-    <tr>
-      <td>12:00–1:30 PM</td>
-      <td><strong>Network</strong> <span style="color:#888;font-size:12px;">(personal note)</span></td>
-      <td><span class="status-confirmed">✅ Confirmed</span></td>
-      <td>No location set</td>
-      <td>Same time as group Zoom — likely a reminder note for yourself.</td>
-      <td><strong class="warn">⚠️ Exact time overlap</strong> with HR Networking Group Zoom. These may be the same event. Confirm and merge if so.</td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- ============================================================ -->
-<!-- SECTION 5: JOB SEARCH & INTERVIEW PIPELINE -->
-<!-- ============================================================ -->
-<div class="section-title"><span class="icon">💼</span> Job Search &amp; Interview Pipeline</div>
-<table>
-  <thead>
-    <tr><th>Fit</th><th>Role / Opportunity</th><th>Company</th><th>Source</th><th>Compensation</th><th>Status</th><th>Action</th></tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><span class="badge fit-high">HIGH</span></td>
-      <td>Senior Vice President, Human Resources</td>
-      <td>Highgate Hotels</td>
-      <td>Indeed (email)</td>
-      <td>$270K–$320K</td>
-      <td>🆕 New Alert</td>
-      <td>Review &amp; apply today — NYC-based, exec-level, strong match</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-high">HIGH</span></td>
-      <td>Head of People and Talent</td>
-      <td>Bluemercury (Macy's)</td>
-      <td>LinkedIn Job Alerts (×3 alerts + rescued)</td>
-      <td>Not listed</td>
-      <td>⚠️ Alerted 3x — urgent</td>
-      <td>Review on LinkedIn immediately — multiple alerts suggest strong match signal</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-high">HIGH</span></td>
-      <td>Chief Human Resources Officer</td>
-      <td>Edged</td>
-      <td>LinkedIn Job Alerts</td>
-      <td>Not listed</td>
-      <td>🆕 New Alert (7/28)</td>
-      <td>Review role — CHRO level, check company profile and apply if fit</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-med">MED</span></td>
-      <td>Human Resources Generalist + 6 more</td>
-      <td>Brown &amp; Buchanan Ventures + others</td>
-      <td>Glassdoor (remote roles)</td>
-      <td>Not listed</td>
-      <td>📋 Alert — review</td>
-      <td>Scan listings for senior-level fits; skip generalist roles if below target level</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-med">MED</span></td>
-      <td>Community Manager + 4 more (NYC)</td>
-      <td>Vinyl Real Estate Mgmt + others</td>
-      <td>Glassdoor (NYC)</td>
-      <td>Not listed</td>
-      <td>📋 Alert — review</td>
-      <td>Scan for HR leadership roles — Community Manager may be below target level</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-high">HIGH</span></td>
-      <td>LinkedIn Message — Robert T. Sicora, EdD</td>
-      <td>Unknown</td>
-      <td>LinkedIn (email notification)</td>
-      <td>—</td>
-      <td>📩 Unread — respond</td>
-      <td>Open LinkedIn and reply today — EdD title suggests executive/academic/consulting context</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-high">HIGH</span></td>
-      <td>LinkedIn Message — Rana Saini</td>
-      <td>Unknown</td>
-      <td>LinkedIn (email notification)</td>
-      <td>—</td>
-      <td>📩 Unread — respond</td>
-      <td>Open LinkedIn and reply today — may be recruiter or peer referral</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-med">MED</span></td>
-      <td>HR Networking Open Office Hours</td>
-      <td>Job Search Group</td>
-      <td>Calendar — Today 12–1 PM</td>
-      <td>—</td>
-      <td>⚠️ RSVP needed</td>
-      <td>RSVP &amp; attend today — networking is job search pipeline</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-med">MED</span></td>
-      <td>HR Networking Group Zoom</td>
-      <td>Job Search Group</td>
-      <td>Calendar — Aug 5, 12–1:30 PM</td>
-      <td>—</td>
-      <td>⚠️ RSVP needed</td>
-      <td>RSVP for Aug 5 session</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-med">MED</span></td>
-      <td>What's Changing in Private Equity</td>
-      <td>Thrive Resources / Susanna Madden</td>
-      <td>Email — inbox-adjacent</td>
-      <td>—</td>
-      <td>📬 Unread — review</td>
-      <td>PE-focused leadership content — may include executive roles or sponsor evaluation intel</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-low">LOW</span></td>
-      <td>AI Interview Prep (self-forwarded)</td>
-      <td>Learn AI With Mariah</td>
-      <td>Self-email (melissaw212)</td>
-      <td>—</td>
-      <td>📌 Resource</td>
-      <td>Review both AI interview prep guides before next interview</td>
-    </tr>
-    <tr>
-      <td><span class="badge fit-low">LOW</span></td>
-      <td>Claude Debugging Prompts (self-email)</td>
-      <td>Self</td>
-      <td>Self-email (melissaw212)</td>
-      <td>—</td>
-      <td>📌 Resource</td>
-      <td>Agentic AI work notes — file for reference</td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- ============================================================ -->
-<!-- SECTION 6: FULL EMAIL REVIEW BY CATEGORY -->
-<!-- ============================================================ -->
-<div class="section-title"><span class="icon">📧</span> Full Email Review by Category</div>
-
-<!-- SECURITY / RISK -->
-<div class="card red">
-  <div class="card-label red">🔴 SECURITY / RISK — 6 Emails</div>
-  <h3>Phishing, Scams &amp; Suspicious Senders</h3>
-  <p><strong>Auto-Trashed (3):</strong></p>
-  <p>• <strong>HILTON FINANCIAL MANAGEMENT</strong> (pipin.samsuri@ustp.co.id) — Subject: "LOAN" — Fake financial company from Indonesian domain, advance-fee/loan scam. <span class="auto-trash-note">AUTO-TRASHED</span></p>
-  <p>• <strong>melissaw212 (spoofed)</strong> (random subdomain) — Subject: "Your Account has been locked…" — Credential-harvesting phishing attempt with obfuscated Unicode subject. <span class="auto-trash-note">AUTO-TRASHED</span></p>
-  <p>• <strong>'CashApp' (spoofed)</strong> (random subdomain) — Subject: "You received a payment…" (Slots of Vegas casino spam) — Spoofed CashApp sender, casino fraud. <span class="auto-trash-note">AUTO-TRASHED</span></p>
-  <p style="margin-top:8px;"><strong>Remaining in Folders — Delete Immediately (3):</strong></p>
-  <p>• <strong>"FUCK-BUDDY SECRET"</strong> (random subdomain) — Explicit adult spam — delete immediately, mark as spam.</p>
-  <p>• <strong>"Hot Sex 🔥🔥"</strong> (random subdomain) — Explicit adult spam — in Trash already but confirm permanent delete.</p>
-  <p>• <strong>"Sex.Trick 🍆"</strong> (random subdomain) — Explicit adult spam — delete immediately.</p>
-  <p class="action red">→ 3 already auto-trashed. Delete remaining 3 immediately. Mark all as spam. Review spam filter settings.</p>
-</div>
-
-<!-- JOB SEARCH -->
-<div class="card green">
-  <div class="card-label green">🟢 JOB SEARCH — 9 Emails</div>
-  <h3>Job Alerts, Applications &amp; Platforms</h3>
-  <p>• <strong>Indeed</strong> — SVP Human Resources @ Highgate Hotels ($270K–$320K NYC) — <strong>HIGH priority, apply today</strong></p>
-  <p>• <strong>LinkedIn Job Alerts (×4)</strong> — Head of People &amp; Talent @ Bluemercury (posted 7/28, alerted 3x + rescued from trash); CHRO @ Edged (7/28)</p>
-  <p>• <strong>Glassdoor (×2)</strong> — NYC roles (Community Manager + 4) and Remote US roles (HR Generalist + 6)</p>
-  <p>• <strong>Melissa W (self, ×2)</strong> — AI Interview Prep resources forwarded to self</p>
-  <p>• <strong>melissa (self)</strong> — Claude debugging prompts (AI workflow notes)</p>
-  <p class="action green">→ Apply to SVP Highgate Hotels and review Bluemercury/Edged roles today. Scan Glassdoor alerts for senior-level fits. Review AI prep guides before next interview.</p>
-</div>
-
-<!-- RECRUITERS / NETWORKING -->
-<div class="card green">
-  <div class="card-label green">🟢 RECRUITERS / NETWORKING — 3 Emails</div>
-  <h3>LinkedIn Messages &amp; Recruiter Outreach</h3>
-  <p>• <strong>Robert T. Sicora, EdD (LinkedIn)</strong> — Unread message awaiting response. Academic/executive title — likely meaningful contact.</p>
-  <p>• <strong>Rana Saini (LinkedIn)</strong> — Unread message awaiting response.</p>
-  <p>• <strong>Susanna Madden / Thrive Resources</strong> — "What's Changing in Private Equity" — market intel from executive search firm; sponsor evaluation and PE leadership trends.</p>
-  <p class="action green">→ Respond to both LinkedIn messages today. Read Thrive Resources email for PE market intelligence relevant to your search.</p>
-</div>
-
-<!-- CALENDAR / EVENTS -->
-<div class="card blue">
-  <div class="card-label blue">🔵 CALENDAR / EVENTS — 0 Emails</div>
-  <h3>No standalone calendar invite emails in inbox today</h3>
-  <p>All calendar events are already loaded in Google Calendar. See the Full 7-Day Calendar section above.</p>
-  <p class="action blue">→ No action needed here — calendar is up to date.</p>
-</div>
-
-<!-- MEDICAL / HEALTH -->
-<div class="card blue">
-  <div class="card-label blue">🔵 MEDICAL / HEALTH — 1 Email</div>
-  <h3>BambooHR Employee Handbook Checklist</h3>
-  <p>• <strong>BambooHR</strong> — "What Is Your Employee Handbook Missing?" — Free checklist for HR professionals. Professional relevance, not personal health.</p>
-  <p class="note">(Note: DirectMeds GLP-1 and Smart-Beauty hair growth spam are categorized under Security/Spam — not legitimate medical contacts.)</p>
-  <p class="action blue">→ Review BambooHR checklist if currently building or auditing an employee handbook. Otherwise, archive.</p>
-</div>
-
-<!-- FINANCIAL / BILLING -->
-<div class="card yellow">
-  <div class="card-label yellow">🟡 FINANCIAL / BILLING — 3 Emails</div>
-  <h3>Banking &amp; Investment Notifications</h3>
-  <p>• <strong>Bank of America</strong> — Direct deposit $582.09 (July 30) — Account ending 7471. From: United States (likely government/payroll).</p>
-  <p>• <strong>Bank of America</strong> — Direct deposit $3,200.00 (July 29) — Account ending 7471. From: Goldman Sachs Bank.</p>
-  <p>• <strong>Merrill Lynch / American Funds</strong> (via proxyvote.com) — Semi-annual report available. Investment fund report notification — legitimate.</p>
-  <p class="action yellow">→ Log into BofA to confirm both deposits posted correctly. Access American Funds semi-annual report when time allows.</p>
-</div>
-
-<!-- PROFESSIONAL DEVELOPMENT -->
-<div class="card purple">
-  <div class="card-label purple">🟣 PROFESSIONAL DEVELOPMENT — 2 Emails</div>
-  <h3>Executive &amp; AI Leadership Intel</h3>
-  <p>• <strong>Stanton Chase / LinkedIn Newsletter</strong> (in Trash) — "Why Can't 82% of Executives Report Positive Quantified AI Returns Yet? — HKUST J-Curve" — Highly relevant for executive interviews discussing AI ROI.</p>
-  <p>• <strong>BambooHR</strong> — Employee handbook checklist — practical HR tool.</p>
-  <p class="action purple">→ Rescue the Stanton Chase AI J-Curve article from Trash if not read — directly relevant for executive AI conversations. Review BambooHR checklist as needed.</p>
-</div>
-
-<!-- PERSONAL -->
-<div class="card blue">
-  <div class="card-label blue">🔵 PERSONAL — 4 Emails</div>
-  <h3>Dating Apps, Personal Finance, Personal Notes</h3>
-  <p>• <strong>Match.com</strong> — Michael (59, Northport NY) viewed your profile. Unread.</p>
-  <p>• <strong>Hinge Team</strong> — Eli &amp; Melissa match recommendation. In inbox.</p>
-  <p>• <strong>USPS Informed Delivery</strong> — 1 mailpiece arriving today, 0 packages. Already read.</p>
-  <p>• <strong>melissa (self)</strong> — "unsubscribe" — auto-generated Gmail message. No action needed.</p>
-  <p class="action blue">→ Check Match and Hinge when you have personal time. Check mailbox today. No urgent action needed.</p>
-</div>
-
-<!-- NEWSLETTERS / SUBSCRIPTIONS -->
-<div class="card purple">
-  <div class="card-label purple">🟣 NEWSLETTERS &amp; SUBSCRIPTIONS — 10 Emails</div>
-  <h3>News, Career, AI, Finance, Lifestyle Newsletters</h3>
-  <p>• <strong>Medium Daily Digest (×2)</strong> (Trash) — "I Woke Up at 4:30 AM for 30 Days" + "How To Become an Agentic AI Engineer in 6 Months" — Membership expires Aug 20. Decide on renewal.</p>
-  <p>• <strong>The AI Report</strong> (Trash) — "Altman faces Congress after hack; Fiverr stock crashes 20%" — AI market news.</p>
-  <p>• <strong>TLDR Newsletter</strong> (Trash) — Starlink cell network, DoorDash drones, ChatGPT optimizations.</p>
-  <p>• <strong>Dylan's Diary / Behind the Markets</strong> (Trash) — "Is the Mag Seven Dead? Robots changing everything."</p>
-  <p>• <strong>Stanton Chase via LinkedIn</strong> (Trash) — AI ROI J-Curve study — highly relevant for exec interviews.</p>
-  <p>• <strong>The Daily Skimm</strong> (Trash) — "A whale of a tale / Simone Biles" — general news digest.</p>
-  <p>• <strong>The People People Group (TPPG)</strong> (Trash) — New hire orientation, employee engagement digest.</p>
-  <p>• <strong>Gemma Bonham-Carter</strong> (Trash) — Draft Week Day 4.</p>
-  <p>• <strong>1% Better Newsletter</strong> (Trash) — Fauci, jet lag, Jon Bernthal workout.</p>
-  <p>• <strong>Lisa Rangel / Chameleon Resumes</strong> (Trash) — "Are you blaming a database for your fate?" — resume/job search coaching.</p>
-  <p class="action purple">→ Consider rescuing Stanton Chase AI article and TPPG digest. Review Medium renewal decision. Unsubscribe from low-value newsletters.</p>
-</div>
-
-<!-- PROMOTIONAL / RETAIL -->
-<div class="card gray">
-  <div class="card-label gray">⬜ PROMOTIONAL / RETAIL — 8 Emails</div>
-  <h3>Retail, Shopping, Rewards Emails</h3>
-  <p>• <strong>22 Words</strong> (inbox) — Amazon Lightning Deals (33% off lunch box, fire pit, batteries)</p>
-  <p>• <strong>Kohl's</strong> (Trash) — Extra 20% off Friends &amp; Family</p>
-  <p>• <strong>Gap Factory</strong> (Trash) — 60% off ends tonight + extra 20% + free shipping</p>
-  <p>• <strong>Old Navy</strong> (Trash) — $17 PowerSoft leggings, 50% off everything</p>
-  <p>• <strong>DSW</strong> — VIP Program changes coming Sept 8</p>
-  <p>• <strong>Microsoft Rewards</strong> — Harry Styles tickets or Xbox Series X raffle</p>
-  <p>• <strong>Smart-Beauty Alternatives</strong> — Hair growth spray spam (suspicious subdomain)</p>
-  <p>• <strong>DirectMeds / GLP-1 (×2)</strong> — Semaglutide/Tirzepatide weight loss spam (suspicious subdomains)</p>
-  <p class="action gray">→ Delete/ignore most. DSW VIP note is worth reading (program changing Sept 8). Gap sale expired. Mark Smart-Beauty and DirectMeds as spam.</p>
-</div>
-
-<!-- TRASH REVIEW (detailed in section 7 below) -->
-<!-- SAFE TO DELETE / IGNORE -->
-<div class="card gray">
-  <div class="card-label gray">⬜ SAFE TO DELETE / IGNORE — 4 Emails</div>
-  <h3>Low-Value, Expired, or Redundant Emails</h3>
-  <p>• <strong>Top Class Actions</strong> — FedEx/Kroger/UPS unpaid wage class action solicitation — not applicable.</p>
-  <p>• <strong>melissaw212 "Payment Sent" (Slots of Vegas spam)</strong> — already categorized under security/spam.</p>
-  <p>• <strong>melissa (self) "unsubscribe"</strong> — auto-generated Gmail unsubscribe confirmation.</p>
-  <p>• <strong>Microsoft Rewards</strong> — Raffle email, already read, low priority.</p>
-  <p class="action gray">→ Delete all. No action required.</p>
-</div>
-
-<!-- ============================================================ -->
-<!-- SECTION 7: TRASH REVIEW -->
-<!-- ============================================================ -->
-<div class="section-title"><span class="icon">🗑️</span> Trash Review</div>
-
-<div class="card green">
-  <div class="card-label green">✅ RESTORE IMMEDIATELY</div>
-  <h3>Emails Worth Rescuing from Trash</h3>
-  <table>
-    <thead><tr><th>Sender</th><th>Subject</th><th>Why Restore</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>LinkedIn Job Alerts <span class="rescued-note">✅ ALREADY RESCUED</span></td>
-        <td>Head of People and Talent at Bluemercury</td>
-        <td>Protected sender — already rescued and returned to inbox. Apply immediately.</td>
-      </tr>
-      <tr>
-        <td>Stanton Chase via LinkedIn</td>
-        <td>Why Can't 82% of Executives Report Positive AI Returns? (J-Curve)</td>
-        <td>Highly relevant executive AI ROI research — valuable for interviews and strategy discussions.</td>
-      </tr>
-      <tr>
-        <td>The People People Group (TPPG)</td>
-        <td>TPPG Digest — New Hire Orientation, Employee Engagement</td>
-        <td>Professional HR community digest — directly relevant to your field.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="card yellow">
-  <div class="card-label yellow">🟡 REVIEW BEFORE DELETING</div>
-  <h3>May Have Value — Check Before Permanent Delete</h3>
-  <table>
-    <thead><tr><th>Sender</th><th>Subject</th><th>Notes</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>Medium Daily Digest (×2)</td>
-        <td>"I Woke Up at 4:30 AM…" / "How to Become an Agentic AI Engineer"</td>
-        <td>Membership expires Aug 20 — decide on renewal. Agentic AI article may be worth reading.</td>
-      </tr>
-      <tr>
-        <td>The AI Report</td>
-        <td>Altman faces Congress after hack; Fiverr/AI/gig economy</td>
-        <td>AI market news — relevant for exec conversations about AI disruption.</td>
-      </tr>
-      <tr>
-        <td>TLDR Newsletter</td>
-        <td>Starlink cell network, DoorDash drones, ChatGPT optimizations</td>
-        <td>Tech briefing — relevant if you follow AI/tech trends for interview prep.</td>
-      </tr>
-      <tr>
-        <td>Dylan's Diary / Behind the Markets</td>
-        <td>Is the Mag Seven Dead?</td>
-        <td>Finance/investing newsletter — scan if relevant to your portfolio.</td>
-      </tr>
-      <tr>
-        <td>Lisa Rangel / Chameleon Resumes</td>
-        <td>Are you blaming a database for your fate?</td>
-        <td>Resume/job search coaching — potentially useful during active search.</td>
-      </tr>
-      <tr>
-        <td>Glassdoor Jobs</td>
-        <td>HR Generalist at Brown &amp; Buchanan + 6 remote roles</td>
-        <td>Remote roles — scan for any senior-level HR fits before deleting.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="card gray">
-  <div class="card-label gray">⬜ SAFE TO DELETE PERMANENTLY</div>
-  <h3>No Value — Permanent Delete Recommended</h3>
-  <table>
-    <thead><tr><th>Sender</th><th>Subject</th><th>Reason</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>HILTON FINANCIAL MANAGEMENT <span class="auto-trash-note">AUTO-TRASHED</span></td>
-        <td>LOAN</td>
-        <td>Advance-fee loan scam from Indonesian domain. Already auto-trashed.</td>
-      </tr>
-      <tr>
-        <td>melissaw212 spoofed <span class="auto-trash-note">AUTO-TRASHED</span></td>
-        <td>Your Account has been locked (Unicode)</td>
-        <td>Credential-harvesting phishing. Already auto-trashed.</td>
-      </tr>
-      <tr>
-        <td>'CashApp' spoofed <span class="auto-trash-note">AUTO-TRASHED</span></td>
-        <td>You received $2,500 (Slots of Vegas casino)</td>
-        <td>Spoofed CashApp casino fraud. Already auto-trashed.</td>
-      </tr>
-      <tr>
-        <td>'Hot Sex 🔥🔥'</td>
-        <td>Make her squirt 3x tonight…</td>
-        <td>Explicit adult spam. In Trash — permanently delete.</td>
-      </tr>
-      <tr>
-        <td>Kohl's Friends &amp; Family</td>
-        <td>Extra 20% off for friends &amp; family</td>
-        <td>Standard retail promotional — offer has likely expired.</td>
-      </tr>
-      <tr>
-        <td>Gap Factory</td>
-        <td>60% off ends tonight (extra 20% + free shipping)</td>
-        <td>Time-limited sale — ended last night. Delete.</td>
-      </tr>
-      <tr>
-        <td>Old Navy</td>
-        <td>$17 PowerSoft leggings, 50% off everything</td>
-        <td>Time-limited sale — likely expired. Delete.</td>
-      </tr>
-      <tr>
-        <td>Gemma Bonham-Carter</td>
-        <td>[Draft Week Day 4] meet the quiet MVPs</td>
-        <td>Content marketing newsletter — low value. Delete or unsubscribe.</td>
-      </tr>
-      <tr>
-        <td>1% Better Newsletter</td>
-        <td>Fauci Pleads Fifth, Jet Lag Relief, Jon Bernthal Workout</td>
-        <td>Lifestyle/wellness digest — low professional relevance. Delete or unsubscribe.</td>
-      </tr>
-      <tr>
-        <td>The Daily Skimm</td>
-        <td>A whale of a tale</td>
-        <td>General news digest — low priority. Delete or unsubscribe.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ============================================================ -->
-<!-- SECTION 8: PROMOTIONAL / RETAIL SUMMARY -->
-<!-- ============================================================ -->
-<div class="section-title"><span class="icon">🛍️</span> Promotional / Retail Summary</div>
-<table>
-  <thead>
-    <tr><th>Sender / Brand</th><th>Count</th><th>Subject / Theme</th><th>Location</th><th>Recommendation</th></tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>22 Words (Amazon)</td>
-      <td>1</td>
-      <td>Amazon Lightning Deals — 33% off lunch box, fire pit, batteries</td>
-      <td>Inbox
+<!-- ══════════════════════════════════════════════════════
+     SECTION 8: PROMOTIONAL / RETAIL SUMMARY
+     ══════════════════════════════════════════════════════ -->
+<div class="section gray">
+  <div class="section-title">🛍️ Promotional / Retail Summary</div>
+  <div class="section-body">
+    <table>
+      <thead>
+        <tr>
+          <th>Brand / Sender</th>
+          <th>Count</th>
+          <th>Subject / Theme</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#fdf3f2;">
+          <td><strong>MEDVi GLP-1 / GLP-1 Spam</strong><br><span style="font-size:11px;color:#888;">Multiple spoofed senders, random domains</span></td>
+          <td><strong>10</strong></td>
+          <td>Weight loss medication spam — GLP-1 "celebrity secret," 100K+ users, transformation, $179 price point. Multiple variations from MEDVi_Health, MEDVi GLP-1, GLP-1-by-DirectMeds, MEDVi-Patient_Success</td>
+          <td><span class="badge badge-red">DELETE + REPORT SPAM</span> — These are mass spam campaigns from randomized domains, not legitimate medical providers. Do not click links.</td>
+        </tr>
+        <tr>
+          <td><strong>Old Navy</strong></td>
+          <td><strong>3</strong></td>
+          <td>Order Confirmation #1RDGPJ0 (inbox) · Abandoned cart reminder (inbox) · Half-Off-Everything sale ends tonight</td>
+          <td><span class="badge badge-green">KEEP</span> Order confirmation — retain for tracking. Cart reminder — you already ordered, ignore. Sale
