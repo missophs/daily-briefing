@@ -2,8 +2,8 @@ name: Daily Briefing
 on:
   workflow_dispatch:
   schedule:
-      - cron: '45 8 * * *'  # Primary: 8:45 UTC = 4:45 AM EDT — targets 7:00 AM EDT delivery
-      - cron: '30 9 * * *'  # Backup: 9:30 UTC = 5:30 AM EDT — fires if primary misses; guard skips if already sent
+      - cron: '30 7 * * *'  # Primary: 7:30 UTC = 3:30 AM EDT -- GitHub's scheduler has run 1.5-3.5h late historically (see run history); buffers for 7:30 AM EDT delivery. NOTE: shift both crons +1h UTC when DST ends in Nov (EST = UTC-5) to keep the same ET wall-clock time.
+      - cron: '15 8 * * *'  # Backup: 8:15 UTC = 4:15 AM EDT -- fires if primary misses; guard skips if already sent
 permissions:
   contents: write
 concurrency:
