@@ -2,7 +2,7 @@ name: Trash Newsletter Emails
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/15 * * * *'  # every 15 min — GH cron drifts, this bounds worst-case gap tighter than hourly
+    - cron: '*/5 * * * *'  # every 5 min — GH cron drifts, this bounds worst-case gap tighter than 15-min
   push:
     branches: [webhooks]
     paths: [trigger/heartbeat.txt]  # manual heartbeat pushes here still force an immediate run
