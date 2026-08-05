@@ -131,6 +131,11 @@ NEWSLETTER_TRASH_PATTERNS = [
     "allevents.in",
     "emails.zappos.com",
     "marketing.landsend.com",
+    "mail.shein.com",
+    "mgs.opentable.com",
+    "openart.ai",
+    "noreply@glassdoor.com",
+    "donaldjtrump.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
