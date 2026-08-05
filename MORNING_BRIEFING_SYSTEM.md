@@ -24,7 +24,7 @@ A GitHub Actions workflow that runs every morning, triages Gmail, and generates 
 - Daily briefing — primary cron: `30 9 * * *` (9:30 AM UTC = 5:30 AM EDT); backup cron: `15 10 * * *` (10:15 AM UTC)
 - Guard step does `git pull origin webhooks` before checking `.last_briefing_date` to prevent double-sends
 - Trash job — real reliability now comes from an **external cron-job.org job** ("Trash newsletters trigger", every 5 min) that POSTs directly to `https://api.github.com/repos/missophs/daily-briefing/actions/workflows/trash-newsletters.yml/dispatches` with an `Authorization: Bearer <PAT>` header and `Accept: application/vnd.github+json`, body `{"ref":"webhooks"}`. Set up and confirmed working 2026-07-26 (verified via a real `workflow_dispatch` run completing successfully). The GitHub PAT (classic, `repo` scope) lives only in cron-job.org's stored headers — expires ~1yr from creation, will need regenerating and re-pasting into cron-job.org when it does.
-  - GitHub's own `schedule:` cron (`*/15 * * * *`) stays as a backup — GitHub's scheduled cron is best-effort and drifts (observed 1.5–4hr gaps at hourly, still drifted noticeably even at 15-min), so don't rely on it alone.
+  - GitHub's own `schedule:` cron (`*/5 * * * *`, tightened from `*/15` on 2026-08-03) stays as a backup — GitHub's scheduled cron is best-effort and drifts (observed 1.5–4hr gaps at hourly, still drifted noticeably even at 15-min), so don't rely on it alone.
   - A `push` trigger on `trigger/heartbeat.txt` still exists as a third manual fallback (push to that path to force an immediate run).
   - Do NOT recreate the local `hourly-trash-heartbeat` scheduled-task pattern — tried 2026-07-25, proved unreliable (depends on a background daemon that wasn't running, silently never fired). Deleted.
 
@@ -80,6 +80,8 @@ Case-insensitive substring match on From header. Single source of truth is `gene
 - allevents.in (AllEvents)
 - emails.zappos.com (Zappos)
 - marketing.landsend.com (Lands' End)
+- mail.shein.com (Shein), mgs.opentable.com (OpenTable recs), openart.ai (OpenArt marketing), noreply@glassdoor.com (Glassdoor job digest), donaldjtrump.com (Trump campaign) — added 2026-08-05
+- e.targetoptical.com (Target Optical marketing — added 2026-08-05; does NOT match targetoptical.com receipt emails, which stay untouched)
 
 ## Protected Senders (PROTECTED_SENDER_PATTERNS)
 Never trashed; rescued from trash if found there:

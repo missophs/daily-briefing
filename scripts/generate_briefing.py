@@ -136,6 +136,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "openart.ai",
     "noreply@glassdoor.com",
     "donaldjtrump.com",
+    "e.targetoptical.com",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
