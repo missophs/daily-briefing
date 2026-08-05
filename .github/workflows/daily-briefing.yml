@@ -22,6 +22,12 @@ jobs:
           echo "today=$TODAY" >> "$GITHUB_OUTPUT"
           if [ -f .last_briefing_date ] && [ "$(cat .last_briefing_date)" = "$TODAY" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ "$(TZ=America/New_York date +'%H%M')" -lt "0700" ]; then
+            # Backup schedule cron fired early (GitHub's queue delay is variable) -- skip so it
+            # can't fetch Gmail before the ~7AM ET mail wave lands and lock in an incomplete briefing.
+            # Only applies to schedule events; workflow_dispatch (cron-job.org's 7:00 AM ET trigger,
+            # or a manual run) always proceeds.
+            echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
