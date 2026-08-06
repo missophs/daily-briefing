@@ -138,6 +138,7 @@ NEWSLETTER_TRASH_PATTERNS = [
     "donaldjtrump.com",
     "e.targetoptical.com",
     "360learning.com",
+    "m.send.coursera.org",
 ]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.

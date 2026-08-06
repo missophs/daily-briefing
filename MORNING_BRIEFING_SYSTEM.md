@@ -83,6 +83,7 @@ Case-insensitive substring match on From header. Single source of truth is `gene
 - mail.shein.com (Shein), mgs.opentable.com (OpenTable recs), openart.ai (OpenArt marketing), noreply@glassdoor.com (Glassdoor job digest), donaldjtrump.com (Trump campaign) — added 2026-08-05
 - e.targetoptical.com (Target Optical marketing — added 2026-08-05; does NOT match targetoptical.com receipt emails, which stay untouched)
 - 360learning.com (Freddie at 360Learning) — added 2026-08-05
+- m.send.coursera.org (Edureka, sent via Coursera) — added 2026-08-06
 
 ## Protected Senders (PROTECTED_SENDER_PATTERNS)
 Never trashed; rescued from trash if found there:
