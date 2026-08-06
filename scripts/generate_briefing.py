@@ -139,7 +139,12 @@ NEWSLETTER_TRASH_PATTERNS = [
     "e.targetoptical.com",
     "360learning.com",
     "m.send.coursera.org",
+    "make.com",
 ]
+
+# Emails mentioning these in subject/snippet are never auto-trashed, even if the
+# sender otherwise matches NEWSLETTER_TRASH_PATTERNS or the Claude classifier below.
+CLAUDE_MENTION_PATTERNS = ["claude", "anthropic"]
 
 # Emails from these senders are NEVER auto-trashed and are force-rescued if in trash.
 # Case-insensitive substring match against the full From header.
@@ -215,6 +220,11 @@ PROTECTED_SENDER_PATTERNS = [
 def _is_protected(email: dict) -> bool:
     from_lower = email["from"].lower()
     return any(p in from_lower for p in PROTECTED_SENDER_PATTERNS)
+
+
+def _mentions_claude(email: dict) -> bool:
+    text = f'{email.get("subject", "")} {email.get("snippet", "")}'.lower()
+    return any(p in text for p in CLAUDE_MENTION_PATTERNS)
 
 
 def _is_newsletter(email: dict) -> bool:
@@ -337,7 +347,7 @@ def trash_newsletter_emails(service, emails: list) -> set[str]:
     for e in emails:
         if e["in_trash"] or e.get("auto_trashed"):
             continue
-        if _is_protected(e):
+        if _is_protected(e) or _mentions_claude(e):
             continue
         if _is_newsletter(e):
             try:
@@ -346,6 +356,64 @@ def trash_newsletter_emails(service, emails: list) -> set[str]:
                 trashed_ids.add(e["id"])
             except Exception as exc:
                 print(f"  Failed to newsletter-trash {e['id']}: {exc}")
+    return trashed_ids
+
+
+# ── Newsletter auto-trash (Claude — catches senders not yet in the deterministic list) ──
+
+NEWSLETTER_CLASSIFY_PROMPT = """\
+You are an inbox triage assistant. Review these inbox emails and identify ONLY the ones \
+that are clearly marketing newsletters, promotional digests, or subscription content \
+Melissa has no ongoing need to read individually — the same kind of thing already caught \
+by an existing sender blocklist, just from senders not yet on that list.
+
+Do NOT flag: personal or professional correspondence, job alerts, recruiter or networking \
+messages, calendar/travel/financial/medical mail, receipts, government or account-security \
+alerts, or anything ambiguous. When unsure, do not flag it — false positives here get an \
+email auto-deleted.
+
+Do NOT flag anything that mentions Claude or Anthropic in the subject or body, even if it \
+is otherwise a marketing email — Melissa always wants to see those regardless of sender.
+
+EMAILS:
+{emails}
+
+Return ONLY a JSON object, no markdown, no explanation:
+{{"newsletters": [{{"id": "<message id>", "reason": "<short reason, name the sender/brand>"}}]}}
+If none qualify, return {{"newsletters": []}}.
+"""
+
+
+def classify_newsletters(client: "anthropic.Anthropic", emails: list) -> dict:
+    candidates = [
+        e for e in emails
+        if not e["in_trash"] and not e.get("auto_trashed")
+        and not _is_protected(e) and not _mentions_claude(e)
+    ]
+    if not candidates:
+        return {}
+    slim = [{"id": e["id"], "from": e["from"], "subject": e["subject"], "snippet": e["snippet"]} for e in candidates]
+    message = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": NEWSLETTER_CLASSIFY_PROMPT.format(emails=json.dumps(slim, indent=2))}],
+    )
+    text = message.content[0].text.strip()
+    text = re.sub(r"^```(?:json)?\n?", "", text)
+    text = re.sub(r"\n?```$", "", text.rstrip())
+    data = json.loads(text)
+    return {item["id"]: item.get("reason", "") for item in data.get("newsletters", [])}
+
+
+def trash_ai_newsletters(service, newsletters: dict) -> set[str]:
+    trashed_ids: set[str] = set()
+    for msg_id, reason in newsletters.items():
+        try:
+            _retry(lambda m=msg_id: service.users().messages().trash(userId="me", id=m).execute())
+            print(f"  AI-newsletter-trashed {msg_id}: {reason}")
+            trashed_ids.add(msg_id)
+        except Exception as exc:
+            print(f"  Failed to AI-newsletter-trash {msg_id}: {exc}")
     return trashed_ids
 
 
